@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=3 uid="uid://dhgftb3gt5kum"]
+
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/string_wrapper_test.gd" id="1_03xsk"]
+[ext_resource type="PackedScene" uid="uid://cefxa53mipkpo" path="res://scenes/components/string_wrapper.tscn" id="2_dx3mq"]
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/split to words/one_word_string.gd" id="3_5w2lo"]
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/split to words/two_word_string.gd" id="3_flgc5"]
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/complex_words_to_lines.gd" id="4_viyec"]
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/construct_wraped_lines.gd" id="5_d3ln6"]
+[ext_resource type="Script" path="res://scripts/tests/string wrapper/wrap_string.gd" id="6_hl4k6"]
+
+[node name="StringWrapperTest" type="Node"]
+script = ExtResource("1_03xsk")
+
+[node name="TestCases" type="Node" parent="."]
+
+[node name="SplitToWords" type="Node" parent="TestCases"]
+
+[node name="OneWordString" type="Node" parent="TestCases/SplitToWords"]
+script = ExtResource("3_5w2lo")
+
+[node name="TwoWordString" type="Node" parent="TestCases/SplitToWords"]
+script = ExtResource("3_flgc5")
+
+[node name="SplitComplexWord" type="Node" parent="TestCases"]
+script = ExtResource("4_viyec")
+
+[node name="WrapWords" type="Node" parent="TestCases"]
+script = ExtResource("5_d3ln6")
+
+[node name="WrapString" type="Node" parent="TestCases"]
+script = ExtResource("6_hl4k6")
+
+[node name="TestedEntity" type="Node" parent="."]
+
+[node name="StringWrapper" parent="TestedEntity" instance=ExtResource("2_dx3mq")]

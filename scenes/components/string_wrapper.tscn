@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cefxa53mipkpo"]
+
+[ext_resource type="Script" path="res://scripts/components/string_wrapper.gd" id="1_i7b2e"]
+
+[node name="StringWrapper" type="Node"]
+script = ExtResource("1_i7b2e")
+max_characters_per_line = 16

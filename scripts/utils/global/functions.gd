@@ -55,6 +55,9 @@ func safe_integer_division(a: int, b: int) -> int:
 func substr_found_in_string(substr: String, string: String) -> bool:
 	return string.find(substr) != Constants.STRING_NOT_FOUND
 
+func string_found_in_array(string: String, array: PackedStringArray) -> bool:
+	return array.find(string) != Constants.NOT_FOUND
+
 func get_lines_from_string(string: String) -> PackedStringArray:
 	return string.split("\n")
 
@@ -64,3 +67,31 @@ func rclamp(value: int, minimum: int, maximum: int) -> int:
 	elif value < minimum:
 		value = maximum
 	return value
+
+func tabs_replaced_with_spaces(string: String, spaces_per_tab: int) -> String:
+	var spaces: String = ""
+	spaces = spaces.rpad(spaces_per_tab, " ")
+	return string.replace("\t", spaces)
+
+func get_children_names(node: Node) -> PackedStringArray:
+	var children = node.get_children()
+	var names: PackedStringArray = []
+	for child in children:
+		names.push_back(child.name)
+	return names
+
+func string_starts_with(string: String, substr: String) -> bool:
+	return string.substr(Constants.FIRST_ELEMENT_IN_INDEX, substr.length()) == substr
+
+const FAIL: int = -1
+
+func string_find_n_occurrence(string: String, substr: String, occurrence: int) -> int:
+	if occurrence <= 0 || (string.count(substr) < occurrence):
+		return FAIL
+		
+	var counter: int = 0
+	var pos = Constants.FIRST_ELEMENT_IN_INDEX
+	while counter < occurrence:
+		pos = string.find(substr, pos) + Constants.ONE_CHARACTER
+		counter += 1
+	return pos
