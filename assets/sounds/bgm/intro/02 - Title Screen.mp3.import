@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dgdubbf47dkvt"
+path="res://.godot/imported/02 - Title Screen.mp3-4faa259a10d648170fdea7973c7851e1.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/bgm/intro/02 - Title Screen.mp3"
+dest_files=["res://.godot/imported/02 - Title Screen.mp3-4faa259a10d648170fdea7973c7851e1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,65 @@
+[gd_scene load_steps=14 format=3 uid="uid://y1kure5secom"]
+
+[ext_resource type="Script" path="res://scripts/intro/title_screen.gd" id="1_heew1"]
+[ext_resource type="AudioStream" uid="uid://dgdubbf47dkvt" path="res://assets/sounds/bgm/intro/02 - Title Screen.mp3" id="2_j5whf"]
+[ext_resource type="Texture2D" uid="uid://dmcjfe7kdmbur" path="res://assets/textures/intro/red.png" id="3_ur2jy"]
+[ext_resource type="Texture2D" uid="uid://bkgr4jll517ko" path="res://assets/textures/intro/title_background.png" id="3_xsuo3"]
+[ext_resource type="PackedScene" uid="uid://cmfgy2485jh3o" path="res://scenes/utils/moving_sprite.tscn" id="5_n1g02"]
+[ext_resource type="Texture2D" uid="uid://bmv147j1r6d0d" path="res://assets/textures/intro/title.png" id="6_akakp"]
+[ext_resource type="Script" path="res://scripts/intro/title.gd" id="7_g5b2n"]
+[ext_resource type="Texture2D" uid="uid://lalryablkuab" path="res://assets/textures/intro/version_mock.png" id="7_pv4ec"]
+[ext_resource type="Texture2D" uid="uid://dlcxx78bqdto0" path="res://assets/textures/pokemon/front.png" id="8_5is71"]
+[ext_resource type="Texture2D" uid="uid://esj8qfl7w5vl" path="res://assets/textures/intro/pokeball.png" id="9_gm4rr"]
+[ext_resource type="Script" path="res://scripts/intro/version.gd" id="9_kqhie"]
+[ext_resource type="Script" path="res://scripts/intro/random_pokemon.gd" id="10_ngwqg"]
+[ext_resource type="Script" path="res://scripts/intro/pokeball.gd" id="13_63qm8"]
+
+[node name="TitleScreen" type="Node2D"]
+z_index = -2
+script = ExtResource("1_heew1")
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_j5whf")
+
+[node name="BackgroundImage" type="Sprite2D" parent="."]
+position = Vector2(80, 72)
+texture = ExtResource("3_xsuo3")
+
+[node name="Red" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(102, 108)
+texture = ExtResource("3_ur2jy")
+
+[node name="Title" parent="." instance=ExtResource("5_n1g02")]
+position = Vector2(80, -28)
+texture = ExtResource("6_akakp")
+script = ExtResource("7_g5b2n")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Title"]
+
+[node name="Version" parent="." instance=ExtResource("5_n1g02")]
+position = Vector2(217, 68)
+texture = ExtResource("7_pv4ec")
+script = ExtResource("9_kqhie")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Version"]
+
+[node name="RandomizedPokemon" parent="." instance=ExtResource("5_n1g02")]
+position = Vector2(67, 108)
+texture = ExtResource("8_5is71")
+hframes = 15
+vframes = 10
+frame = 6
+script = ExtResource("10_ngwqg")
+
+[node name="SwitchTimer" type="Timer" parent="RandomizedPokemon"]
+wait_time = 4.0
+
+[node name="Pokeball" parent="." instance=ExtResource("5_n1g02")]
+position = Vector2(87, 105)
+texture = ExtResource("9_gm4rr")
+script = ExtResource("13_63qm8")
+
+[connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]
+[connection signal="starter_swap" from="RandomizedPokemon" to="Pokeball" method="_on_randomized_pokemon_starter_swap"]
+[connection signal="timeout" from="RandomizedPokemon/SwitchTimer" to="RandomizedPokemon" method="switch"]
