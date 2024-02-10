@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt33a7waa3wc3"]
+
+[ext_resource type="Script" path="res://scripts/stages/menu/main.gd" id="1_fn61k"]
+
+[node name="Menu" type="Node"]
+script = ExtResource("1_fn61k")
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_scene_instance_removed"]

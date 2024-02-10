@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://guia7s102eye"]
+
+[ext_resource type="Script" path="res://scripts/components/input/input.gd" id="1_b60g8"]
+[ext_resource type="PackedScene" uid="uid://cvlutyaj00a11" path="res://scenes/components/input/input_register.tscn" id="2_mxdac"]
+
+[node name="Input" type="Node"]
+script = ExtResource("1_b60g8")
+
+[node name="InputRegister" parent="." instance=ExtResource("2_mxdac")]

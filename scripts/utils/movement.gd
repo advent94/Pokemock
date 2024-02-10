@@ -1,4 +1,4 @@
-extends Node2D
+extends CanvasItem
 
 signal blocking_movement_finished
 

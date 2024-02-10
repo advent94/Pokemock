@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://d265mlvp22b56"]
+
+[ext_resource type="Shader" path="res://shaders/white_fade.gdshader" id="1_xhu80"]
+[ext_resource type="Script" path="res://scripts/stages/intro/pokemon_battle.gd" id="2_ikl03"]
+[ext_resource type="PackedScene" uid="uid://x2na1fh46fbg" path="res://scenes/components/intro/pokemon_battle_sprite.tscn" id="3_y6rr6"]
+[ext_resource type="Script" path="res://scripts/components/intro/gengar_battle_sprite.gd" id="4_knvfc"]
+[ext_resource type="Script" path="res://scripts/components/intro/jigglypuff_battle_sprite.gd" id="5_i4ey2"]
+[ext_resource type="PackedScene" uid="uid://cxdt1as2pg3df" path="res://scenes/components/intro/black_bars.tscn" id="7_c4nmw"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="8_6swrv"]
+[ext_resource type="Script" path="res://scripts/components/intro/input_relay.gd" id="9_2vdyb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23o4b"]
+shader = ExtResource("1_xhu80")
+shader_parameter/whiteout_time_step = 0.0
+shader_parameter/whiteout_added_color = 0.229
+
+[node name="PokemonBattle" type="Node2D"]
+top_level = true
+z_index = -1
+material = SubResource("ShaderMaterial_23o4b")
+script = ExtResource("2_ikl03")
+
+[node name="Gengar" parent="." instance=ExtResource("3_y6rr6")]
+z_index = 2
+use_parent_material = true
+position = Vector2(130, 76)
+script = ExtResource("4_knvfc")
+
+[node name="Jigglypuff" parent="." instance=ExtResource("3_y6rr6")]
+z_index = 1
+use_parent_material = true
+position = Vector2(18, 88)
+script = ExtResource("5_i4ey2")
+pokemon = 0
+
+[node name="BlackBars" parent="." instance=ExtResource("7_c4nmw")]
+z_index = 3
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 160.0
+offset_bottom = 144.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Input" parent="." instance=ExtResource("8_6swrv")]
+register_pressed = Array[int]([0, 6])
+register_released = Array[int]([])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("9_2vdyb")
+
+[connection signal="selected" from="Input/Relay" to="." method="end"]

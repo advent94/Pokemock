@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://deayuloppnbyc"]
-
-[ext_resource type="Script" path="res://scripts/intro/tiny_star_factory.gd" id="1_h6raw"]
-
-[node name="TinyStarFactory" type="Node"]
-script = ExtResource("1_h6raw")

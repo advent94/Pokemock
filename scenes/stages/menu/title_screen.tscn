@@ -1,0 +1,74 @@
+[gd_scene load_steps=15 format=3 uid="uid://y1kure5secom"]
+
+[ext_resource type="Script" path="res://scripts/stages/menu/title_screen.gd" id="1_isku4"]
+[ext_resource type="Texture2D" uid="uid://bkgr4jll517ko" path="res://assets/textures/intro/title_background.png" id="3_w5dix"]
+[ext_resource type="Texture2D" uid="uid://dmcjfe7kdmbur" path="res://assets/textures/intro/red.png" id="4_gk60o"]
+[ext_resource type="PackedScene" uid="uid://cmfgy2485jh3o" path="res://scenes/templates/moving_sprite.tscn" id="5_dxotm"]
+[ext_resource type="Texture2D" uid="uid://bmv147j1r6d0d" path="res://assets/textures/intro/title.png" id="6_fapta"]
+[ext_resource type="Script" path="res://scripts/components/title_screen/title.gd" id="7_qpmb5"]
+[ext_resource type="Texture2D" uid="uid://lalryablkuab" path="res://assets/textures/intro/version_mock.png" id="8_bu47t"]
+[ext_resource type="Script" path="res://scripts/components/title_screen/version.gd" id="9_82ae2"]
+[ext_resource type="Texture2D" uid="uid://dlcxx78bqdto0" path="res://assets/textures/pokemon/front.png" id="10_eicbc"]
+[ext_resource type="Script" path="res://scripts/components/title_screen/random_pokemon.gd" id="11_e1foi"]
+[ext_resource type="Texture2D" uid="uid://esj8qfl7w5vl" path="res://assets/textures/intro/pokeball.png" id="12_dvh2k"]
+[ext_resource type="Script" path="res://scripts/components/title_screen/pokeball.gd" id="13_wr37w"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="15_n0sjb"]
+[ext_resource type="Script" path="res://scripts/components/intro/input_relay.gd" id="16_nknuq"]
+
+[node name="TitleScreen" type="Node2D"]
+z_index = -2
+script = ExtResource("1_isku4")
+
+[node name="BackgroundImage" type="Sprite2D" parent="."]
+position = Vector2(80, 72)
+texture = ExtResource("3_w5dix")
+
+[node name="Red" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(102, 108)
+texture = ExtResource("4_gk60o")
+
+[node name="Title" parent="." instance=ExtResource("5_dxotm")]
+position = Vector2(80, -28)
+texture = ExtResource("6_fapta")
+script = ExtResource("7_qpmb5")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Title"]
+
+[node name="Version" parent="." instance=ExtResource("5_dxotm")]
+position = Vector2(217, 68)
+texture = ExtResource("8_bu47t")
+script = ExtResource("9_82ae2")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Version"]
+
+[node name="RandomizedPokemon" parent="." instance=ExtResource("5_dxotm")]
+position = Vector2(67, 108)
+texture = ExtResource("10_eicbc")
+hframes = 15
+vframes = 10
+frame = 6
+script = ExtResource("11_e1foi")
+
+[node name="SwitchTimer" type="Timer" parent="RandomizedPokemon"]
+wait_time = 4.0
+
+[node name="Pokeball" parent="." instance=ExtResource("5_dxotm")]
+position = Vector2(87, 105)
+texture = ExtResource("12_dvh2k")
+script = ExtResource("13_wr37w")
+
+[node name="Input" parent="." instance=ExtResource("15_n0sjb")]
+active = false
+register_pressed = Array[int]([0, 6])
+register_released = Array[int]([])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("16_nknuq")
+
+[connection signal="started" from="RandomizedPokemon" to="." method="_end"]
+[connection signal="starter_switch" from="RandomizedPokemon" to="Pokeball" method="throw"]
+[connection signal="switch_finished" from="RandomizedPokemon" to="." method="_unlock_input"]
+[connection signal="switch_started" from="RandomizedPokemon" to="." method="_lock_input"]
+[connection signal="timeout" from="RandomizedPokemon/SwitchTimer" to="RandomizedPokemon" method="switch"]
+[connection signal="selected" from="Input/Relay" to="RandomizedPokemon" method="_start"]

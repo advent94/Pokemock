@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://c2txo0d5e6w8i"]
+
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="1_cvb07"]
+[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://themes/pokepanel.tres" id="2_v4th3"]
+[ext_resource type="Script" path="res://scripts/components/gui/horizontal_option_list.gd" id="3_p8w0h"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="5_wrlyj"]
+[ext_resource type="Script" path="res://scripts/components/input/relay/horizontal_option.gd" id="6_r71xi"]
+
+[node name="HorizontalOptionList" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cvb07")
+theme_override_styles/panel = ExtResource("2_v4th3")
+script = ExtResource("3_p8w0h")
+title = "TEXT SPEED"
+options = "FAST
+ MEDIUM
+SLOW"
+active = true
+
+[node name="Options" type="Label" parent="."]
+layout_mode = 2
+text = "TEXT SPEED
+
+ FAST  MEDIUM SLOW"
+
+[node name="Input" parent="." instance=ExtResource("5_wrlyj")]
+active = false
+register_pressed = Array[int]([2, 3, 4, 5])
+register_released = Array[int]([])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("6_r71xi")
+
+[connection signal="escaped" from="Input/Relay" to="." method="leave"]
+[connection signal="move" from="Input/Relay" to="." method="_move_cursor"]

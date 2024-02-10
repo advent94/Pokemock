@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccq657f3a76dy"]
+
+[ext_resource type="Script" path="res://scripts/stages/menu/options.gd" id="1_t12de"]
+[ext_resource type="PackedScene" uid="uid://c2txo0d5e6w8i" path="res://scenes/components/gui/horizontal_option_list.tscn" id="2_ksr6o"]
+[ext_resource type="PackedScene" uid="uid://bpx2u5l51sumk" path="res://scenes/components/gui/vertical_option.tscn" id="3_nphih"]
+[ext_resource type="PackedScene" uid="uid://cqdr7s0u7ie4" path="res://scenes/components/options.tscn" id="5_vfusa"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="6_4qvvy"]
+[ext_resource type="Script" path="res://scripts/components/input/relay/options.gd" id="7_h0ng1"]
+
+[node name="Options" type="Node"]
+script = ExtResource("1_t12de")
+
+[node name="TextSpeed" parent="." instance=ExtResource("2_ksr6o")]
+active = false
+allow_vertical_escape = false
+save_last_option = true
+
+[node name="BattleAnimation" parent="." instance=ExtResource("2_ksr6o")]
+offset_top = 42.0
+offset_bottom = -63.0
+title = "BATTLE ANIMATION"
+options = "ON
+      OFF"
+active = false
+save_last_option = true
+
+[node name="BattleStyle" parent="." instance=ExtResource("2_ksr6o")]
+offset_top = 82.0
+offset_bottom = -23.0
+title = "BATTLE STYLE"
+options = "SHIFT
+   SET"
+active = false
+save_last_option = true
+
+[node name="Cancel" parent="." instance=ExtResource("3_nphih")]
+offset_left = 8.0
+offset_top = 130.0
+offset_right = 68.0
+offset_bottom = 138.0
+text = "CANCEL"
+active = false
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 160.0
+offset_bottom = 144.0
+
+[node name="Options" parent="." instance=ExtResource("5_vfusa")]
+
+[node name="Input" parent="." instance=ExtResource("6_4qvvy")]
+register_pressed = Array[int]([1, 6])
+register_released = Array[int]([])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("7_h0ng1")
+
+[connection signal="left" from="TextSpeed" to="." method="_move"]
+[connection signal="saved_option" from="TextSpeed" to="." method="_update_text_speed"]
+[connection signal="left" from="BattleAnimation" to="." method="_move"]
+[connection signal="saved_option" from="BattleAnimation" to="." method="_update_battle_animation"]
+[connection signal="left" from="BattleStyle" to="." method="_move"]
+[connection signal="saved_option" from="BattleStyle" to="." method="_update_battle_style"]
+[connection signal="exited" from="Cancel" to="." method="_move"]
+[connection signal="selected" from="Cancel" to="." method="_return"]
+[connection signal="loaded" from="Options" to="." method="_load_options"]
+[connection signal="returned" from="Input/Relay" to="." method="_return_pressed"]

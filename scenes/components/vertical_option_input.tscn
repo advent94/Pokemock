@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxkhhr6nujpdl"]
-
-[ext_resource type="Script" path="res://scripts/components/vertical_option_input.gd" id="1_ntff2"]
-[ext_resource type="PackedScene" uid="uid://cvlutyaj00a11" path="res://scenes/components/input_register.tscn" id="2_ymc0h"]
-
-[node name="VerticalOptionInput" type="Node"]
-script = ExtResource("1_ntff2")
-
-[node name="InputRegister" parent="." instance=ExtResource("2_ymc0h")]

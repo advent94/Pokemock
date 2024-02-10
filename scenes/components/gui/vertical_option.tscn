@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpx2u5l51sumk"]
+
+[ext_resource type="Script" path="res://scripts/components/gui/vertical_option.gd" id="1_dbp0w"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="2_r2wfd"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="5_708nh"]
+[ext_resource type="Script" path="res://scripts/components/input/relay/vertical_option.gd" id="5_wxvak"]
+
+[node name="VerticalOption" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 33.0
+offset_right = 110.0
+offset_bottom = 41.0
+script = ExtResource("1_dbp0w")
+text = "Test"
+active = true
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_r2wfd")
+text = " Test"
+
+[node name="Input" parent="." instance=ExtResource("5_708nh")]
+active = false
+register_pressed = Array[int]([0, 1, 2, 3, 6])
+register_released = Array[int]([])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("5_wxvak")
+
+[connection signal="action_button_pressed" from="Input/Relay" to="." method="_select"]
+[connection signal="moved" from="Input/Relay" to="." method="_exit"]
