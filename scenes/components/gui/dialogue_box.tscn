@@ -1,0 +1,158 @@
+[gd_scene load_steps=13 format=3 uid="uid://dkocp71uvpi3t"]
+
+[ext_resource type="FontFile" uid="uid://cwxcgtkgg88fp" path="res://assets/fonts/default.png" id="1_caofv"]
+[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://themes/pokepanel.tres" id="2_motaw"]
+[ext_resource type="Texture2D" uid="uid://blsfhueaala46" path="res://assets/textures/general/borders.png" id="2_nm6qy"]
+[ext_resource type="Script" path="res://scripts/components/gui/dialogue_box.gd" id="3_qxfo0"]
+[ext_resource type="PackedScene" uid="uid://c1c8i2sucf4s3" path="res://scenes/components/movement.tscn" id="4_snx3m"]
+[ext_resource type="Script" path="res://scripts/components/gui/dialogue_cursor.gd" id="5_c585b"]
+[ext_resource type="PackedScene" uid="uid://cefxa53mipkpo" path="res://scenes/components/string_wrapper.tscn" id="7_22f8j"]
+[ext_resource type="PackedScene" uid="uid://cqdr7s0u7ie4" path="res://scenes/components/options.tscn" id="9_ytenj"]
+[ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="11_e21g8"]
+[ext_resource type="Script" path="res://scripts/components/input/relay/dialogue.gd" id="11_sa2fp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_elyah"]
+texture = ExtResource("2_nm6qy")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="Theme" id="Theme_hc6vs"]
+default_base_scale = 1.0
+default_font = ExtResource("1_caofv")
+default_font_size = 1
+ItemList/colors/font_color = Color(0, 0, 0, 1)
+ItemList/colors/font_hovered_color = Color(0, 0, 0, 1)
+ItemList/colors/font_outline_color = Color(0, 0, 0, 1)
+ItemList/colors/font_selected_color = Color(0, 0, 0, 0)
+ItemList/colors/guide_color = Color(0, 0, 0, 0)
+ItemList/constants/h_separation = 0
+ItemList/constants/icon_margin = 0
+ItemList/constants/line_separation = 0
+ItemList/constants/outline_size = 0
+ItemList/constants/v_separation = 0
+ItemList/font_sizes/font_size = 1
+ItemList/fonts/font = ExtResource("1_caofv")
+ItemList/styles/cursor = null
+ItemList/styles/cursor_unfocused = null
+ItemList/styles/focus = null
+ItemList/styles/hovered = null
+ItemList/styles/panel = SubResource("StyleBoxTexture_elyah")
+ItemList/styles/selected = null
+ItemList/styles/selected_focus = null
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = 8
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 0
+Label/font_sizes/font_size = 1
+Label/fonts/font = ExtResource("1_caofv")
+Label/styles/normal = null
+Panel/styles/panel = null
+
+[node name="DialogueBox" type="PanelContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -45.0
+offset_right = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_hc6vs")
+theme_override_styles/panel = ExtResource("2_motaw")
+script = ExtResource("3_qxfo0")
+
+[node name="Boundaries" type="Control" parent="."]
+clip_contents = true
+layout_mode = 2
+
+[node name="Dialogue" type="Label" parent="Boundaries"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 6.0
+offset_right = 137.0
+offset_bottom = 62.0
+text = "So close, no matter how far
+Couldn't be much more from the heart
+Forever trusting who we are
+And nothing else matters
+Never opened myself this way
+Life is ours, we live it our way
+All these words I don't just say
+And nothing else matters
+Trust I seek and I find in you
+Every day for us something new
+Open mind for a different view
+And nothing else matters
+Never cared for what they do
+Never cared for what they know
+But I know
+So close, no matter how far
+It couldn't be much more from the heart
+Forever trusting who we are
+And nothing else matters
+Never cared for what they do
+Never cared for what they know
+But I know
+I never opened myself this way
+Life is ours, we live it our way
+All these words I don't just say
+And nothing else matters
+Trust I seek and I find in you
+Every day for us, something new
+Open mind for a different view
+And nothing else matters
+Never cared for what they say
+Never cared for games they play
+Never cared for what they do
+Never cared for what they know
+And I know, yeah
+So close, no matter how far
+Couldn't be much more from the heart
+Forever trusting who we are
+No, nothing else matters"
+autowrap_mode = 3
+
+[node name="Movement" parent="Boundaries/Dialogue" instance=ExtResource("4_snx3m")]
+
+[node name="CharacterRenderTimer" type="Timer" parent="Boundaries/Dialogue"]
+wait_time = 0.1
+
+[node name="Cursor" type="Label" parent="Boundaries"]
+layout_mode = 0
+offset_left = 137.0
+offset_top = 22.0
+offset_right = 145.0
+offset_bottom = 30.0
+text = "^"
+script = ExtResource("5_c585b")
+
+[node name="BlinkingTimer" type="Timer" parent="Boundaries/Cursor"]
+autostart = true
+
+[node name="Options" parent="." instance=ExtResource("9_ytenj")]
+
+[node name="StringWrapper" parent="." instance=ExtResource("7_22f8j")]
+max_characters_per_line = 17
+
+[node name="Input" parent="." instance=ExtResource("11_e21g8")]
+register_pressed = Array[int]([0, 1])
+register_released = Array[int]([0, 1])
+
+[node name="Relay" type="Node" parent="Input"]
+script = ExtResource("11_sa2fp")
+
+[connection signal="stopped" from="." to="." method="stop_reading"]
+[connection signal="timeout" from="Boundaries/Dialogue/CharacterRenderTimer" to="." method="_on_character_render_timer_timeout"]
+[connection signal="timeout" from="Boundaries/Cursor/BlinkingTimer" to="Boundaries/Cursor" method="blink"]
+[connection signal="loaded" from="Options" to="." method="set_text_speed"]
+[connection signal="continued" from="Input/Relay" to="." method="_start_scrolling"]
+[connection signal="skipped" from="Input/Relay" to="." method="_start_skipping"]
+[connection signal="stopped_skipping" from="Input/Relay" to="." method="_stop_skipping"]
