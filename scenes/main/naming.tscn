@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbh3yiqb6mgfs"]
+
+[ext_resource type="Script" path="res://scripts/main/naming.gd" id="1_7xell"]
+
+[node name="Naming" type="Node"]
+script = ExtResource("1_7xell")
