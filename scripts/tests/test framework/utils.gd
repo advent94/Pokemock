@@ -21,6 +21,12 @@ func create_test_cases() -> Node:
 	test_cases.name = TEST_CASES_NODE_NAME
 	return test_cases
 
+func create_empty_testing_node() -> Node:
+	var script: GDScript = get_test_script(ScriptType.TESTING)
+	var node: Node = Node.new()
+	node.set_script(script)
+	return node
+	
 var call_counter: int = 0
 
 func was_function_called(count = 1) -> bool:
