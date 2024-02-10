@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpx2u5l51sumk"]
+
+[ext_resource type="Script" path="res://scripts/gui/horizontal_option.gd" id="1_eiaj4"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="1_lgr8c"]
+[ext_resource type="PackedScene" uid="uid://q3sapeqvrsji" path="res://scenes/components/horizontal_option_input.tscn" id="1_vahwq"]
+[ext_resource type="AudioStream" uid="uid://dldiopeensi5" path="res://assets/sounds/sfx/general/SFX_PRESS_AB.wav" id="4_gxb7d"]
+
+[node name="HorizontalOption" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 50.0
+offset_top = 33.0
+offset_right = 110.0
+offset_bottom = 41.0
+script = ExtResource("1_eiaj4")
+text = "Test"
+active = true
+
+[node name="Text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_lgr8c")
+text = " Test"
+
+[node name="HorizontalOptionInput" parent="." instance=ExtResource("1_vahwq")]
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_gxb7d")
+
+[connection signal="canceled" from="HorizontalOptionInput" to="." method="_return"]
+[connection signal="moved" from="HorizontalOptionInput" to="." method="_exit"]
+[connection signal="selected" from="HorizontalOptionInput" to="." method="_select"]

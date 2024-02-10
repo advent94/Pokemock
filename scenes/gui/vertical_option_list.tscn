@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2txo0d5e6w8i"]
+
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="1_w8k1j"]
+[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://themes/pokepanel.tres" id="2_8ykbj"]
+[ext_resource type="Script" path="res://scripts/gui/vertical_option_list.gd" id="3_s84xa"]
+[ext_resource type="PackedScene" uid="uid://bxkhhr6nujpdl" path="res://scenes/components/vertical_option_input.tscn" id="4_2jffb"]
+
+[node name="VerticalOptionList" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_w8k1j")
+theme_override_styles/panel = ExtResource("2_8ykbj")
+script = ExtResource("3_s84xa")
+title = "TEXT SPEED"
+options = "FAST
+ MEDIUM
+SLOW"
+active = true
+
+[node name="Options" type="Label" parent="."]
+layout_mode = 2
+text = "TEXT SPEED
+
+ FAST  MEDIUM SLOW"
+
+[node name="VerticalOptionInput" parent="." instance=ExtResource("4_2jffb")]
+
+[connection signal="escaped" from="VerticalOptionInput" to="." method="leave"]
+[connection signal="moved" from="VerticalOptionInput" to="." method="_move_cursor"]
