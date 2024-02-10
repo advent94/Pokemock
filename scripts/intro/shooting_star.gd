@@ -5,9 +5,12 @@ signal left_screen
 const STAR_FALLING_SPEED: int = 300
 
 func _ready():
-	$Movement.speed = STAR_FALLING_SPEED
 	hide()
+	$Movement.speed = STAR_FALLING_SPEED
+	const BOTTOM_LEFT: Vector2 = Vector2(-1, 1)
+	$Movement.direction = BOTTOM_LEFT	
 	position = _get_initial_position()
+	show()
 	
 func _get_initial_position() -> Vector2:
 	var top_right_corner_pos = Vector2(get_viewport_rect().size.x, 0)
@@ -29,11 +32,6 @@ func _play_sound():
 func _star_reached_screen_center() -> bool:
 	var screen_center_pos: Vector2 = get_viewport_rect().size/2;
 	return (position.x <= screen_center_pos.x) && (position.y >= screen_center_pos.y)
-
-func _on_call_shooting_star():
-	show()
-	const BOTTOM_LEFT: Vector2 = Vector2(-1, 1)
-	$Movement.direction = BOTTOM_LEFT	
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	left_screen.emit()

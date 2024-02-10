@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d265mlvp22b56"]
+[gd_scene load_steps=10 format=3 uid="uid://d265mlvp22b56"]
 
 [ext_resource type="Script" path="res://scripts/intro/pokemon_battle.gd" id="1_l2qj1"]
 [ext_resource type="PackedScene" uid="uid://x2na1fh46fbg" path="res://scenes/intro/pokemon_battle_sprite.tscn" id="1_l4rys"]
@@ -6,6 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://5wudf21iff8i" path="res://assets/sounds/bgm/intro/01 - Opening Movie.mp3" id="3_hewre"]
 [ext_resource type="Script" path="res://scripts/intro/gengar_battle_sprite.gd" id="3_mmtvf"]
 [ext_resource type="Script" path="res://scripts/intro/jigglypuff_battle_sprite.gd" id="4_04rv5"]
+[ext_resource type="PackedScene" uid="uid://cxdt1as2pg3df" path="res://scenes/intro/black_bars.tscn" id="7_s74xv"]
+[ext_resource type="PackedScene" uid="uid://cw0wgj6wl6wnv" path="res://scenes/components/start_input.tscn" id="8_ip5sy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23o4b"]
 shader = ExtResource("1_prwlx")
@@ -36,3 +38,17 @@ pokemon = 0
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_hewre")
+
+[node name="BlackBars" parent="." instance=ExtResource("7_s74xv")]
+z_index = 2
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 160.0
+offset_bottom = 144.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="StartInput" parent="." instance=ExtResource("8_ip5sy")]
+
+[connection signal="started" from="StartInput" to="." method="end"]

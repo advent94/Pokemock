@@ -2,11 +2,10 @@ extends Node2D
 
 signal pokemon_battle_ended
 
-func _init():
-	hide()
+func _ready():
+	play()
 
 func play():
-	show()
 	$BGM.play()
 	await _play_intro_sequence()
 	await $Jigglypuff.in_and_out_first_sequence()
@@ -43,3 +42,8 @@ func _do_whiteout():
 		_whiteout_modifier += WHITEOUT_MULTIPLIER
 		material.set_shader_parameter("whiteout_time_step", _whiteout_modifier)
 		await Functions.wait(TIME_BETWEEN_WHITEOUT_UPDATES)
+
+func end():
+	$StartInput.deactivate()
+	await _do_whiteout()
+	queue_free()

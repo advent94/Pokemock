@@ -18,6 +18,9 @@ const _PAIR_X_OFFSET_INDEX: Array[int] = [
 
 const TIME_BETWEEN_CREATING_NEW_ROW: float = 0.5
 
+func _ready():
+	create_effect()
+
 ## Creates falling stars effect for GameFreak logo intro
 func create_effect():
 	_validate_pair_pos_array_size()

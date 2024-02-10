@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://di2es6ur0o2ml"]
+
+[ext_resource type="Script" path="res://scripts/main/intro.gd" id="1_bm88a"]
+
+[node name="Intro" type="Node"]
+script = ExtResource("1_bm88a")
+
+[connection signal="child_exiting_tree" from="." to="." method="_on_scene_instance_removed"]

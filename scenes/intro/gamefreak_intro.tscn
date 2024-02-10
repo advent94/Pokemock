@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://l5a1fwi24lcl"]
+
+[ext_resource type="Texture2D" uid="uid://djnwmfau7f5el" path="res://assets/textures/intro/intro.png" id="1_iobht"]
+[ext_resource type="Script" path="res://scripts/main/gamefreak_intro.gd" id="2_5k2c5"]
+[ext_resource type="PackedScene" uid="uid://cw0wgj6wl6wnv" path="res://scenes/components/start_input.tscn" id="3_4m6j1"]
+[ext_resource type="PackedScene" uid="uid://cxdt1as2pg3df" path="res://scenes/intro/black_bars.tscn" id="4_a5da4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_croki"]
+atlas = ExtResource("1_iobht")
+region = Rect2(160, 0, 160, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tx5oa"]
+atlas = ExtResource("1_iobht")
+region = Rect2(0, 144, 160, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wro4b"]
+atlas = ExtResource("1_iobht")
+region = Rect2(160, 144, 160, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y7oc"]
+atlas = ExtResource("1_iobht")
+region = Rect2(0, 288, 160, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtads"]
+atlas = ExtResource("1_iobht")
+region = Rect2(160, 288, 160, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3xlj4"]
+animations = [{
+"frames": [{
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_croki")
+}, {
+"duration": 0.1,
+"texture": SubResource("AtlasTexture_tx5oa")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_wro4b")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_5y7oc")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_wtads")
+}],
+"loop": false,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="GamefreakIntro" type="AnimatedSprite2D"]
+z_index = -1
+position = Vector2(80, 72)
+sprite_frames = SubResource("SpriteFrames_3xlj4")
+autoplay = "default"
+script = ExtResource("2_5k2c5")
+
+[node name="StartInput" parent="." instance=ExtResource("3_4m6j1")]
+active = false
+
+[node name="BlackBars" parent="." instance=ExtResource("4_a5da4")]
+
+[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
+[connection signal="started" from="StartInput" to="." method="_end"]
