@@ -13,6 +13,3 @@ func throw():
 	move(POKEBALL_APEX_OFFSET, Constants.NOW)
 	await Functions.wait(TIME_BETWEEN_POKEBALL_PHASES)
 	move(FINAL_POKEBALL_POSITION_OFFSET, Constants.NOW)
-
-func _on_randomized_pokemon_starter_swap():
-	throw()

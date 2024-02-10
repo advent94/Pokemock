@@ -1,14 +1,19 @@
 extends Node2D
 
-func _ready():
-	hide()
+signal started
 
-func initialize():
-	show()
+func _ready():
 	await $Title.bounce()
 	await $Version.slide_in()
-	$BGM.play()
+	started.emit()
+	_unlock_input()
 	$RandomizedPokemon/SwitchTimer.start()
 
-func _on_bgm_finished():
-	$BGM.play()
+func _lock_input():
+	$StartInput.deactivate()
+	
+func _unlock_input():
+	$StartInput.activate()
+
+func _end():
+	queue_free()

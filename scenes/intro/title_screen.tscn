@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://y1kure5secom"]
+[gd_scene load_steps=15 format=3 uid="uid://y1kure5secom"]
 
 [ext_resource type="Script" path="res://scripts/intro/title_screen.gd" id="1_heew1"]
 [ext_resource type="AudioStream" uid="uid://dgdubbf47dkvt" path="res://assets/sounds/bgm/intro/02 - Title Screen.mp3" id="2_j5whf"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scripts/intro/version.gd" id="9_kqhie"]
 [ext_resource type="Script" path="res://scripts/intro/random_pokemon.gd" id="10_ngwqg"]
 [ext_resource type="Script" path="res://scripts/intro/pokeball.gd" id="13_63qm8"]
+[ext_resource type="PackedScene" uid="uid://cw0wgj6wl6wnv" path="res://scenes/components/start_input.tscn" id="14_m26gy"]
 
 [node name="TitleScreen" type="Node2D"]
 z_index = -2
@@ -55,11 +56,21 @@ script = ExtResource("10_ngwqg")
 [node name="SwitchTimer" type="Timer" parent="RandomizedPokemon"]
 wait_time = 4.0
 
+[node name="SFX" type="AudioStreamPlayer" parent="RandomizedPokemon"]
+
 [node name="Pokeball" parent="." instance=ExtResource("5_n1g02")]
 position = Vector2(87, 105)
 texture = ExtResource("9_gm4rr")
 script = ExtResource("13_63qm8")
 
+[node name="StartInput" parent="." instance=ExtResource("14_m26gy")]
+active = false
+
 [connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]
-[connection signal="starter_swap" from="RandomizedPokemon" to="Pokeball" method="_on_randomized_pokemon_starter_swap"]
+[connection signal="started" from="RandomizedPokemon" to="." method="_lock_input"]
+[connection signal="starter_switch" from="RandomizedPokemon" to="Pokeball" method="throw"]
+[connection signal="switch_finished" from="RandomizedPokemon" to="." method="_unlock_input"]
+[connection signal="switch_started" from="RandomizedPokemon" to="." method="_lock_input"]
 [connection signal="timeout" from="RandomizedPokemon/SwitchTimer" to="RandomizedPokemon" method="switch"]
+[connection signal="finished" from="RandomizedPokemon/SFX" to="." method="_end"]
+[connection signal="started" from="StartInput" to="RandomizedPokemon" method="_cry"]
