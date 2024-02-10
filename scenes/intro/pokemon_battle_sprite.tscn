@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://x2na1fh46fbg"]
+
+[ext_resource type="Script" path="res://scripts/intro/pokemon_battle_sprite.gd" id="1_oxu24"]
+[ext_resource type="Script" path="res://scripts/utils/movement.gd" id="2_yfs5t"]
+
+[node name="PokemonBattleSprite" type="Sprite2D"]
+hframes = 3
+script = ExtResource("1_oxu24")
+
+[node name="Movement" type="Node2D" parent="."]
+script = ExtResource("2_yfs5t")

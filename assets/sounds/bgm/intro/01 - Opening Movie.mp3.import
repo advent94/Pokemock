@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://5wudf21iff8i"
+path="res://.godot/imported/01 - Opening Movie.mp3-47957187ebbf79be248e0ddf3b1b0cda.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/bgm/intro/01 - Opening Movie.mp3"
+dest_files=["res://.godot/imported/01 - Opening Movie.mp3-47957187ebbf79be248e0ddf3b1b0cda.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

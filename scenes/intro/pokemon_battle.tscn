@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://d265mlvp22b56"]
+
+[ext_resource type="Script" path="res://scripts/intro/pokemon_battle.gd" id="1_l2qj1"]
+[ext_resource type="PackedScene" uid="uid://x2na1fh46fbg" path="res://scenes/intro/pokemon_battle_sprite.tscn" id="1_l4rys"]
+[ext_resource type="Shader" path="res://shaders/white_fade.gdshader" id="1_prwlx"]
+[ext_resource type="AudioStream" uid="uid://5wudf21iff8i" path="res://assets/sounds/bgm/intro/01 - Opening Movie.mp3" id="3_hewre"]
+[ext_resource type="Script" path="res://scripts/intro/gengar_battle_sprite.gd" id="3_mmtvf"]
+[ext_resource type="Script" path="res://scripts/intro/jigglypuff_battle_sprite.gd" id="4_04rv5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_23o4b"]
+shader = ExtResource("1_prwlx")
+shader_parameter/whiteout_time_step = 0.0
+shader_parameter/whiteout_added_color = 0.229
+
+[node name="PokemonBattle" type="Node2D"]
+top_level = true
+z_index = -1
+material = SubResource("ShaderMaterial_23o4b")
+script = ExtResource("1_l2qj1")
+
+[node name="Gengar" parent="." instance=ExtResource("1_l4rys")]
+z_index = 1
+use_parent_material = true
+position = Vector2(130, 76)
+script = ExtResource("3_mmtvf")
+
+[node name="SFX" type="AudioStreamPlayer" parent="Gengar"]
+
+[node name="Jigglypuff" parent="." instance=ExtResource("1_l4rys")]
+use_parent_material = true
+position = Vector2(18, 88)
+script = ExtResource("4_04rv5")
+pokemon = 0
+
+[node name="SFX" type="AudioStreamPlayer" parent="Jigglypuff"]
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hewre")
