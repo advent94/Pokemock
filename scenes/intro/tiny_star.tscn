@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6oke2sjj6m4u"]
+
+[ext_resource type="Shader" path="res://shaders/whole_color.gdshader" id="1_mwxxa"]
+[ext_resource type="Texture2D" uid="uid://bn7e5cchiyii2" path="res://assets/textures/intro/tiny_star.png" id="1_xd0bc"]
+[ext_resource type="Script" path="res://scripts/intro/tiny_star.gd" id="3_hqolq"]
+[ext_resource type="Script" path="res://scripts/utils/movement.gd" id="4_j5aes"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_54k58"]
+resource_local_to_scene = true
+shader = ExtResource("1_mwxxa")
+shader_parameter/star_color = null
+
+[node name="TinyStar" type="Sprite2D"]
+top_level = true
+z_index = -1
+material = SubResource("ShaderMaterial_54k58")
+position = Vector2(70, 44)
+texture = ExtResource("1_xd0bc")
+script = ExtResource("3_hqolq")
+
+[node name="Movement" type="Node2D" parent="."]
+script = ExtResource("4_j5aes")
+speed = 15.0
+direction = Vector2(0, 1)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="BlinkingTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="BlinkingTimer" to="." method="_on_blinking_timer_timeout"]
