@@ -11,18 +11,29 @@ config_version=5
 [application]
 
 config/name="Pokemock"
-run/main_scene="res://label.tscn"
+run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/show_image=false
+boot_splash/fullsize=false
 config/icon="res://icon.svg"
+
+[autoload]
+
+Functions="*res://scripts/utils/global/functions.gd"
+Constants="*res://scripts/utils/global/constants.gd"
 
 [display]
 
 window/size/viewport_width=160
 window/size/viewport_height=144
+window/size/always_on_top=true
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
