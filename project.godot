@@ -27,6 +27,7 @@ ErrorHandler="*res://scripts/utils/global/error_handler.gd"
 InputController="*res://scripts/utils/global/input_controller.gd"
 FilePaths="*res://scripts/utils/global/file_paths.gd"
 Audio="*res://scripts/utils/global/audio.gd"
+Graphics="*res://scripts/utils/global/graphics.gd"
 
 [display]
 

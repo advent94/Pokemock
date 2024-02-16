@@ -1,0 +1,8 @@
+#ifndef CONSTANTS
+#define CONSTANTS
+
+#define ZERO_INDEXING_OFFSET 1
+#define FAILURE -1
+#define EPSILON 0.001
+
+#endif // CONSTANTS
