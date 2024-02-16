@@ -77,7 +77,7 @@ func _create_star(pos: Vector2, _color: Color, blinking: bool):
 	star.show()
 	
 func _set_new_star_parameters(scene: Sprite2D, pos: Vector2, _color: Color, blinking: bool):
-	scene.material.set_shader_parameter("star_color", _color)
+	scene.material.set_shader_parameter("color", _color)
 	scene.position = pos
 	scene.blinking = blinking
 	scene.show()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://d265mlvp22b56"]
 
-[ext_resource type="Shader" path="res://shaders/white_fade.gdshader" id="1_xhu80"]
+[ext_resource type="Shader" path="res://shaders/addition.gdshader" id="1_n8gn3"]
 [ext_resource type="Script" path="res://scripts/stages/intro/pokemon_battle.gd" id="2_ikl03"]
 [ext_resource type="PackedScene" uid="uid://x2na1fh46fbg" path="res://scenes/components/intro/pokemon_battle_sprite.tscn" id="3_y6rr6"]
 [ext_resource type="Script" path="res://scripts/components/intro/gengar_battle_sprite.gd" id="4_knvfc"]
@@ -10,9 +10,8 @@
 [ext_resource type="Script" path="res://scripts/components/intro/input_relay.gd" id="9_2vdyb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_23o4b"]
-shader = ExtResource("1_xhu80")
-shader_parameter/whiteout_time_step = 0.0
-shader_parameter/whiteout_added_color = 0.229
+shader = ExtResource("1_n8gn3")
+shader_parameter/modifier = null
 
 [node name="PokemonBattle" type="Node2D"]
 top_level = true

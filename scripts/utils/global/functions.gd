@@ -1,5 +1,7 @@
 extends Node
 
+const FAIL: int = -1
+
 func wait(time_in_sec: float):
 	await get_tree().create_timer(time_in_sec).timeout
 
@@ -82,8 +84,6 @@ func get_children_names(node: Node) -> PackedStringArray:
 
 func string_starts_with(string: String, substr: String) -> bool:
 	return string.substr(Constants.FIRST_ELEMENT_IN_INDEX, substr.length()) == substr
-
-const FAIL: int = -1
 
 func string_find_n_occurrence(string: String, substr: String, occurrence: int) -> int:
 	if occurrence <= 0 || (string.count(substr) < occurrence):

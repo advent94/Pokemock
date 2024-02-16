@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c6oke2sjj6m4u"]
 
-[ext_resource type="Shader" path="res://shaders/whole_color.gdshader" id="1_mwxxa"]
+[ext_resource type="Shader" path="res://shaders/one_color.gdshader" id="1_mwxxa"]
 [ext_resource type="Texture2D" uid="uid://bn7e5cchiyii2" path="res://assets/textures/intro/tiny_star.png" id="1_xd0bc"]
 [ext_resource type="Script" path="res://scripts/components/intro/tiny_star.gd" id="3_hqolq"]
 [ext_resource type="Script" path="res://scripts/utils/movement.gd" id="4_j5aes"]
@@ -8,7 +8,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_54k58"]
 resource_local_to_scene = true
 shader = ExtResource("1_mwxxa")
-shader_parameter/star_color = null
+shader_parameter/color = Color(0.376471, 0.376471, 0.376471, 1)
 
 [node name="TinyStar" type="Sprite2D"]
 top_level = true

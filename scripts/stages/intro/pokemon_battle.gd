@@ -33,16 +33,17 @@ func _wait_if_blocked():
 	await Functions.wait_if_blocked($Gengar)
 	await Functions.wait_if_blocked($Jigglypuff)
 
-const WHITEOUT_MULTIPLIER: float = 2.0
-const TIME_BETWEEN_WHITEOUT_UPDATES: float = 0.25
-const MAX_WHITEOUT_MULTIPLIER_VALUE: float = 8.0
+const TIME_BETWEEN_UPDATES: float = 0.25
+const TOTAL_EFFECT_TIME: float = 1.0
+const MOD_INCREMENT_VALUE: float = (TIME_BETWEEN_UPDATES / TOTAL_EFFECT_TIME) * 1.0
+const MAX_MOD_VALUE: float = 1.0
 
 func _do_whiteout():
-	var _whiteout_modifier = 0.0	
-	while _whiteout_modifier <= MAX_WHITEOUT_MULTIPLIER_VALUE:
-		_whiteout_modifier += WHITEOUT_MULTIPLIER
-		material.set_shader_parameter("whiteout_time_step", _whiteout_modifier)
-		await Functions.wait(TIME_BETWEEN_WHITEOUT_UPDATES)
+	var current_mod = 0.0	
+	while current_mod < MAX_MOD_VALUE:
+		current_mod += MOD_INCREMENT_VALUE
+		material.set_shader_parameter("modifier", current_mod)
+		await Functions.wait(TIME_BETWEEN_UPDATES)
 
 func end():
 	$Input.deactivate()

@@ -1,14 +1,10 @@
 extends Sprite2D
 
 var blinking = false
-var _original_color: Color
+var _original_color: Color = Color(0.376, 0.376, 0.376, 1.0)
 var _is_transparent: bool = false
 
-const SHADER_COLOR_PARAMETER: String = "star_color"
-
-func _ready():
-	assert(material)
-	_original_color = material.get_shader_parameter(SHADER_COLOR_PARAMETER)
+const SHADER_COLOR_PARAMETER: String = "color"
 
 func _on_blinking_timer_timeout():
 	if blinking:

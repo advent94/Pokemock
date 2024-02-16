@@ -7,8 +7,8 @@ func get_pixel_array(img: Image) -> Array[Color]:
 	var img_width: int = img.get_width()
 	var img_height: int = img.get_height()
 	for i in range(0, img_width * img_height):
-		x = i - ((i/img_width) * img_width)
-		y = i / img_width
+		x = i - ((Functions.safe_integer_division(i, img_width)) * img_width)
+		y = Functions.safe_integer_division(i, img_width)
 		pixels.push_back(img.get_pixel(x, y))
 	return pixels
 
