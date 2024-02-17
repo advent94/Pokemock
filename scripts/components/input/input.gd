@@ -11,14 +11,17 @@ signal released(button)
 
 func _ready():
 	if active:
-		$InputRegister.activate()
+		activate()
 
 func activate():
-	$InputRegister.activate()
+	InputController.give_control(self)
 
 func deactivate():
-	$InputRegister.deactivate()
+	InputController.take_control(self)
 
+func _exit_tree():
+	deactivate()
+	
 func _parse_input():
 	_parse_pressed()
 	_parse_released()

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cvlutyaj00a11"]
-
-[ext_resource type="Script" path="res://scripts/components/input/input_register.gd" id="1_fxxo7"]
-
-[node name="InputRegister" type="Node"]
-script = ExtResource("1_fxxo7")
