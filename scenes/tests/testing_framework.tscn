@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cp3hixa7tj0jk"]
 
 [ext_resource type="PackedScene" uid="uid://blkcbnlxb72o8" path="res://scenes/templates/test.tscn" id="1_idgnf"]
-[ext_resource type="Script" path="res://scripts/tests/test framework/testing_framework_test.gd" id="2_4h568"]
+[ext_resource type="Script" path="res://scripts/tests/test framework/main.gd" id="2_4h568"]
 [ext_resource type="Script" path="res://scripts/tests/test framework/run_tests.gd" id="3_8vbvc"]
 [ext_resource type="Script" path="res://scripts/tests/test framework/type_identification.gd" id="4_jpclm"]
 [ext_resource type="Script" path="res://scripts/tests/test framework/get_test_fixture.gd" id="5_iv1tb"]

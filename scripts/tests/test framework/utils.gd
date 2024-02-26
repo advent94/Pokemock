@@ -1,6 +1,6 @@
-extends Testing
+extends TestMethods
 
-class_name TestingFramework
+class_name FrameworkTest
 
 const VALID_TEST_FIXTURE_NAME: String = "ValidTest"
 const INVALID_TEST_FIXTURE_NAME: String = "Invalid"
@@ -43,11 +43,11 @@ func reset_counter():
 func initialize():
 	reset_counter()
 
-const SOURCE_CODE_WITH_TEST_METHOD: String = "extends Testing\n\nsignal called\nfunc should_return_true():
+const SOURCE_CODE_WITH_TEST_METHOD: String = "extends TestMethods\n\nsignal called\nfunc should_return_true():
 	\n	called.emit()\n	EXPECT_TRUE(true)"
-const SOURCE_CODE_WITH_TWO_TEST_METHODS: String = "extends Testing\n\nsignal called\nfunc should_return_true():
+const SOURCE_CODE_WITH_TWO_TEST_METHODS: String = "extends TestMethods\n\nsignal called\nfunc should_return_true():
 	\n	called.emit()\n	EXPECT_TRUE(true)\n\nfunc should_return_false():\n	called.emit()\n	EXPECT_FALSE(false)"
-const TESTING_SOURCE_CODE: String = "extends Testing"
+const TESTING_SOURCE_CODE: String = "extends TestFixture\n\nfunc run_all_tests():\n	for child in get_children():\n		run_test_fixture(child)"
 
 enum ScriptType { ONE_TEST_METHOD, TWO_TEST_METHODS, TESTING }
 const TYPE_TO_SCRIPT_INDEX: Dictionary = {
@@ -70,8 +70,8 @@ func get_node_with_connected_script(_name: String, type: ScriptType) -> Node:
 	node.called.connect(register_function_call)
 	return node
 
-func get_testable_fixture(_name: String) -> Node:
-	var test_fixture: Node = Node.new()
+func get_testable_fixture(_name: String) -> TestFixture:
+	var test_fixture: TestFixture = TestFixture.new()
 	var test_cases: Node = Node.new()
 	test_cases.name = TEST_CASES_NODE_NAME
 	var first_test_case: Node = get_node_with_connected_script("First", ScriptType.ONE_TEST_METHOD)
@@ -80,3 +80,7 @@ func get_testable_fixture(_name: String) -> Node:
 	test_cases.add_child(second_test_case)
 	test_fixture.add_child(test_cases)
 	return test_fixture
+
+func run_test_case(node: Node):
+	var fixture: TestFixture = TestFixture.new()
+	fixture.run_test_case(node)

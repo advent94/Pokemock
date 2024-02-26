@@ -1,4 +1,4 @@
-extends CounterTesting
+extends CounterTest
 
 func should_start_with_value_set_to_zero():
 	var counter = Counter.new()

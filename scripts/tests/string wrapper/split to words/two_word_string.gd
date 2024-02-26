@@ -1,4 +1,4 @@
-extends StringWrapperTesting
+extends StringWrapperTest
 
 const ONE_WORD_ARRAY: PackedStringArray = [
 	STR_STARTS_WITH_TWO_SPACES,
@@ -44,13 +44,10 @@ var expected_two_word_array_matrix: Array[PackedStringArray] = [
 	PackedStringArray(["bee", "air  "]), PackedStringArray(["space", " air  "]), 
 	PackedStringArray(["air", "  air  "]),
 ]
-
-var string_wrapper: Node
-
-func _ready():
-	string_wrapper = get_entity("StringWrapper")
 	
 func should_return_expected_two_word_array():
+	var string_wrapper: StringWrapper = get_string_wrapper()
 	var string_matrix: PackedStringArray = get_string_matrix()
+	
 	for i in range(expected_two_word_array_matrix.size()):
 		EXPECT_EQ(string_wrapper.split_to_words(string_matrix[i]), expected_two_word_array_matrix[i])

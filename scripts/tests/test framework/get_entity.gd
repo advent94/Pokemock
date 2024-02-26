@@ -1,4 +1,4 @@
-extends TestingFramework
+extends FrameworkTest
 
 func should_get_entity_from_test_case():
 	var test_fixture = create_test_fixture()

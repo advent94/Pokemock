@@ -1,4 +1,4 @@
-extends CounterTesting
+extends CounterTest
 
 func should_have_default_counter_parameters():
 	var counter: AdvancedCounter = AdvancedCounter.new()

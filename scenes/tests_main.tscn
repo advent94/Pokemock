@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://srrp1evqwfdl"]
+
+[ext_resource type="Script" path="res://scripts/tests/main.gd" id="1_0540q"]
+[ext_resource type="PackedScene" uid="uid://bvlmktilojm35" path="res://scenes/tests/counters.tscn" id="2_v44oi"]
+[ext_resource type="PackedScene" uid="uid://dhgftb3gt5kum" path="res://scenes/tests/string_wrapper.tscn" id="3_opsor"]
+[ext_resource type="PackedScene" uid="uid://cp3hixa7tj0jk" path="res://scenes/tests/testing_framework.tscn" id="4_8kgp8"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_0540q")
+
+[node name="CounterTest" parent="." instance=ExtResource("2_v44oi")]
+
+[node name="StringWrapperTest" parent="." instance=ExtResource("3_opsor")]
+
+[node name="TestingFrameworkTest" parent="." instance=ExtResource("4_8kgp8")]

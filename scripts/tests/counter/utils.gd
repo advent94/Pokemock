@@ -1,6 +1,6 @@
-extends Testing
+extends TestMethods
 
-class_name CounterTesting
+class_name CounterTest
 
 const NEGATIVE_VALUE: int = -1
 

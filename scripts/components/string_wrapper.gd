@@ -1,7 +1,10 @@
-extends Node
+class_name StringWrapper
 
-@export var max_characters_per_line: int
+var max_characters_per_line: int
 
+func _init(max_chars_per_line: int = 16):
+	max_characters_per_line = max_chars_per_line
+	
 func wrap_string(string: String) -> String:
 	var line_array: PackedStringArray = Functions.get_lines_from_string(string)
 	var final_line_array: PackedStringArray = []

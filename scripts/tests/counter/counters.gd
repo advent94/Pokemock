@@ -1,4 +1,4 @@
-extends CounterTesting
+extends CounterTest
 
 func should_add_new_clock_with_registered_name():
 	var system: Node = get_system()

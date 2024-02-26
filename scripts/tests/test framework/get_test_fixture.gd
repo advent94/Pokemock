@@ -1,4 +1,4 @@
-extends TestingFramework
+extends FrameworkTest
 
 func should_get_test_fixture():
 	var node: Node = create_empty_testing_node()
