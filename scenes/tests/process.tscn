@@ -1,0 +1,75 @@
+[gd_scene load_steps=18 format=3 uid="uid://d3qusf1u2sdoj"]
+
+[ext_resource type="PackedScene" uid="uid://blkcbnlxb72o8" path="res://scripts/test_framework/templates/test.tscn" id="1_a0v8l"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/variant.gd" id="2_fasxu"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/intervals.gd" id="3_ajkh5"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/intervals_and_modifiers.gd" id="4_oistk"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/interval_with_modifier.gd" id="5_pe5ec"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/interval_with_constant_step.gd" id="6_b57cy"]
+[ext_resource type="Script" path="res://scripts/tests/process/update/callable.gd" id="7_42hwv"]
+[ext_resource type="Script" path="res://scripts/tests/process/setup.gd" id="9_8uthy"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/start.gd" id="10_juvfc"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/stop.gd" id="11_ku6xx"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/restart.gd" id="12_f75ke"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/pause.gd" id="13_r8rce"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/update/signal.gd" id="14_t5eut"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/resume.gd" id="14_wpk0u"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/update/callable.gd" id="15_ixesy"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/finish.gd" id="16_83kp0"]
+[ext_resource type="Script" path="res://scripts/tests/process/lifecycle/update/step.gd" id="16_qsmia"]
+
+[node name="ProcessTest" instance=ExtResource("1_a0v8l")]
+
+[node name="Update" type="Node" parent="TestCases" index="0"]
+
+[node name="Variant" type="Node" parent="TestCases/Update" index="0"]
+script = ExtResource("2_fasxu")
+
+[node name="Intervals" type="Node" parent="TestCases/Update" index="1"]
+script = ExtResource("3_ajkh5")
+
+[node name="IntervalsAndModifiers" type="Node" parent="TestCases/Update" index="2"]
+script = ExtResource("4_oistk")
+
+[node name="IntervalWithModifier" type="Node" parent="TestCases/Update" index="3"]
+script = ExtResource("5_pe5ec")
+
+[node name="IntervalWithConstantStep" type="Node" parent="TestCases/Update" index="4"]
+script = ExtResource("6_b57cy")
+
+[node name="Callable" type="Node" parent="TestCases/Update" index="5"]
+script = ExtResource("7_42hwv")
+
+[node name="Process" type="Node" parent="TestCases" index="1"]
+
+[node name="Setup" type="Node" parent="TestCases/Process" index="0"]
+script = ExtResource("9_8uthy")
+
+[node name="Start" type="Node" parent="TestCases/Process" index="1"]
+script = ExtResource("10_juvfc")
+
+[node name="Stop" type="Node" parent="TestCases/Process" index="2"]
+script = ExtResource("11_ku6xx")
+
+[node name="Restart" type="Node" parent="TestCases/Process" index="3"]
+script = ExtResource("12_f75ke")
+
+[node name="Pause" type="Node" parent="TestCases/Process" index="4"]
+script = ExtResource("13_r8rce")
+
+[node name="Resume" type="Node" parent="TestCases/Process" index="5"]
+script = ExtResource("14_wpk0u")
+
+[node name="Update" type="Node" parent="TestCases/Process" index="6"]
+
+[node name="Signal" type="Node" parent="TestCases/Process/Update" index="0"]
+script = ExtResource("14_t5eut")
+
+[node name="Callable" type="Node" parent="TestCases/Process/Update" index="1"]
+script = ExtResource("15_ixesy")
+
+[node name="Step" type="Node" parent="TestCases/Process/Update" index="2"]
+script = ExtResource("16_qsmia")
+
+[node name="Finish" type="Node" parent="TestCases/Process" index="7"]
+script = ExtResource("16_83kp0")

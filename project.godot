@@ -20,15 +20,12 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Functions="*res://scripts/utils/global/functions.gd"
-Constants="*res://scripts/utils/global/constants.gd"
 Debug="*res://scripts/utils/global/debug.gd"
-ErrorHandler="*res://scripts/utils/global/error_handler.gd"
 InputController="*res://scripts/utils/global/input_controller.gd"
-FilePaths="*res://scripts/utils/global/file_paths.gd"
 Audio="*res://scripts/utils/global/audio.gd"
-Graphics="*res://scripts/utils/global/graphics.gd"
+VisualEffects="*res://scripts/utils/global/visual_effects.gd"
 Counters="*res://scripts/utils/global/counters.gd"
+Timers="*res://scripts/utils/global/timers.gd"
 
 [display]
 
@@ -40,7 +37,7 @@ window/stretch/mode="viewport"
 [editor]
 
 movie_writer/mjpeg_quality=0.9
-movie_writer/movie_file="~/Desktop/Hobby/Godot/Pokemock.avi"
+movie_writer/movie_file="C:/Users/aandrule/Desktop/Hobby/Godot/Pokemock2.avi"
 
 [filesystem]
 
