@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://blkcbnlxb72o8"]
+
+[ext_resource type="Script" path="res://scripts/test_framework/templates/fixture.gd" id="1_kxej7"]
+
+[node name="Test" type="Node"]
+script = ExtResource("1_kxej7")
+
+[node name="TestCases" type="Node" parent="."]
+
+[node name="TestedEntity" type="Node" parent="."]

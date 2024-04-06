@@ -1,4 +1,4 @@
-extends TestMethods
+extends Test
 
 class_name StringWrapperTest
 

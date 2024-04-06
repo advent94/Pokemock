@@ -35,6 +35,7 @@ func should_reach_limit_and_emit_finished_signal():
 	EXPECT_FALSE(CALLED())
 	
 	counter.increment()
+	
 	EXPECT_TRUE(CALLED())
 
 

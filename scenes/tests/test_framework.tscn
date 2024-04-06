@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://cp3hixa7tj0jk"]
+
+[ext_resource type="PackedScene" uid="uid://blkcbnlxb72o8" path="res://scripts/test_framework/templates/test.tscn" id="1_idgnf"]
+[ext_resource type="Script" path="res://scripts/tests/test_framework/run_tests.gd" id="3_8vbvc"]
+[ext_resource type="Script" path="res://scripts/tests/test_framework/type_identification.gd" id="4_jpclm"]
+[ext_resource type="Script" path="res://scripts/tests/test_framework/get_test_fixture.gd" id="5_iv1tb"]
+[ext_resource type="Script" path="res://scripts/tests/test_framework/get_entity.gd" id="6_r24nu"]
+
+[node name="TestFrameworkTest" instance=ExtResource("1_idgnf")]
+
+[node name="RunTests" type="Node" parent="TestCases" index="0"]
+script = ExtResource("3_8vbvc")
+
+[node name="TypeIdentification" type="Node" parent="TestCases" index="1"]
+script = ExtResource("4_jpclm")
+
+[node name="GetTestFixture" type="Node" parent="TestCases" index="2"]
+script = ExtResource("5_iv1tb")
+
+[node name="GetEntity" type="Node" parent="TestCases" index="3"]
+script = ExtResource("6_r24nu")

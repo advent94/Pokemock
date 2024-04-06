@@ -1,15 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://srrp1evqwfdl"]
+[gd_scene load_steps=7 format=3 uid="uid://srrp1evqwfdl"]
 
-[ext_resource type="Script" path="res://scripts/tests/main.gd" id="1_0540q"]
+[ext_resource type="Script" path="res://scripts/test_framework/main.gd" id="1_0540q"]
 [ext_resource type="PackedScene" uid="uid://bvlmktilojm35" path="res://scenes/tests/counters.tscn" id="2_v44oi"]
 [ext_resource type="PackedScene" uid="uid://dhgftb3gt5kum" path="res://scenes/tests/string_wrapper.tscn" id="3_opsor"]
-[ext_resource type="PackedScene" uid="uid://cp3hixa7tj0jk" path="res://scenes/tests/testing_framework.tscn" id="4_8kgp8"]
+[ext_resource type="PackedScene" uid="uid://cp3hixa7tj0jk" path="res://scenes/tests/test_framework.tscn" id="4_8kgp8"]
+[ext_resource type="PackedScene" uid="uid://cevyu0spjqyx6" path="res://scenes/tests/limiter.tscn" id="5_kpa38"]
+[ext_resource type="PackedScene" uid="uid://d3qusf1u2sdoj" path="res://scenes/tests/process.tscn" id="6_rir0r"]
 
-[node name="Main" type="Node"]
+[node name="Tests" type="Node"]
 script = ExtResource("1_0540q")
 
-[node name="CounterTest" parent="." instance=ExtResource("2_v44oi")]
+[node name="TestingFrameworkTest" parent="." instance=ExtResource("4_8kgp8")]
 
 [node name="StringWrapperTest" parent="." instance=ExtResource("3_opsor")]
 
-[node name="TestingFrameworkTest" parent="." instance=ExtResource("4_8kgp8")]
+[node name="CounterTest" parent="." instance=ExtResource("2_v44oi")]
+
+[node name="LimiterTest" parent="." instance=ExtResource("5_kpa38")]
+
+[node name="ProcessTest" parent="." instance=ExtResource("6_rir0r")]

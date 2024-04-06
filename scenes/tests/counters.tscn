@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://bvlmktilojm35"]
 
-[ext_resource type="Script" path="res://scripts/tests/counter/main.gd" id="1_fmr6e"]
+[ext_resource type="Script" path="res://scripts/test_framework/templates/fixture.gd" id="1_iqmn1"]
 [ext_resource type="Script" path="res://scripts/tests/counter/counters.gd" id="2_03crs"]
 [ext_resource type="Script" path="res://scripts/utils/global/counters.gd" id="3_7ouic"]
 [ext_resource type="Script" path="res://scripts/tests/counter/base.gd" id="3_ggkip"]
 [ext_resource type="Script" path="res://scripts/tests/counter/advanced.gd" id="4_w8vo8"]
 
 [node name="CounterTest" type="Node"]
-script = ExtResource("1_fmr6e")
+script = ExtResource("1_iqmn1")
 
 [node name="TestCases" type="Node" parent="."]
 

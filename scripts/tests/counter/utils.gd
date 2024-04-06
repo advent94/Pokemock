@@ -1,4 +1,4 @@
-extends TestMethods
+extends Test
 
 class_name CounterTest
 
@@ -45,7 +45,8 @@ var FLAGS_WITH_FAST_SET: AdvancedCounter.Flags = AdvancedCounter.Flags.new(RESET
 		REVERSE_FLAG_UNSET, NEGATIVE_FLAG_UNSET, FAST_FLAG_SET, STRICT_FLAG_UNSET)
 		
 func get_system() -> Node:
-	return get_entity("Counters").duplicate()
+	var system: Node = CAPTURED_NODE(get_entity("Counters").duplicate())
+	return system
 
 func get_counter_that_resets() -> AdvancedCounter:
 	return AdvancedCounter.new(ONE_DEFAULT_INCREMENT, DEFAULT_STARTING_VALUE, DEFAULT_R_LIMIT, 

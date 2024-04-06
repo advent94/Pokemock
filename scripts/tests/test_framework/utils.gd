@@ -1,4 +1,4 @@
-extends TestMethods
+extends Test
 
 class_name FrameworkTest
 
@@ -43,9 +43,9 @@ func reset_counter():
 func initialize():
 	reset_counter()
 
-const SOURCE_CODE_WITH_TEST_METHOD: String = "extends TestMethods\n\nsignal called\nfunc should_return_true():
+const SOURCE_CODE_WITH_TEST_METHOD: String = "extends Test\n\nsignal called\nfunc should_return_true():
 	\n	called.emit()\n	EXPECT_TRUE(true)"
-const SOURCE_CODE_WITH_TWO_TEST_METHODS: String = "extends TestMethods\n\nsignal called\nfunc should_return_true():
+const SOURCE_CODE_WITH_TWO_TEST_METHODS: String = "extends Test\n\nsignal called\nfunc should_return_true():
 	\n	called.emit()\n	EXPECT_TRUE(true)\n\nfunc should_return_false():\n	called.emit()\n	EXPECT_FALSE(false)"
 const TESTING_SOURCE_CODE: String = "extends TestFixture\n\nfunc run_all_tests():\n	for child in get_children():\n		run_test_fixture(child)"
 
@@ -72,6 +72,7 @@ func get_node_with_connected_script(_name: String, type: ScriptType) -> Node:
 
 func get_testable_fixture(_name: String) -> TestFixture:
 	var test_fixture: TestFixture = TestFixture.new()
+	test_fixture.name =  get_grandparent_name() + "." + _name
 	var test_cases: Node = Node.new()
 	test_cases.name = TEST_CASES_NODE_NAME
 	var first_test_case: Node = get_node_with_connected_script("First", ScriptType.ONE_TEST_METHOD)
@@ -83,4 +84,9 @@ func get_testable_fixture(_name: String) -> TestFixture:
 
 func run_test_case(node: Node):
 	var fixture: TestFixture = TestFixture.new()
-	fixture.run_test_case(node)
+	fixture.name = "TestFixture"
+	fixture.run_test_case(node, get_grandparent_name() + "." + fixture.name)
+	fixture.free()
+
+func get_grandparent_name() -> String:
+	return get_parent().get_parent().name

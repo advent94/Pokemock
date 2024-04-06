@@ -3,21 +3,34 @@ extends SharedTestUtils
 ## Class with utilities used by testing methods
 class_name TestUtils
 
-enum Type { EQ, NEQ, SAME_TYPE, BOOL }
+enum Type { EQ, NEQ, FLOAT_EQ, FLOAT_NEQ, SAME_TYPE, BOOL }
 
 const FAILED: bool = false
 
 ## Default index for calls that refers to unique call status
 const UNIQUE_CALL: int = -1
+const TEMP_NODE_PARENT_NAME: String = "Temp"
 
 const _TYPE_TO_STR_INDEX = {
 	Type.EQ: "EQUAL VARIABLES",
 	Type.NEQ: "DIFFERENT VARIABLES",
+	Type.FLOAT_EQ: "APPROXIMATELY EQUAL VARIABLES",
+	Type.FLOAT_NEQ: "APPROXIMATELY DIFFERENT VARIABLES",
 	Type.SAME_TYPE: "SAME TYPE",
 	Type.BOOL: "CONDITION FULFILLED"
 }
 
 var _call_status_index: Array[bool] = []
+
+var _node_container_index: Dictionary = {}
+
+func _add_node_container(_name: String) -> Node:
+	assert(not _node_container_index.keys().has(_name), "Use unique identifier")
+	var temp: Node = Node.new()
+	temp.name = _name
+	_node_container_index[temp.name] = temp
+	add_child(temp)
+	return temp
 
 func _resize_call_index(new_size: int):
 	assert(new_size >= 0 && new_size > _call_status_index.size())

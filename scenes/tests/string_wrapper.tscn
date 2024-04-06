@@ -1,14 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://dhgftb3gt5kum"]
 
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/main.gd" id="1_03xsk"]
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/split to words/one_word_string.gd" id="3_5w2lo"]
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/split to words/two_word_string.gd" id="3_flgc5"]
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/complex_words_to_lines.gd" id="4_viyec"]
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/construct_wraped_lines.gd" id="5_d3ln6"]
-[ext_resource type="Script" path="res://scripts/tests/string wrapper/wrap_string.gd" id="6_hl4k6"]
+[ext_resource type="Script" path="res://scripts/test_framework/templates/fixture.gd" id="1_qesb4"]
+[ext_resource type="Script" path="res://scripts/tests/string_wrapper/split to words/one_word_string.gd" id="3_5w2lo"]
+[ext_resource type="Script" path="res://scripts/tests/string_wrapper/split to words/two_word_string.gd" id="3_flgc5"]
+[ext_resource type="Script" path="res://scripts/tests/string_wrapper/complex_words_to_lines.gd" id="4_viyec"]
+[ext_resource type="Script" path="res://scripts/tests/string_wrapper/construct_wraped_lines.gd" id="5_d3ln6"]
+[ext_resource type="Script" path="res://scripts/tests/string_wrapper/wrap_string.gd" id="6_hl4k6"]
 
 [node name="StringWrapperTest" type="Node"]
-script = ExtResource("1_03xsk")
+script = ExtResource("1_qesb4")
 
 [node name="TestCases" type="Node" parent="."]
 

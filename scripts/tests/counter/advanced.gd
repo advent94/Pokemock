@@ -5,7 +5,7 @@ func should_have_default_counter_parameters():
 	
 	EXPECT_EQ(counter.get_value(), DEFAULT_STARTING_VALUE)
 	EXPECT_EQ(counter.get_limit(), DEFAULT_LIMIT)
-	EXPECT_EQ(counter.get_r_limit(), DEFAULT_R_LIMIT)
+	EXPECT_EQ(counter.get_reverse_limit(), DEFAULT_R_LIMIT)
 	EXPECT_EQ(counter.get_total_repetitions(), DEFAULT_REPETITIONS)
 	EXPECT_EQ(counter.get_repetitions_left(), DEFAULT_REPETITIONS)
 	EXPECT_EQ(counter.get_increment_value(), DEFAULT_INCREMENT_VALUE)
@@ -21,11 +21,11 @@ func should_have_default_counter_parameters():
 func should_set_new_valid_r_limit():
 	var counter: AdvancedCounter = AdvancedCounter.new()
 	
-	EXPECT_EQ(counter.get_r_limit(), DEFAULT_R_LIMIT)
+	EXPECT_EQ(counter.get_reverse_limit(), DEFAULT_R_LIMIT)
 	
 	counter.set_r_limit(TESTED_VALID_NEGATIVE_R_LIMIT)
 	
-	EXPECT_EQ(counter.get_r_limit(), TESTED_VALID_NEGATIVE_R_LIMIT)
+	EXPECT_EQ(counter.get_reverse_limit(), TESTED_VALID_NEGATIVE_R_LIMIT)
 
 
 func should_force_min_possible_value_for_f_limit():
@@ -38,7 +38,7 @@ func should_force_min_possible_value_for_f_limit():
 		FLAGS_WITH_STRICT_UNSET
 	)
 	
-	EXPECT_EQ(counter.get_r_limit(), Constants.MIN_INT)
+	EXPECT_EQ(counter.get_reverse_limit(), Constants.MIN_INT)
 
 
 func should_force_max_possible_value_for_f_limit():
@@ -51,7 +51,7 @@ func should_force_max_possible_value_for_f_limit():
 		FLAGS_WITH_STRICT_UNSET
 	)
 	
-	EXPECT_EQ(counter.get_r_limit(), Constants.MAX_INT)	
+	EXPECT_EQ(counter.get_reverse_limit(), Constants.MAX_INT)	
 
 
 func should_force_negative_flag():
