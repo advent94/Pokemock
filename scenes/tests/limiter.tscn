@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://cevyu0spjqyx6"]
+
+[ext_resource type="PackedScene" uid="uid://blkcbnlxb72o8" path="res://scripts/test_framework/templates/test.tscn" id="1_yo8mx"]
+[ext_resource type="Script" path="res://scripts/tests/limiter/variant.gd" id="2_ipetl"]
+[ext_resource type="Script" path="res://scripts/tests/limiter/timer.gd" id="2_kq5j4"]
+[ext_resource type="Script" path="res://scripts/tests/limiter/counter.gd" id="4_q2vre"]
+[ext_resource type="Script" path="res://scripts/tests/limiter/signal.gd" id="5_04b7r"]
+
+[node name="LimiterTest" instance=ExtResource("1_yo8mx")]
+
+[node name="Variant" type="Node" parent="TestCases" index="0"]
+script = ExtResource("2_ipetl")
+
+[node name="Counter" type="Node" parent="TestCases" index="1"]
+script = ExtResource("4_q2vre")
+
+[node name="Timer" type="Node" parent="TestCases" index="2"]
+script = ExtResource("2_kq5j4")
+
+[node name="Signal" type="Node" parent="TestCases" index="3"]
+script = ExtResource("5_04b7r")
