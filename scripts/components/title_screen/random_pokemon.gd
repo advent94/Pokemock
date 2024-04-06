@@ -84,6 +84,11 @@ func _randomize() -> Pokemon:
 func _change_sprite(pokemon: Pokemon):
 	frame = pokemon - 1
 
+var selected: bool = false
+
 func _start():
+	if selected: 
+		return
+	selected = true
 	await Audio.play_sfx(CRIES[current_pokemon]).finished
 	started.emit()

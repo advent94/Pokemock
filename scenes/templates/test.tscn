@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://blkcbnlxb72o8"]
-
-[node name="Test" type="Node"]
-
-[node name="TestCases" type="Node" parent="."]
-
-[node name="TestedEntity" type="Node" parent="."]

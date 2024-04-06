@@ -14,7 +14,7 @@ func _blink():
 	_is_transparent = not _is_transparent
 	_change_shader_color()
 
-const TRANSPARENT_COLOR: Color = Color(1, 1, 1, 1)
+const TRANSPARENT_COLOR: Color = Color(1, 1, 1, 0)
 
 func _change_shader_color():
 	var color: Color

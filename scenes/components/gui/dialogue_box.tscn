@@ -1,12 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dkocp71uvpi3t"]
+[gd_scene load_steps=12 format=3 uid="uid://dkocp71uvpi3t"]
 
 [ext_resource type="FontFile" uid="uid://cwxcgtkgg88fp" path="res://assets/fonts/default.png" id="1_caofv"]
-[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://themes/pokepanel.tres" id="2_motaw"]
+[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://resources/pokepanel.tres" id="2_motaw"]
 [ext_resource type="Texture2D" uid="uid://blsfhueaala46" path="res://assets/textures/general/borders.png" id="2_nm6qy"]
 [ext_resource type="Script" path="res://scripts/components/gui/dialogue_box.gd" id="3_qxfo0"]
 [ext_resource type="PackedScene" uid="uid://c1c8i2sucf4s3" path="res://scenes/components/movement.tscn" id="4_snx3m"]
 [ext_resource type="Script" path="res://scripts/components/gui/dialogue_cursor.gd" id="5_c585b"]
-[ext_resource type="PackedScene" uid="uid://cefxa53mipkpo" path="res://scenes/components/string_wrapper.tscn" id="7_22f8j"]
 [ext_resource type="PackedScene" uid="uid://cqdr7s0u7ie4" path="res://scenes/components/options.tscn" id="9_ytenj"]
 [ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="11_e21g8"]
 [ext_resource type="Script" path="res://scripts/components/input/relay/dialogue.gd" id="11_sa2fp"]
@@ -138,9 +137,6 @@ script = ExtResource("5_c585b")
 autostart = true
 
 [node name="Options" parent="." instance=ExtResource("9_ytenj")]
-
-[node name="StringWrapper" parent="." instance=ExtResource("7_22f8j")]
-max_characters_per_line = 17
 
 [node name="Input" parent="." instance=ExtResource("11_e21g8")]
 register_pressed = Array[int]([0, 1])

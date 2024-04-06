@@ -73,4 +73,10 @@ vec4 get_swapped_color(vec4 color, vec4 array[MAX_COLORS_COUNT], float transform
 	return color_array[index];
 }
 
+vec4 get_color_between(vec4 from, vec4 to, float modifier, bool affect_transparent) {
+	modifier = clamp(modifier, 0.0, 1.0);
+	vec4 transform = (to.rgba - from.rgba) * modifier;
+	return vec4((from.rgb + transform.rgb), from.a + (transform.a * float(affect_transparent)));
+}
+
 #endif // UTILS

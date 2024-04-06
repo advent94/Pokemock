@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/components/gui/character_naming.gd" id="1_2frcb"]
 [ext_resource type="PackedScene" uid="uid://dxsbu2qjav1ni" path="res://scenes/components/gui/naming_box.tscn" id="1_or81y"]
 [ext_resource type="PackedScene" uid="uid://b2acp3txopnbf" path="res://scenes/components/gui/naming_field.tscn" id="2_ckljr"]
-[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="3_sa5nj"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://resources/default_theme.tres" id="3_sa5nj"]
 
 [node name="CharacterNaming" type="Control"]
 layout_mode = 3

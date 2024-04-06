@@ -1,6 +1,6 @@
-extends Node
+class_name Graphics
 
-func get_pixel_array(img: Image) -> Array[Color]:
+static func get_pixel_array(img: Image) -> Array[Color]:
 	var pixels: Array[Color] = []
 	var x: int = 0
 	var y: int = 0
@@ -14,7 +14,7 @@ func get_pixel_array(img: Image) -> Array[Color]:
 
 const OPAQUE: float = 1.0
 
-func get_unique_colors(color_array: Array[Color], remove_transparent: bool = true) -> Array[Color]:
+static func get_unique_colors(color_array: Array[Color], remove_transparent: bool = true) -> Array[Color]:
 	var unique_colors: Array[Color] = []
 	for color in color_array:
 		if remove_transparent && not is_equal_approx(color.a, OPAQUE):
@@ -25,29 +25,29 @@ func get_unique_colors(color_array: Array[Color], remove_transparent: bool = tru
 
 enum Sort { ASCENDING, DESCENDING }
 
-var COLOR_SORT_INDEX: Dictionary = {
-	Sort.ASCENDING: _sort_ascending_by_luminance,
-	Sort.DESCENDING: _sort_descending_by_luminance
+const COLOR_SORT_INDEX: Dictionary = {
+	Sort.ASCENDING: "_sort_ascending_by_luminance",
+	Sort.DESCENDING: "_sort_descending_by_luminance"
 }
 
-func _sort_ascending_by_luminance(a: Color, b: Color):
+static func _sort_ascending_by_luminance(a: Color, b: Color):
 	if a.get_luminance() < b.get_luminance():
 		return true
 	return false
 
-func _sort_descending_by_luminance(a: Color, b: Color):
+static func _sort_descending_by_luminance(a: Color, b: Color):
 	if a.get_luminance() > b.get_luminance():
 		return true
 	return false
 
-func sort_colors(color_array: Array[Color], sort: Sort) -> Array[Color]:
-	color_array.sort_custom(COLOR_SORT_INDEX[sort])
+static func sort_colors(color_array: Array[Color], sort: Sort) -> Array[Color]:
+	color_array.sort_custom(Callable(Graphics, COLOR_SORT_INDEX[sort]))
 	return color_array
 
 const MAX_LUMINANCE: float = 1.0
 
 ## Finds corresponding color to it's own luminance
-func get_color_by_luminance(color: Color, colors_sorted_by_luminance: Array[Color], sort: Sort = Sort.ASCENDING) -> Color:
+static func get_color_by_luminance(color: Color, colors_sorted_by_luminance: Array[Color], sort: Sort = Sort.ASCENDING) -> Color:
 	if colors_sorted_by_luminance.is_empty():
 		return color
 	var mod: float = color.get_luminance()
@@ -58,7 +58,7 @@ func get_color_by_luminance(color: Color, colors_sorted_by_luminance: Array[Colo
 
 ## Limits color count based on existing array of colors and number you want to limit it by
 ## Color limit consists of the brightest color, darkest and [count - 2] colors between
-func get_limited_color_array(color_array: Array[Color], count: int) -> Array[Color]:
+static func get_limited_color_array(color_array: Array[Color], count: int) -> Array[Color]:
 	assert(count >= 1, "Color count can't be zero or negative.")
 	
 	if count >= color_array.size():

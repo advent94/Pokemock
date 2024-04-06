@@ -1,4 +1,4 @@
-extends Node
+class_name FilePaths
 
 enum Pokemon { 
 	BULBASAUR = 1, CHARMANDER = 4, SQUIRTLE = 7,  RAICHU = 26, VULPIX = 37, GLOOM = 44, MANKEY = 56, POLIWAG = 60, 
@@ -14,6 +14,9 @@ const POKEMON_TO_NUM: Dictionary = {
 }
 
 const ASSETS = "res://assets/"
+const SHADERS = "res://shaders/"
+const UBER_SHADERS = SHADERS + "uber_shaders/"
+const SHADER_MATERIALS = SHADERS + "materials/"
 const TEXTURES = ASSETS + "textures/"
 const SOUNDS = ASSETS + "sounds/"
 const SCENES = "res://scenes/"
@@ -32,9 +35,14 @@ const TEXTURE_FILE_EXT = ".png"
 const BGM_EXT = ".mp3"
 const SFX_FILE_EXT = ".wav" 
 const SCENE_FILE_EXT = ".tscn"
+const SHADER_EXT = ".gdshader"
+const RESOURCE_EXT = ".tres"
 
 # Config
 const CONFIG_FILE_PATH = USER + "config"
+
+# Shader materials
+const SPRITE_SHADER_MATERIAL = SHADER_MATERIALS + "sprite" + RESOURCE_EXT
 
 ############################################ Stages ################################################
 

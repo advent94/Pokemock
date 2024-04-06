@@ -1,5 +1,7 @@
 extends Node
 
+# TODO: Make it a class, make it generic
+
 enum Scene { INTRO, MENU }
 const SCENE_INDEX : Dictionary = {
 	Scene.INTRO: preload(FilePaths.INTRO_STAGE),

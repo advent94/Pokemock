@@ -20,7 +20,7 @@ const TIME_BETWEEN_CREATING_NEW_ROW: float = 0.5
 
 func _ready():
 	create_effect()
-
+	
 ## Creates falling stars effect for GameFreak logo intro
 func create_effect():
 	_validate_pair_pos_array_size()
@@ -68,12 +68,12 @@ func _create_pair(current_pair_pos:Array[Vector2]):
 	_create_star(current_pair_pos[_FIRST_STAR_INDEX], _FIRST_STAR_COLOR, BLINKING)
 	_create_star(current_pair_pos[_SECOND_STAR_INDEX], _SECOND_STAR_COLOR, not BLINKING)
 
-var _star_node : PackedScene = load(FilePaths.TINY_STAR_COMPONENT_SCENE)	
+var _star_node : PackedScene = preload(FilePaths.TINY_STAR_COMPONENT_SCENE)	
 
 func _create_star(pos: Vector2, _color: Color, blinking: bool):
 	var star = _star_node.instantiate()
 	_set_new_star_parameters(star, pos, _color, blinking)
-	get_parent().add_child(star)
+	get_parent().add_child.call_deferred(star)
 	star.show()
 	
 func _set_new_star_parameters(scene: Sprite2D, pos: Vector2, _color: Color, blinking: bool):

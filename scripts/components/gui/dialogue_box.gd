@@ -11,6 +11,7 @@ const SFX_PRESS_BUTTON = preload(FilePaths.PRESS_AB_SFX)
 const LINE_HEIGTH: int = 8
 const LINE_SCROLL_OFFSET: Vector2 = Vector2(0, -(LINE_HEIGTH * 2))
 const MAX_LINES_IN_DIALOGUE_BOX: int = 2
+const MAX_CHARACTERS_PER_LINE: int = 16
 
 const TEXT_SPEED_INDEX: Dictionary = {
 	Options.TextSpeed.SLOW: 0.1,
@@ -22,13 +23,16 @@ const TEXT_SPEED_INDEX: Dictionary = {
 @onready var movement: Node2D = $Boundaries/Dialogue/Movement
 @onready var cursor: Label = $Boundaries/Cursor
 @onready var char_render_timer: Timer = $Boundaries/Dialogue/CharacterRenderTimer
+var wrapper: StringWrapper = StringWrapper.new(MAX_CHARACTERS_PER_LINE)
 
 var current_line = 0
 var text_speed: int
 
+# TODO: FLAGS!
 var _is_reading: bool = false
 var _is_finished: bool = false
 var _is_skipping: bool = false
+
 var _characters_to_read: int = 0
 
 func _ready():
@@ -41,7 +45,7 @@ func _ready():
 func load_dialogue(string: String):
 	_is_finished = false
 	dialogue.visible_characters = 0
-	dialogue.text = $StringWrapper.wrap_string(string)
+	dialogue.text = wrapper.wrap_string(string)
 	if current_line > 0:
 		dialogue.position -= LINE_SCROLL_OFFSET * abs((current_line - MAX_LINES_IN_DIALOGUE_BOX))
 	load_line(MAX_LINES_IN_DIALOGUE_BOX)

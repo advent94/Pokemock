@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b37qp4rwnbfyh"]
 
 [ext_resource type="PackedScene" uid="uid://gfj7ac0p3ue4" path="res://scenes/components/gui/vertical_option_list.tscn" id="1_bqxd3"]
-[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="2_dl5k3"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://resources/default_theme.tres" id="2_dl5k3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hwfhp"]
 

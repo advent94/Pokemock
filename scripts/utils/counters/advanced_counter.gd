@@ -1,22 +1,21 @@
 class_name AdvancedCounter
-## Counter that can be customized. It supports starting value,  two limits, decrementing,
+## Counter that can be customized. It supports starting value, two limits, decrementing,
 ## adding and removing any value, repetitions, negative values, reverse counting and restart on limit.
 ## It can also be set to fast or strict (default) modes.
 ##
 ## Constructor:
 ## [codeblock]AdvancedCounter.new(
-##	 limit = Constants.MAX_INT,
-##	 starting_value = 0,
-##	 r_limit = starting_value,
-##	 reps = 0,
-##	 increment_value = 1,
-##	 flags = default)[/codeblock]
+##    limit = Constants.MAX_INT,
+##    starting_value = 0,
+##    r_limit = starting_value,
+##    reps = 0,
+##    increment_value = 1,
+##    flags = default)[/codeblock]
 ## Flags: [AdvancedCounter.Flags]
 
 extends Counter
 
 signal changed(val: int)
-signal restarted
 signal decremented
 signal repetition_finished
 signal reverse_limit_reached
@@ -66,6 +65,8 @@ class Flags:
 			val |= FlagsT.FAST
 			val &= ~FlagsT.STRICT
 
+#TODO: Flagi, int czy klasa, jedno zastosowanie lol
+
 func _init(limit: int = Constants.MAX_INT, starting_value: int = 0, r_limit: int = starting_value, reps: int = 0, increment_value: int = INCREMENT_VALUE, flags: Flags = Flags.new()):
 	assert(limit != starting_value, "Invalid parameters, limit shouldn't be equal to starting value.")
 	
@@ -86,7 +87,7 @@ func _init(limit: int = Constants.MAX_INT, starting_value: int = 0, r_limit: int
 		finished.connect(restart)
 
 ## Reverse limit setter. Returns true if setting succeeded, false if value was invalid. Throws
-## assertion in strict moden.
+## assertion in strict mode.
 func set_r_limit(r_limit: int) -> bool:
 	if _is_r_limit_valid(r_limit):
 		_r_limit = r_limit
@@ -139,9 +140,13 @@ func set_increment_value(increment_value: int):
 		increment_value = -increment_value
 	_increment_value = increment_value
 
-## Check if REVERSE flag is set.
+## Checks if counter is reversed (incrementing value will decrement it etc.).
 func is_reverse() -> bool:
 	return _flags & FlagsT.REVERSE
+
+# TODO/NOTE/CAUTION: Consider implementing proper division between assertions and warnings.
+# Should invalid limit throw assertion or warning, when and why? This is something that should
+# be defined and standarized.
 
 func _handle_overflow(modifier: int):
 	ErrorHandler.throw_default_assertion("Counter went through overflow limit (Cnt:%d, Val:%d)" % [_current_value, modifier])
@@ -154,7 +159,7 @@ func _limited_modifier(modifier: int) -> int:
 	return modifier
 
 ## If it's higher than 0, internal counter is being started that will increment each time main
-## counter reaches limit. Value then is restarted, signal about repetition being finished is emited
+## counter reaches limit. Value then is reset to number, signal about repetition being finished is emited
 ## and internal counter gets incremented. After internal counter reaches it's limit, it calls to
 ## main counter to finish.
 func set_repetitions(reps: int):
@@ -179,7 +184,7 @@ func restarts_on_limit() -> bool:
 func restart():
 	_current_value = _starting_value
 	set_repetitions(_total_repetitions)
-	is_finished = false
+	_is_finished = false
 
 ## Adds preconfigured modifier (by default, 1) to current value. Emits incremented signal.
 ## When used with FAST flag, it doesn't check limits.
@@ -194,7 +199,7 @@ func is_fast() -> bool:
 	return _flags & FlagsT.FAST
 
 func _increment(increment_value: int):
-	if not is_finished:
+	if not _is_finished:
 		_current_value += increment_value
 		incremented.emit()
 		_check_if_limit_was_reached()
@@ -225,7 +230,7 @@ func decrement():
 	_decrement(decrement_value)
 
 func _decrement(decrement_value: int):
-	if not is_finished:
+	if not _is_finished:
 		_current_value += decrement_value
 		decremented.emit()
 		_check_if_limit_was_reached()
@@ -239,7 +244,7 @@ func add(modifier: int):
 	_add(modifier)
 
 func _add(modifier: int):
-	if not is_finished:
+	if not _is_finished:
 		_current_value += modifier
 		changed.emit(modifier)
 		_check_if_limit_was_reached()
@@ -248,7 +253,7 @@ func _add(modifier: int):
 func subtract(modifier: int = 1):
 	add(-modifier)
 
-## Check if NEGATIVE flag was set. Set up automatically when limit, starting_value or r_limit
+## Check if NEGATIVE flag was set. Set automatically when limit, starting_value or r_limit
 ## are negative.
 func can_be_negative() -> bool:
 	return _flags & FlagsT.NEGATIVE
@@ -277,7 +282,7 @@ func get_repetitions_left() -> int:
 	return _total_repetitions
 
 ## Getter for reverse limit
-func get_r_limit() -> int:
+func get_reverse_limit() -> int:
 	return _r_limit
 
 ## Getter to check current increment value

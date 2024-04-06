@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2acp3txopnbf"]
 
-[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="1_ay6sl"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://resources/default_theme.tres" id="1_ay6sl"]
 [ext_resource type="Script" path="res://scripts/components/gui/naming_field.gd" id="2_8pmvo"]
 
 [node name="NamingField" type="Control"]

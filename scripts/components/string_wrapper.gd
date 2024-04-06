@@ -2,7 +2,7 @@ class_name StringWrapper
 
 var max_characters_per_line: int
 
-func _init(max_chars_per_line: int = 16):
+func _init(max_chars_per_line: int):
 	max_characters_per_line = max_chars_per_line
 	
 func wrap_string(string: String) -> String:

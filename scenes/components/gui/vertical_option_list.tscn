@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://gfj7ac0p3ue4"]
 
-[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://themes/default_theme.tres" id="1_w8k1j"]
-[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://themes/pokepanel.tres" id="2_8ykbj"]
+[ext_resource type="Theme" uid="uid://w6rxo3pcpy3t" path="res://resources/default_theme.tres" id="1_w8k1j"]
+[ext_resource type="StyleBox" uid="uid://dd8ms62mx5lni" path="res://resources/pokepanel.tres" id="2_8ykbj"]
 [ext_resource type="Script" path="res://scripts/components/gui/vertical_option_list.gd" id="3_4x16t"]
 [ext_resource type="Script" path="res://scripts/components/input/relay/vertical_option.gd" id="6_g3mr3"]
 [ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="6_pisvk"]
