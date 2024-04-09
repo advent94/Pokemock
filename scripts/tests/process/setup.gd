@@ -73,7 +73,7 @@ func should_connect_update_to_signal_on_setup_with_signal_update():
 	EXPECT_TRUE(process.update.get_value().is_connected(process._signal_update))
 
 
-func should_throw_warn_when_trying_to_setup_during_runtime():
+func should_throw_warning_when_trying_to_setup_during_runtime():
 	var process: Process = get_base_process()
 		
 	process.setup(valid_callable)
@@ -83,6 +83,8 @@ func should_throw_warn_when_trying_to_setup_during_runtime():
 	EXPECT_TRUE(process.is_active())
 	
 	process.setup(valid_callable)
+	
+	EXPECT_WARNING()
 
 
 func should_fail_to_setup_with_invalid_init_method():
@@ -103,6 +105,7 @@ func should_fail_to_setup_with_invalid_update():
 	process.setup(valid_callable, invalid_update)
 	
 	EXPECT_FALSE(process.is_valid())
+	EXPECT_ERROR("Invalid update data")
 
 
 func should_fail_to_setup_with_single_interval_and_modifier_update():
@@ -115,6 +118,7 @@ func should_fail_to_setup_with_single_interval_and_modifier_update():
 	process.setup(valid_callable, update)
 	
 	EXPECT_FALSE(process.is_valid())
+	EXPECT_ERROR("Invalid update data")
 
 
 func should_still_be_invalid_after_using_setters_with_valid_arguments():

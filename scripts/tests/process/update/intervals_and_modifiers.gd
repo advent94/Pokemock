@@ -32,6 +32,7 @@ func should_be_invalid_for_different_size_modifier_and_interval_array():
 	EXPECT_EQ(update.get_type(), Update.Type.INVALID)
 	EXPECT_EQ(implicit_update.get_value(), null)
 	EXPECT_EQ(implicit_update.get_type(), Update.Type.INVALID)
+	EXPECT_ERROR("Size of modifiers array")
 
 
 func should_save_corrected_interval_array_with_modifiers_without_changing_original():

@@ -98,7 +98,7 @@ func _init(variant: Variant, should_copy: bool = false):
 		_type = _identify_type(variant)
 		match(_type):
 			Type.INVALID:
-				push_error("Invalid variant(%s).\nAccepted variants are: %s" % [type_string(typeof(variant)), str(VALID_CONTENT)])
+				Log.error("Invalid variant(%s).\nAccepted variants are: %s" % [type_string(typeof(variant)), str(VALID_CONTENT)])
 			Type.INTERVALS:
 				_initialize_intervals(variant, should_copy)
 			Type.INTERVAL_WITH_MODIFIER:
@@ -167,7 +167,7 @@ func _has_intervals(variant: Variant) -> bool:
 #region Initialization
 func _initialize_intervals(variant: Variant, should_copy):
 	if variant.is_empty():
-		push_error("Interval array is empty, update is invalid!")
+		Log.error("Interval array is empty, update is invalid!")
 		_type = Type.INVALID
 	else:
 		var intervals: Array = _valid_interval_array(variant, should_copy)
@@ -214,7 +214,7 @@ func _get_validated_interval_array(interval_array: Variant, should_copy: bool) -
 			invalid_intervals.push_back(i)
 	
 	if warn:
-		push_warning("Interval array(%s) contains invalid values in indexes: (%s)!\nSetting them to minimal value(%f)" % 
+		Log.warning("Interval array(%s) contains invalid values in indexes: (%s)!\nSetting them to minimal value(%f)" % 
 				[str(interval_array), str(invalid_intervals), MIN_TIME_BETWEEN_UPDATES])
 	
 	return fixed_intervals
@@ -229,7 +229,7 @@ func _initialize_single_interval_with_modifier(variant: Variant):
 	var modifier: Modifier = variant[_MODIFIERS_ARRAY_INDEX]
 	
 	if not _is_interval_valid(interval):
-		push_warning("Update interval(%f) is invalid. Setting minimal value(%f)." % [interval, MIN_TIME_BETWEEN_UPDATES])
+		Log.warning("Update interval(%f) is invalid. Setting minimal value(%f)." % [interval, MIN_TIME_BETWEEN_UPDATES])
 		interval = MIN_TIME_BETWEEN_UPDATES
 	
 	_value = { INTERVAL_KEY: interval, MODIFIER_KEY: modifier } 
@@ -237,7 +237,7 @@ func _initialize_single_interval_with_modifier(variant: Variant):
 
 func _initialize_intervals_with_modifiers(variant: Variant, should_copy: bool):
 	if variant[_MODIFIERS_ARRAY_INDEX].size() != variant[_INTERVALS_ARRAY_INDEX].size():
-		push_error("Size of modifiers array(%d) is different than size of intervals array(%d)!" % 
+		Log.error("Size of modifiers array(%d) is different than size of intervals array(%d)!" % 
 				[variant[_MODIFIERS_ARRAY_INDEX].size(), variant[_INTERVALS_ARRAY_INDEX].size()])
 		_type = Type.INVALID
 	else:
@@ -256,7 +256,7 @@ func _initialize_intervals_with_modifiers(variant: Variant, should_copy: bool):
 
 func _initialize_interval_with_step_count(variant: Variant):
 	if variant[_DURATION_INDEX] < MIN_TIME_BETWEEN_UPDATES:
-		push_error("Duration(%f) is shorter than one possible interval(%f)." % 
+		Log.error("Duration(%f) is shorter than one possible interval(%f)." % 
 				[variant[_DURATION_INDEX], MIN_TIME_BETWEEN_UPDATES])
 		_type = Type.INVALID
 	else:
@@ -270,13 +270,13 @@ func _interval_with_step_count(variant: Variant) -> Dictionary:
 	match typeof(variant[_DESCRIPTOR_INDEX]):
 		Variant.Type.TYPE_INT:
 			if steps <= 0:
-				push_warning("Update step count(%d) is less than 0. Setting minimal value(%d)." % [steps, MIN_UPDATE_STEPS])
+				Log.warning("Update step count(%d) is less than 0. Setting minimal value(%d)." % [steps, MIN_UPDATE_STEPS])
 				steps = MIN_UPDATE_STEPS
 			
 			interval = variant[_DURATION_INDEX] / float(steps)
 		Variant.Type.TYPE_FLOAT:
 			if not _is_interval_valid(interval):
-				push_warning("Update interval(%f) is invalid. Setting minimal value(%d)." % 
+				Log.warning("Update interval(%f) is invalid. Setting minimal value(%d)." % 
 						[interval, MIN_TIME_BETWEEN_UPDATES])
 				interval = MIN_TIME_BETWEEN_UPDATES
 			
@@ -287,7 +287,7 @@ func _interval_with_step_count(variant: Variant) -> Dictionary:
 
 func _initialize_callable(callable: Callable):
 	if not callable.is_valid():
-		push_error("Invalid callable!")
+		Log.error("Invalid callable!")
 		_type = Type.INVALID
 	else:
 		_value = callable

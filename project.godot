@@ -26,6 +26,7 @@ Audio="*res://scripts/utils/global/audio.gd"
 VisualEffects="*res://scripts/utils/global/visual_effects.gd"
 Counters="*res://scripts/utils/global/counters.gd"
 Timers="*res://scripts/utils/global/timers.gd"
+Log="*res://scripts/utils/global/log.gd"
 
 [display]
 

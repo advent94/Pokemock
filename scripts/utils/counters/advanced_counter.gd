@@ -93,7 +93,7 @@ func set_r_limit(r_limit: int) -> bool:
 		_r_limit = r_limit
 		return true
 	if is_strict():
-		ErrorHandler.throw_default_assertion("Invalid limit(%d)/r_limit(%d) values for starting value(%d)." % [_limit, r_limit, _starting_value])
+		Log.error("Invalid limit(%d)/r_limit(%d) values for starting value(%d)." % [_limit, r_limit, _starting_value])
 	return false
 
 func _is_r_limit_valid(r_limit: int) -> bool:
@@ -105,7 +105,7 @@ func is_strict() -> bool:
 
 ## Reverse limit "removal". It sets reverse limit to max/lowest possible value, depending on limit.
 func remove_r_limit():
-	push_warning("Invalid limit(%d)/r_limit(%d) values for starting value(%d). Removing reverse limit." % [_limit, _r_limit, _starting_value])
+	Log.warning("Invalid limit(%d)/r_limit(%d) values for starting value(%d). Removing reverse limit." % [_limit, _r_limit, _starting_value])
 	if _limit > _current_value:
 		_r_limit = Constants.MIN_INT
 	else:
@@ -146,10 +146,9 @@ func is_reverse() -> bool:
 
 # TODO/NOTE/CAUTION: Consider implementing proper division between assertions and warnings.
 # Should invalid limit throw assertion or warning, when and why? This is something that should
-# be defined and standarized.
-
-func _handle_overflow(modifier: int):
-	ErrorHandler.throw_default_assertion("Counter went through overflow limit (Cnt:%d, Val:%d)" % [_current_value, modifier])
+# be defined and standarized. 
+#
+# No. It should clamp and mention in warning that value over limit was tried to be pushed
 
 func _limited_modifier(modifier: int) -> int:
 	if _r_limit <= _current_value && _r_limit < _limit:

@@ -81,6 +81,7 @@ func should_fail_to_stop():
 	EXPECT_FALSE(CALLED(START))
 	EXPECT_FALSE(CALLED(RESTART))
 	EXPECT_FALSE(CALLED(CALL_BETWEEN))
+	EXPECT_ERROR("Stop failed")
 
 
 func should_restart_and_use_new_initialization():

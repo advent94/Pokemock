@@ -1,6 +1,8 @@
 class_name Functions
 
-#TODO: Write documentation if necessary and definitely write tests
+# TODO: Write documentation if necessary and definitely write tests
+# TODO/NOTE: It's interesting idea to create subclasses to differentiate which function is related
+# to which object type ex. Functions.String.is_char() etc.
 
 const FAIL: int = -1
 
@@ -105,13 +107,13 @@ static func disconnect_all(sig: Signal):
 		
 static func enum_to_str(enum_value: int, enums: Dictionary) -> String:
 	if not enums.values().has(enum_value):
-		push_warning("Dictionary (%s) has no key_id = %s" % [str(enums), str(enum_value)])
+		Log.warning("Dictionary (%s) has no key_id = %s" % [str(enums), str(enum_value)])
 		return Constants.INVALID_ENUM
 	
 	var value = enums.keys()[enum_value]
 	
 	if not value is String:
-		push_warning("Value(%s) in dictionary(%s) for key %s is not String" % [str(value), str(enums), str(enum_value)])
+		Log.warning("Value(%s) in dictionary(%s) for key %s is not String" % [str(value), str(enums), str(enum_value)])
 		return Constants.INVALID_ENUM
 	
 	return str(value)
@@ -125,7 +127,7 @@ static func is_implicitly_typed_array(array: Variant, type: Variant.Type, obj_ty
 		Variant.Type.TYPE_OBJECT:
 			return _is_implicitly_typed_object_array(array, obj_type)
 		_:
-			push_warning("Not implemented!")
+			Log.warning("Not implemented!")
 			return false
 
 static func _is_implicitly_typed_object_array(array: Array, obj_type: String) -> bool:
@@ -133,5 +135,18 @@ static func _is_implicitly_typed_object_array(array: Array, obj_type: String) ->
 		"Modifier":
 			return array.all(func(variant) -> bool: return (variant is Modifier))
 		_:
-			push_warning("Not implemented!")
+			Log.warning("Not implemented!")
 			return false
+
+static func any_contains(array: Array[String], string: String, strict: bool = true) -> bool:
+	if strict:
+		for element in array:
+			if element.contains(string):
+				return true
+	
+	else:
+		for element in array:
+			if element.to_lower().contains(string.to_lower()):
+				return true
+	
+	return false

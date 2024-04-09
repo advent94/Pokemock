@@ -13,6 +13,7 @@ func should_throw_warning_and_correct_invalid_tick_value():
 	var limiter: Limiter = Limiter.new(INVALID_TICK_VALUE)
 	
 	EXPECT_EQ(limiter.get_limit(), Limiter.MIN_TICKS)
+	EXPECT_WARNING()
 
 
 func should_increment_counter():

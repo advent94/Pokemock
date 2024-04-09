@@ -11,6 +11,7 @@ func should_throw_error_and_die_when_signal_update_called():
 	EXPECT_EQ(process.get_update(), Update.Type.SIGNAL)
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(CALLED(UPDATE))
+	EXPECT_ERROR("Tried to update invalid process")
 
 
 func should_fail_with_null_modifier():
@@ -23,6 +24,7 @@ func should_fail_with_null_modifier():
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Null modifier")
 
 
 func should_fail_with_invalid_modifier_type():
@@ -35,6 +37,7 @@ func should_fail_with_invalid_modifier_type():
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Invalid modifier type")
 
 
 func should_die_with_no_overloaded_inner_update():
@@ -47,6 +50,7 @@ func should_die_with_no_overloaded_inner_update():
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Invalid update called")
 
 
 func should_succeed_and_call_inner_update():
@@ -71,3 +75,4 @@ func should_die_after_inner_update_fails():
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Update failed")

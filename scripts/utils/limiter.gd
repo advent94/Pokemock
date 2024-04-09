@@ -34,14 +34,14 @@ const MIN_TIMEOUT: float = Constants.MIN_TIME_BETWEEN_UPDATES
 var _value: Variant
 
 #region Initialization
-func _init(limit: Variant = MIN_TICKS, owner: Node = Timers):
+func _init(limit: Variant = MIN_TICKS, owner: Node = null):
 	set_limit(limit, owner)
 
 ## Sets new limit.[br]
 ## [code]CAUTION:[/code] Beware of setting new limit before clearing up existing [Timer].
-func set_limit(limit: Variant, owner: Node = Timers):
+func set_limit(limit: Variant, owner: Node = null):
 	if _value != null && _value is Timer:
-		push_warning("Reusing Timer based limiter. Make sure that existing Timer is properly removed.")
+		Log.warning("Reusing Timer based limiter. Make sure that existing Timer is properly removed.")
 	
 	limit = _validate(limit)
 	
@@ -49,17 +49,17 @@ func set_limit(limit: Variant, owner: Node = Timers):
 		_value = Counter.new(limit)
 		return
 	
-	if limit is float:
-		if owner == null:
-			push_warning("Null owner for Timer based Limiter. Changing to default(Global Timers)")
-			owner = Timers
+	if _should_use_global_timers(limit, owner):
+		Log.warning("Null owner for Timer based Limiter. Changing to default(Global Timers)")
+		owner = Timers
 		
+	if limit is float:
 		_value = _create_new_timer(limit, owner)
 		return
 	
 	if limit is Timer:
 		if limit.get_parent() == null:
-			push_warning("Timer with null parent as limit. Adding child to specified owner.")
+			Log.warning("Timer with null parent as limit. Adding child to specified owner.")
 			owner.add_child(limit)
 	
 	_value = limit
@@ -71,25 +71,27 @@ func _validate(limit: Variant) -> Variant:
 	]
 
 	if limit == null:
-		push_error("Limit is null! Limiter is invalid.")
+		Log.error("Limit is null! Limiter is invalid.")
 	
 	elif limit is int:
 		if limit < MIN_TICKS:
-			push_warning("Number of ticks(%d) is lower than minimal allowed number of ticks(%d). Changed to %d." % 
+			Log.warning("Number of ticks(%d) is lower than minimal allowed number of ticks(%d). Changed to %d." % 
 					[limit, MIN_TICKS, MIN_TICKS])
 			limit = MIN_TICKS
 		
 	elif limit is float:
 		if limit < MIN_TIMEOUT:
-			push_warning("Timeout(%f) is lower than minimal allowed value(%f). Changed to %f." % [limit, MIN_TIMEOUT, MIN_TIMEOUT])
+			Log.warning("Timeout(%f) is lower than minimal allowed value(%f). Changed to %f." % [limit, MIN_TIMEOUT, MIN_TIMEOUT])
 			limit = MIN_TIMEOUT
 	
 	elif not (limit is Counter) && not (limit is Timer) && not (limit is Signal):
-		push_error("Invalid limit(%s). Allowed limit variants are: %s" % [str(limit), str(ALLOWED_LIMIT_VARIANTS)])
+		Log.error("Invalid limit(%s). Allowed limit variants are: %s" % [str(limit), str(ALLOWED_LIMIT_VARIANTS)])
 		limit = null
 	
 	return limit
 
+func _should_use_global_timers(limit: Variant, owner : Node) -> bool:
+	return ((limit is float) || (limit is Timer && limit.get_parent() == null)) && owner == null
 
 func _create_new_timer(limit: float, owner: Node) -> Timer:
 	var timer: Timer = AdvancedTimer.new(limit)
@@ -232,16 +234,13 @@ func is_paused() -> bool:
 
 ## Returns type of used limiter.
 func get_type() -> Type:
-	if _value == null:
-		return Type.INVALID
-	elif _value is Timer:
+	if _value is Timer:
 		return Type.TIMER
 	elif _value is Counter:
 		return Type.COUNTER
 	elif _value is Signal:
 		return Type.SIGNAL
 	
-	push_error("Shouldn't happen.")
 	return Type.INVALID
 
 

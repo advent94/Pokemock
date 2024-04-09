@@ -132,3 +132,4 @@ func should_kill_after_failing_inner_pause_function():
 	EXPECT_TRUE(CALLED(INNER_PAUSE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Pause failed")

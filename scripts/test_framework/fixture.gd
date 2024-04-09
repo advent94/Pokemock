@@ -13,6 +13,7 @@ const TEST_PREFIX: String = "should"
 
 ## Main usable function to run all tests contained by test structure.
 func run_tests():
+	Log.set_mode(Log.Mode.TESTABILITY)
 	run_test_fixture()
 
 ## Runs tests but only for specified test fixture
@@ -52,7 +53,7 @@ func run_test_case(test_case: Node, source: String):
 		for child in children:
 			run_test_case(child, source)
 
-func run_test(test_case: Node, test_method: String, source: String):
+func run_test(test_case: Test, test_method: String, source: String):
 	print("%s.%s()" % [source, test_method])
 	await test_case.call(test_method)
 	test_case.teardown()

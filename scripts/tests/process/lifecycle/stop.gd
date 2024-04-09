@@ -128,8 +128,10 @@ func should_terminate_after_failing_inner_stop_function():
 	process.set_one_status_return(false)
 	process.stop()
 	
+	EXPECT_ERROR("Stop failed")
+	
 	await Functions.wait(Constants.MIN_TIME_BETWEEN_UPDATES)
 	
 	EXPECT_TRUE(CALLED(INNER_STOP))
 	EXPECT_TRUE(CALLED(TERMINATION))
-	EXPECT_TRUE(process == null)	
+	EXPECT_TRUE(process == null)

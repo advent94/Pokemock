@@ -7,6 +7,7 @@ func should_not_initialize_for_invalid_callable():
 	
 	EXPECT_EQ(update.get_type(), Update.Type.INVALID)
 	EXPECT_EQ(update.get_value(), null)
+	EXPECT_ERROR("Invalid callable")
 
 
 func should_initialize_valid_callable():

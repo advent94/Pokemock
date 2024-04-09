@@ -39,6 +39,7 @@ func should_force_min_possible_value_for_f_limit():
 	)
 	
 	EXPECT_EQ(counter.get_reverse_limit(), Constants.MIN_INT)
+	EXPECT_WARNING("Invalid limit")
 
 
 func should_force_max_possible_value_for_f_limit():
@@ -51,7 +52,8 @@ func should_force_max_possible_value_for_f_limit():
 		FLAGS_WITH_STRICT_UNSET
 	)
 	
-	EXPECT_EQ(counter.get_reverse_limit(), Constants.MAX_INT)	
+	EXPECT_EQ(counter.get_reverse_limit(), Constants.MAX_INT)
+	EXPECT_WARNING("Invalid limit")
 
 
 func should_force_negative_flag():

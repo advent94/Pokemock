@@ -41,6 +41,8 @@ func should_throw_error_and_terminate_freeing_resources_for_orphan_invalid_proce
 	process.started.connect(CALL_STATUS_UPDATE(START))
 	process.start()
 	
+	EXPECT_ERROR("Tried to start invalid process")
+	
 	await Functions.wait(TIME_FOR_CLEAN_UP)
 	
 	EXPECT_TRUE(CALLED(TERMINATION))
@@ -59,6 +61,8 @@ func should_throw_error_and_terminate_freeing_resources_when_started_without_kil
 	process.started.connect(CALL_STATUS_UPDATE(START))
 	process.start()
 	
+	EXPECT_ERROR("Tried to start invalid process")
+	
 	await Functions.wait(TIME_FOR_CLEAN_UP)
 	
 	EXPECT_TRUE(CALLED(TERMINATION))
@@ -76,6 +80,8 @@ func should_throw_error_and_die_without_freeing_resources_when_started():
 	process.tree_exiting.connect(CALL_STATUS_UPDATE(FREE_RESOURCES))
 	process.started.connect(CALL_STATUS_UPDATE(START))
 	process.start()
+	
+	EXPECT_ERROR("Tried to start invalid process")
 	
 	await Functions.wait(TIME_FOR_CLEAN_UP)
 	
@@ -127,6 +133,7 @@ func should_fail_initialization_and_die():
 	EXPECT_TRUE(CALLED(INITIALIZATION))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Initialization failed")
 
 
 func should_start_timer_limiter():

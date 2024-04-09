@@ -66,7 +66,7 @@ func should_execute_test_fixture():
 
 func should_execute_all_fixtures():
 	initialize()
-	var main_node: Node = NODE(get_grandparent_name() + "." + "ShouldExecutreAllFixtures")
+	var main_node: Node = NODE(get_grandparent_name() + "." + "ShouldExecuteAllFixtures")
 	var main_script: GDScript = get_test_script(ScriptType.TESTING)
 	main_node.set_script(main_script)
 	var first_test_fixture: Node = get_testable_fixture("FirstTest")

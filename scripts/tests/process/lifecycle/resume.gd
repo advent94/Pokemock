@@ -160,3 +160,4 @@ func should_die_after_failing_inner_resume_function():
 	EXPECT_TRUE(CALLED(INNER_RESUME))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Resume failed")

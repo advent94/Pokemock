@@ -81,8 +81,7 @@ func _get_entry_point_character(entry: EntryPoint) -> String:
 	
 func _get_position_for_char(character: String) -> Vector2i:
 	assert(Functions.is_char(character), "Only single character allowed (entered: %s)" % character)
-	assert(Functions.substr_found_in_string(character, ALLOWED_CHARACTERS), 
-			"This character is not allowed(ASCII: %d)" % Functions.char_to_ASCII(character))
+	assert(ALLOWED_CHARACTERS.contains(character), "This character is not allowed(ASCII: %d)" % Functions.char_to_ASCII(character))
 		
 	var ascii: int = Functions.char_to_ASCII(character)
 	var is_letter: bool = _is_letter(character)

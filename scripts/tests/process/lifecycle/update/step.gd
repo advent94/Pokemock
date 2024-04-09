@@ -16,6 +16,7 @@ func should_get_corrupted_interval_and_die():
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
+	EXPECT_ERROR("Corrupted structure")
 
 
 func should_schedule_first_update():
@@ -50,6 +51,7 @@ func should_die_after_schedule_due_to_update_corruption():
 	EXPECT_FALSE(process.is_active())
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
+	EXPECT_ERROR("Null update")
 
 
 func should_die_after_being_unable_to_find_modifier_in_update():
@@ -68,6 +70,7 @@ func should_die_after_being_unable_to_find_modifier_in_update():
 	EXPECT_FALSE(process.is_active())
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
+	EXPECT_ERROR("Corrupted modifier array")
 
 
 func should_update_with_specified_modifier():
@@ -99,7 +102,7 @@ func should_fail_to_update_with_default_modifiers_without_steps():
 	EXPECT_FALSE(process.is_active())
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
-
+	EXPECT_ERROR("Corrupted structure")
 
 func should_get_null_default_modifiers_and_die():
 	var update: Update = Update.new([VERY_LONG_TIME, SHORT_INTERVAL])
@@ -131,6 +134,7 @@ func should_get_invalid_default_modifiers_and_die():
 	EXPECT_FALSE(process.is_active())
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
+	EXPECT_ERROR("Invalid modifier type")
 
 
 func should_get_valid_default_modifiers_but_fail_update_and_die():
@@ -147,6 +151,7 @@ func should_get_valid_default_modifiers_but_fail_update_and_die():
 	EXPECT_FALSE(process.is_active())
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
+	EXPECT_ERROR()
 
 
 func should_get_valid_default_modifiers_and_update():

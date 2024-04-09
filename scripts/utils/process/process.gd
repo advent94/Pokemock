@@ -150,7 +150,7 @@ func setup(init_method: Callable, update_args: Variant = null, permanent: bool =
 		if update_args != null:
 			set_update(update_args)	
 	else:
-		push_warning("Tried to call \"setup(callable, update = %s, permanent = %s)\" during active %s." % [str(update_args), permanent, get_identity()])
+		Log.warning("Tried to call \"setup(callable, update = %s, permanent = %s)\" during active %s." % [str(update_args), permanent, get_identity()])
 
 ## Setter for initialization. If should_restart is set to true, it will stop process, set new initialization
 ## method and start process using new initialization.
@@ -189,7 +189,7 @@ func _handle_update_setup(args: Variant):
 
 
 func _handle_invalid_update():
-	push_error("Invalid update data. %s \"%s\" wasn't initialized properly." % [get_identity().to_pascal_case(), get_type_str()])
+	Log.error("Invalid update data. %s \"%s\" wasn't initialized properly." % [get_identity().to_pascal_case(), get_type_str()])
 	_flags &= ~Flags.VALID
 
 
@@ -235,7 +235,7 @@ func _should_terminate() -> bool:
 	return get_parent() == null || killed.get_connections().is_empty()
 
 func _handle_error(msg: String):
-	push_error(msg)
+	Log.error(msg)
 	return die()
 #endregion
 #region Start
@@ -377,7 +377,7 @@ func _execute_update(step: int = INITIALIZATION):
 		return _finish()
 		
 	if interval < Update.MIN_TIME_BETWEEN_UPDATES:
-		push_warning("Invalid interval(%f), changing to minimal value(%f)." % [interval, Update.MIN_TIME_BETWEEN_UPDATES])
+		Log.warning("Invalid interval(%f), changing to minimal value(%f)." % [interval, Update.MIN_TIME_BETWEEN_UPDATES])
 		interval = Update.MIN_TIME_BETWEEN_UPDATES
 	
 	_schedule_update(step + Constants.ONE_STEP, interval)
@@ -416,7 +416,7 @@ func _is_step_update_valid() -> bool:
 
 ## Should be overloaded
 func _update(_modifier: Modifier) -> bool:
-	push_error("Invalid call! Try overloading this method.\nInvalid update called. Killing %s \"%s\"." % [get_identity(), get_type_str()])
+	Log.error("Invalid call! Try overloading this method.\nInvalid update called. Killing %s \"%s\"." % [get_identity(), get_type_str()])
 	return false
 
 # NOTE: Timer is not removed here unless we call finish before
@@ -560,7 +560,7 @@ func stop():
 		
 		if stop_result != null && stop_result is bool && stop_result == false:
 			_flags &= ~Flags.VALID
-			push_error("Stop failed! Terminating %s \"%s\"." % [get_identity(), get_type_str()])
+			Log.error("Stop failed! Terminating %s \"%s\"." % [get_identity(), get_type_str()])
 			terminate()
 		else:
 			stopped.emit()

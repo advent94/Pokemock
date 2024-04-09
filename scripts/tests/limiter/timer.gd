@@ -16,6 +16,7 @@ func should_throw_warning_and_correct_invalid_time_value():
 	var limiter: Limiter = Limiter.new(INVALID_TIME_VALUE, node)
 	
 	EXPECT_EQ(limiter.get_limit(), Limiter.MIN_TIMEOUT)
+	EXPECT_WARNING("Timeout")
 
 
 func should_initialize_with_existing_timer():
@@ -31,6 +32,7 @@ func should_throw_warning_and_add_timer_to_global_owner_when_limit_is_orphan_tim
 	
 	EXPECT_EQ(timer, limiter._value)
 	EXPECT_EQ(Timers.get_child(Constants.FIRST_ELEMENT_IN_INDEX), limiter._value)
+	EXPECT_WARNING("Timer with null parent as limit")
 	
 	await _global_timer_owner_clear_up()
 
@@ -39,6 +41,7 @@ func should_warn_and_add_timer_to_global_owner_when_owner_is_null_for_float_limi
 	var limiter: Limiter = Limiter.new(VALID_TIME_LIMIT)
 	
 	EXPECT_EQ(Timers.get_child(Constants.FIRST_ELEMENT_IN_INDEX), limiter._value)
+	EXPECT_WARNING("Null owner")
 	
 	await _global_timer_owner_clear_up()
 
@@ -50,6 +53,8 @@ func should_warn_when_trying_to_set_new_limit_when_current_is_timer():
 	EXPECT_EQ(limiter.get_type(), Limiter.Type.TIMER)
 	
 	limiter.set_limit(VALID_TIME_LIMIT, node)
+	
+	EXPECT_WARNING("Existing Timer")
 
 
 func should_start_timer():

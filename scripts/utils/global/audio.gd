@@ -3,6 +3,8 @@ extends Node
 @onready var bgm: AudioStreamPlayer
 @onready var sfx_node
 
+# TODO: Fix this, ref is not necessary as argument, do callable for function call arg
+
 class SFX:
 	signal finished(ref)
 	var rsc: AudioStreamPlayer

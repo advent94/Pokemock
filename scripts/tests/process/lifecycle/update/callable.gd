@@ -38,6 +38,8 @@ func should_die_after_receiving_different_data_type():
 	process.setup(valid_callable, return_unsupported)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
+	
+	EXPECT_ERROR("Invalid update data")
 
 
 func should_die_after_receiving_unsupported_data():
@@ -60,6 +62,8 @@ func should_die_after_receiving_corrupted_data_without_modifier():
 	process.setup(valid_callable, return_data_without_modifier)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
+	
+	EXPECT_ERROR("Corrupted update")
 
 
 func should_die_after_receiving_corrupted_data_without_interval():
@@ -71,6 +75,8 @@ func should_die_after_receiving_corrupted_data_without_interval():
 	process.setup(valid_callable, return_data_without_interval)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
+	
+	EXPECT_ERROR("Corrupted update")
 
 
 func should_succeed_after_interval_correction():

@@ -2,6 +2,11 @@ extends TestUtils
 
 #TODO: Add missing documentation, fix formatting if needed
 
+#TODO: Some tests seem to struggle with coroutines as after method stops and other starts,
+# calls and logs are resetting (also nodes can be called to be freed). This could need an improvement.
+# Still, it works, there was no issue that couldn't be solved while keeping tests intact so far so
+# it's okay for now.
+
 ## Methods and helpers used within Test Framework
 class_name Test
 
@@ -11,6 +16,7 @@ var _callable: Callable
 func teardown():
 	RESET_ALL_CALLS()
 	FREE_CAPTURED_NODES()
+	CLEAR_ERRORS_AND_WARNINGS()
 
 func GET_NODE_CONTAINER(_name: String = TEMP_NODE_PARENT_NAME) -> Node:
 	if _node_container_index.keys().has(_name):
@@ -115,6 +121,10 @@ func CALLED(index: int = UNIQUE_CALL) -> bool:
 			return false
 		return _call_status_index[index]
 
+## Clears all warnings and errors when [Log] is set on testability mode.
+func CLEAR_ERRORS_AND_WARNINGS():
+	return Log.clear()
+
 ## Expects that both variables are equal, throws error otherwise.
 func EXPECT_EQ(var1, var2):
 	_EXPECT_EQ(var1, var2, Type.EQ)
@@ -136,11 +146,48 @@ func EXPECT_TRUE(condition: bool):
 ## Expects that condition is not fulfilled, throws error otherwise.
 func EXPECT_FALSE(condition: bool):
 	_EXPECT_BOOL(condition, false)
-	
+
+
 func _EXPECT_BOOL(condition: bool, expected: bool):
 	var status: bool = (condition == expected)
+	
 	if status == FAILED:
 		_bool_error(expected)
+
+
+func EXPECT_WARNING(warning : String = ""):
+	if warning.is_empty():
+		return EXPECT_ANY_WARNING()
+	
+	var status: bool = Log.has_warning(warning)
+	
+	if status == FAILED:
+		_log_error(Type.WARNING, warning)
+
+
+func EXPECT_ANY_WARNING():
+	var status: bool = not Log._warnings.is_empty()
+	
+	if status == FAILED:
+		_log_error(Type.WARNING)
+
+
+func EXPECT_ERROR(error : String = ""):
+	if error.is_empty():
+		return EXPECT_ANY_ERROR()
+	
+	var status: bool = Log.has_error(error)
+	
+	if status == FAILED:
+		_log_error(Type.ERROR, error)
+
+
+func EXPECT_ANY_ERROR():
+	var status: bool = not Log._errors.is_empty()
+	
+	if status == FAILED:
+		_log_error(Type.ERROR)
+
 
 ## Expects that both variable types are the same, throws error otherwise.
 func EXPECT_SAME_TYPE(var1, var2) -> bool:

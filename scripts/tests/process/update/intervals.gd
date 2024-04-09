@@ -5,6 +5,7 @@ func should_fail_to_initialize_for_empty_interval_array():
 	
 	EXPECT_EQ(update.get_value(), null)
 	EXPECT_EQ(update.get_type(), Update.Type.INVALID)
+	EXPECT_ERROR("Interval array is empty")
 
 
 func should_use_reference_to_existing_array():

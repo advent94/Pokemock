@@ -40,7 +40,8 @@ func should_fail_to_initialize_for_low_duration():
 	EXPECT_EQ(update_with_steps.get_value(), null)
 	EXPECT_EQ(update_with_steps.get_type(), Update.Type.INVALID)
 	EXPECT_EQ(update_with_interupt.get_value(), null)
-	EXPECT_EQ(update_with_interupt.get_type(), Update.Type.INVALID)		
+	EXPECT_EQ(update_with_interupt.get_type(), Update.Type.INVALID)
+	EXPECT_ERROR()
 
 
 func should_fail_to_interpret_float_array_as_update_with_interval_and_steps():

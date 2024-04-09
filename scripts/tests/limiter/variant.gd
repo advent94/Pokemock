@@ -5,6 +5,7 @@ func should_throw_error_and_be_invalid_for_null_limit():
 	
 	EXPECT_FALSE(limiter.is_valid())
 	EXPECT_EQ(limiter.get_type(), Limiter.Type.INVALID)
+	EXPECT_ERROR("Limit is null")
 
 
 func should_throw_error_and_be_invalid_for_unsupported_limit():
@@ -12,6 +13,7 @@ func should_throw_error_and_be_invalid_for_unsupported_limit():
 	
 	EXPECT_FALSE(limiter.is_valid())
 	EXPECT_EQ(limiter.get_type(), Limiter.Type.INVALID)
+	EXPECT_ERROR("Invalid limit")
 
 
 func should_not_call_registered_callable():
