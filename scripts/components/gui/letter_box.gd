@@ -194,7 +194,7 @@ func _get_char_from_cursor_pos() -> String:
 func _insert_current_character():
 	if string.length() < maximum_string_length:
 		_add_current_character_to_string()
-		Audio.play_sfx(SFX_PRESS_BUTTON)
+		Audio.SFX.play(SFX_PRESS_BUTTON)
 	if string.length() == maximum_string_length:
 		_set_cursor_on_end()
 

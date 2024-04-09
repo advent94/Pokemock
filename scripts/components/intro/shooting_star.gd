@@ -28,7 +28,7 @@ func _physics_process(_delta):
 	
 func _play_sound():
 	if _star_reached_screen_center():
-		Audio.play_sfx(SHOOTING_STAR_SFX)
+		Audio.SFX.play(SHOOTING_STAR_SFX)
 		_center_pos_reached = true
 
 func _star_reached_screen_center() -> bool:

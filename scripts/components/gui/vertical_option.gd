@@ -42,7 +42,7 @@ func _draw_indicator():
 	$Text.text[Constants.FIRST_ELEMENT_IN_INDEX] = Constants.SAVED_CURSOR	
 
 func _select():
-	await Audio.play_sfx(SFX_PRESSED_BUTTON).finished
+	await Audio.SFX.play(SFX_PRESSED_BUTTON).finished
 	selected.emit()	
 
 func _exit(direction: Direction):

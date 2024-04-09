@@ -90,5 +90,5 @@ func _start():
 	if selected: 
 		return
 	selected = true
-	await Audio.play_sfx(CRIES[current_pokemon]).finished
+	await Audio.SFX.play(CRIES[current_pokemon]).finished
 	started.emit()

@@ -61,7 +61,7 @@ func lunge():
 	move(LUNGE_SECOND_OFFSET, Constants.NOW)
 	await Functions.wait(TIME_BETWEEN_LUNGE_PHASES)
 	move(LUNGE_THIRD_OFFSET, Constants.NOW)
-	Audio.play_sfx(SFX_INDEX["LUNGE"])
+	Audio.SFX.play(SFX_INDEX["LUNGE"])
 
 func go_in_and_out(offset_x: int, time_in_sec: float, apex: int):
 	hip(offset_x, time_in_sec, apex)
@@ -75,4 +75,4 @@ func hop(offset_x: int, time_in_sec: float, apex: int):
 			
 func _sfx_jump(offset_x: int, time_in_sec: float, apex: int, sfx: String):
 	await jump(offset_x, apex, time_in_sec)
-	Audio.play_sfx(SFX_INDEX[sfx])
+	Audio.SFX.play(SFX_INDEX[sfx])

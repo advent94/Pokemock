@@ -10,7 +10,7 @@ const WIND_UP_TIME_IN_SECONDS: float = 0.3
 const SWING_TIME_IN_SECONDS: float = 0.5
 
 func prepare_for_attack():
-	Audio.play_sfx(SFX_INDEX["RAISE"])
+	Audio.SFX.play(SFX_INDEX["RAISE"])
 	change_frame(FrameType.ANTICIPATION)
 	move(WIND_UP_OFFSET, WIND_UP_TIME_IN_SECONDS)
 	await Functions.wait_if_blocked(self)
@@ -20,7 +20,7 @@ const DASH: Vector2 = Vector2(15, 0)
 const DASH_TIME_IN_SECONDS: float = 0.3
 	
 func attack():
-	Audio.play_sfx(SFX_INDEX["CRASH"])
+	Audio.SFX.play(SFX_INDEX["CRASH"])
 	change_frame(FrameType.ATTACK)
 	move(DASH, DASH_TIME_IN_SECONDS)
 

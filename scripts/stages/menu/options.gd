@@ -70,7 +70,7 @@ func _move(direction: Direction):
 	_activate(current_panel)
 
 func _return_pressed():
-	await Audio.play_sfx(SFX_BUTTON_PRESSED).finished
+	await Audio.SFX.play(SFX_BUTTON_PRESSED).finished
 	_return()
 
 func _return():

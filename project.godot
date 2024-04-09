@@ -28,6 +28,10 @@ Counters="*res://scripts/utils/global/counters.gd"
 Timers="*res://scripts/utils/global/timers.gd"
 Log="*res://scripts/utils/global/log.gd"
 
+[debug]
+
+gdscript/warnings/static_called_on_instance=0
+
 [display]
 
 window/size/viewport_width=160

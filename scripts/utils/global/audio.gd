@@ -1,85 +1,109 @@
 extends Node
 
-@onready var bgm: AudioStreamPlayer
-@onready var sfx_node
-
-# TODO: Fix this, ref is not necessary as argument, do callable for function call arg
-
+## Sound effects. Class to use shorter sound effects that can have multiple instances.
+## It doesn't have any specific functionality other than to play and be removed once it's finished.
 class SFX:
-	signal finished(ref)
-	var rsc: AudioStreamPlayer
+	signal finished()
+	
+	static var _array: Array[SFX] = []
+	static var _node: Node
+	
+	var _player: AudioStreamPlayer
 	
 	func _init(sfx: AudioStreamPlayer):
-		assert(sfx)
-		rsc = sfx
-		rsc.finished.connect(kill)
-		finished.connect(Audio.remove_sfx)
-	
-	func kill():
-		finished.emit(self)
+		_player = sfx
+		_player.finished.connect(die)
+		finished.connect(func(): remove(self))
+		
+	func die():
+		finished.emit()
 
-var sfx_array: Array[SFX] = []
-var loop: bool = false
-var pause_pos: float = 0
+	## Plays new sound effect. Returns player object that can be used to wait for
+	## finished signal for example.
+	static func play(stream: AudioStream) -> AudioStreamPlayer:
+		var player: AudioStreamPlayer = AudioStreamPlayer.new()
+		var sfx: SFX = SFX.new(player)
+		
+		player.stream = stream
+		_node.add_child(player)
+		_array.push_back(sfx)
+		player.play()
+		
+		return player
+
+	## Frees resources and removes object.
+	static func remove(sfx: SFX):
+		sfx._player.queue_free()
+		_array.erase(sfx)
+
+## Background Music instance.
+class BGM:
+	static var _player: AudioStreamPlayer
+	static var _pause_pos: float = 0
+	static var _loop: bool = false
+
+	## Plays music.
+	static func play(stream: AudioStream):
+		if _player != null:
+			_player.stream = stream
+			_player.play()
+		else:
+			Log.error("BGM can't be played, AudioStreamPlayer is null!")
+
+	## Stops music completely.
+	static func stop():
+		if _player.playing:
+			_player.stop()
+		_pause_pos = 0
+
+	## Resumes playing music.
+	static func resume():
+		if not _player.playing && _player.stream:
+			_player.play(_pause_pos)
+			_pause_pos = 0
+	
+	## Pauses music.
+	static func pause():
+		if _player.playing:
+			_pause_pos = _player.get_playback_position()
+			_player.stop()
+
+	## Restarts music.
+	static func restart():
+		if _player.stream:
+			_player.stop()
+			_player.play()
+			_pause_pos = 0
+
+	## Switches looping.
+	static func loop(mode: bool):
+		if not mode && _loop:
+			_player.finished.disconnect(restart)
+			_loop = false
+		elif mode && not _loop:
+			_player.finished.connect(restart)
+			_loop = true
+
 
 func _ready():
 	_initialize()
 
+
 func _initialize():
-	add_audio()
-	loop_bgm(true)
+	_add_sfx_node()
+	_add_bgm_node()
 	
-func add_audio():
-	sfx_node = Node.new()
-	sfx_node.name = "SFX"
-	add_child(sfx_node)
-	bgm = AudioStreamPlayer.new()
-	bgm.name = "BGM"
-	add_child(bgm)
+	await BGM._player.tree_entered
 	
-func play_bgm(stream: AudioStream):
-	assert("." + stream.resource_path.get_extension() == FilePaths.BGM_EXT)
-	assert(bgm)
-	bgm.stream = stream
-	bgm.play()
+	BGM.loop(true)
 
-func stop_bgm():
-	if bgm.playing:
-		bgm.stop()
-	pause_pos = 0
 
-func resume_bgm():
-	if not bgm.playing && bgm.stream:
-		bgm.play(pause_pos)
-		pause_pos = 0
-		
-func pause_bgm():
-	if bgm.playing:
-		pause_pos = bgm.get_playback_position()
-		bgm.stop()
+func _add_sfx_node():
+	SFX._node = Node.new()
+	SFX._node.name = "SFX"
+	add_child(SFX._node)	
 
-func restart_bgm():
-	if bgm.stream:
-		bgm.stop()
-		bgm.play()
-		pause_pos = 0
-
-func play_sfx(stream: AudioStream) -> AudioStreamPlayer:
-	assert("." + stream.resource_path.get_extension() == FilePaths.SFX_FILE_EXT)
-	var rsc: AudioStreamPlayer = AudioStreamPlayer.new()
-	rsc.stream = stream
-	var sfx: SFX = SFX.new(rsc)
-	sfx_node.add_child(rsc)
-	sfx_array.push_back(sfx)
-	rsc.play()
-	return rsc
-
-func remove_sfx(sfx: SFX):
-	sfx.rsc.queue_free()
-	sfx_array.erase(sfx)
-		
-func loop_bgm(mode: bool):
-	if not mode && loop:
-		bgm.finished.disconnect(restart_bgm)
-	elif mode && not loop:
-		bgm.finished.connect(restart_bgm)
+func _add_bgm_node():
+	BGM._player = AudioStreamPlayer.new()
+	BGM._player.name = "BGM"
+	add_child(BGM._player)

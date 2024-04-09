@@ -72,12 +72,12 @@ func _set_next_cursor_pos(direction: Direction):
 			option_count - Constants.ZERO_INDEXING_OFFSET)
 
 func _action_select_current():
-	await Audio.play_sfx(SFX_BUTTON_PRESSED).finished
+	await Audio.SFX.play(SFX_BUTTON_PRESSED).finished
 	_select_current_option()
 		
 func _select_current_option():
 	option_selected.emit(current_option)
 
 func _return():
-	await Audio.play_sfx(SFX_BUTTON_PRESSED).finished	
+	await Audio.SFX.play(SFX_BUTTON_PRESSED).finished	
 	returned.emit()

@@ -103,7 +103,7 @@ func _start_scrolling():
 		scroll()
 
 func scroll():
-	Audio.play_sfx(SFX_PRESS_BUTTON)
+	Audio.SFX.play(SFX_PRESS_BUTTON)
 	if not movement.is_blocking():
 		cursor.deactivate()
 		var new_pos: Vector2 = dialogue.position + LINE_SCROLL_OFFSET

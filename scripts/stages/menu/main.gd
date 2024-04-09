@@ -36,7 +36,7 @@ func add_menu():
 const NEW_GAME_INTRO_BGM: AudioStream = preload(FilePaths.NEW_GAME_INTRO_OAK_THEME)
 
 func start_new_game():
-	Audio.play_bgm(NEW_GAME_INTRO_BGM)
+	Audio.BGM.play(NEW_GAME_INTRO_BGM)
 	add(Scene.NEW_GAME)
 	
 enum Option { NEW_GAME, OPTIONS }

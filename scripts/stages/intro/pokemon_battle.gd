@@ -8,7 +8,7 @@ func _ready():
 	play()
 
 func play():
-	Audio.play_bgm(POKEMON_BATTLE_BGM)
+	Audio.BGM.play(POKEMON_BATTLE_BGM)
 	await _play_intro_sequence()
 	await $Jigglypuff.in_and_out_first_sequence()
 	await $Gengar.prepare_for_attack()
