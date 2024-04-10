@@ -58,7 +58,7 @@ func initialize():
 func _verify_text_format():
 	var new_lines: int = $Panel/LetterBox.text.count("\n")
 	var expected_array_size = (((CHARACTERS_IN_ROW * 2) * ROWS) + new_lines)
-	assert($Panel/LetterBox.text.length() == expected_array_size, 
+	Log.assertion($Panel/LetterBox.text.length() == expected_array_size, 
 			"Naming box character array has undefined size(%d), expected (%d)." % 
 			[$Panel/LetterBox.text.length(), expected_array_size])
 
@@ -80,8 +80,8 @@ func _get_entry_point_character(entry: EntryPoint) -> String:
 	return character
 	
 func _get_position_for_char(character: String) -> Vector2i:
-	assert(Functions.is_char(character), "Only single character allowed (entered: %s)" % character)
-	assert(ALLOWED_CHARACTERS.contains(character), "This character is not allowed(ASCII: %d)" % Functions.char_to_ASCII(character))
+	Log.assertion(Functions.is_char(character), "Only single character allowed (entered: %s)" % character)
+	Log.assertion(ALLOWED_CHARACTERS.contains(character), "This character is not allowed(ASCII: %d)" % Functions.char_to_ASCII(character))
 		
 	var ascii: int = Functions.char_to_ASCII(character)
 	var is_letter: bool = _is_letter(character)
@@ -95,10 +95,10 @@ func _get_position_for_char(character: String) -> Vector2i:
 
 func _is_letter(character: String) -> bool:
 	if Functions.is_lower_case_letter(character):
-		assert(letter_case == LetterCase.LOWER, "Shouldn't access lower case without switching the mode.")
+		Log.assertion(letter_case == LetterCase.LOWER, "Shouldn't access lower case without switching the mode.")
 		return true
 	elif Functions.is_upper_case_letter(character):
-		assert(letter_case == LetterCase.UPPER, "Shouldn't access upper case without switching the mode")
+		Log.assertion(letter_case == LetterCase.UPPER, "Shouldn't access upper case without switching the mode")
 		return true
 	return false
 
@@ -126,8 +126,8 @@ const OFFSET_FROM_CURSOR_TO_CHAR: int = - OFFSET_FROM_CHAR_TO_CURSOR
 const CHARACTERS_WITH_WHITE_SPACES_IN_ROW: int = CHARACTERS_IN_ROW * CHARACTERS_PER_COLUMN
 
 func _get_index_for_pos(pos: Vector2i) -> int:
-	assert(pos.x >= FIRST_ROW_INDEX && pos.x <= (ROWS - Constants.ZERO_INDEXING_OFFSET), "Undefined row number for pos (%v)" % pos)
-	assert(pos.y >= FIRST_COLUMN_INDEX && pos.y <= (CHARACTERS_IN_ROW - Constants.ZERO_INDEXING_OFFSET), "Undefined element for pos (%v)" % pos)
+	Log.assertion(pos.x >= FIRST_ROW_INDEX && pos.x <= (ROWS - Constants.ZERO_INDEXING_OFFSET), "Undefined row number for pos (%v)" % pos)
+	Log.assertion(pos.y >= FIRST_COLUMN_INDEX && pos.y <= (CHARACTERS_IN_ROW - Constants.ZERO_INDEXING_OFFSET), "Undefined element for pos (%v)" % pos)
 	var row: int = pos.x
 	var column: int = pos.y
 	return (row * (CHARACTERS_WITH_WHITE_SPACES_IN_ROW + NEWLINES_PER_ROW)) + ((column * CHARACTERS_PER_COLUMN) + OFFSET_FROM_CURSOR_TO_CHAR) 

@@ -27,7 +27,7 @@ enum FlagsT {
 	RESTART = 4, 
 	## Skips entire operation validation except for check if limit was reached, [code]USE WITH CAUTION[/code]
 	FAST = 8, 
-	## Throws asserts when invalid user input was used, overridden by FAST flag, true by default
+	## Throws error when invalid user input was used, overridden by FAST flag, true by default
 	STRICT = 16 
 }
 
@@ -37,7 +37,7 @@ var _flags: int = 0
 ## or not
 var _r_limit: int = 0
 
-var _increment_value: int = 1
+var _increment_value: int = INCREMENT_VALUE
 var _repetition_counter: Counter = null
 var _starting_value: int = 0
 var _total_repetitions: int = 0
@@ -66,9 +66,11 @@ class Flags:
 			val &= ~FlagsT.STRICT
 
 #TODO: Flagi, int czy klasa, jedno zastosowanie lol
-
 func _init(limit: int = Constants.MAX_INT, starting_value: int = 0, r_limit: int = starting_value, reps: int = 0, increment_value: int = INCREMENT_VALUE, flags: Flags = Flags.new()):
-	assert(limit != starting_value, "Invalid parameters, limit shouldn't be equal to starting value.")
+	if limit != starting_value:
+		#TODO: Test error that was assertion
+		Log.error("Invalid parameters, limit shouldn't be equal to starting value(%d). Decrementing starting_value." % starting_value)
+		starting_value -= Constants.ONE_ELEMENT
 	
 	# We set strict to validate r_limit properly which needs to happen before setting rest of flags
 	_flags |= (flags.val & FlagsT.STRICT)
@@ -135,7 +137,10 @@ func _adjust_flags() -> bool:
 
 ## Changes increment value. Changes sign if counter is reversed.
 func set_increment_value(increment_value: int):
-	assert(increment_value != 0, "Increment value can't be equal to 0")
+	#TODO: Test setting increment value equal to 0
+	if increment_value == 0:
+		Log.warning("Failed to set increment value equal to 0.")
+		return
 	if is_reverse():
 		increment_value = -increment_value
 	_increment_value = increment_value
@@ -162,8 +167,9 @@ func _limited_modifier(modifier: int) -> int:
 ## and internal counter gets incremented. After internal counter reaches it's limit, it calls to
 ## main counter to finish.
 func set_repetitions(reps: int):
-	if is_strict():
-		assert(reps >= 0, "Repetitions can't be negative")
+	if is_strict() && (reps < 0):
+		# TODO: Negative counter test for strict? Think if strict is even necessary
+		Log.warning("Tried to use negative counter (%d)." % reps)
 	else:
 		reps = clamp(reps, 0, Constants.MAX_INT)
 

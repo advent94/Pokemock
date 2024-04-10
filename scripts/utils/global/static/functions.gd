@@ -9,32 +9,43 @@ const FAIL: int = -1
 static func wait(time_in_sec: float):
 	await Counters.get_tree().create_timer(time_in_sec).timeout
 
+
 static func wait_if_blocked(moving_object):
-	assert(moving_object.has_node("Movement"), "%s doesn't have movement component." % moving_object.get_parent().name)
+	Log.assertion(moving_object.has_node("Movement"), "%s doesn't have movement component." % moving_object.get_parent().name)
+	
 	var movement: Node = moving_object.get_node("Movement")
+	
 	while movement.is_blocking():
 			await movement.blocking_movement_finished
 
-static func _char_assert(character:String, what: String):
-	assert(is_char(character), "Only single characters can be %s. (tried: \"%s\")" % [what, character])	
-	
+
 static func char_to_ASCII(character: String) -> int:
-	_char_assert(character, "converted to ASCII")
+	if not is_char(character):
+		Log.assertion(is_char(character), "Only single characters can be convered to ASCII. (tried: \"%s\")" % character)
+	
 	return character.to_ascii_buffer()[0]
+
 
 static func is_char(string: String) -> bool:
 	return string.length() == Constants.ONE_CHARACTER
 
+
 static func is_lower_case_letter(character: String) -> bool:
-	_char_assert(character, "lower case letter")
+	if not is_char(character):
+		return false
+		
 	var ascii: int = char_to_ASCII(character)
 	return 	is_between(ascii, Constants.LOWER_CASE_ASCII_MIN_VALUE, Constants.LOWER_CASE_ASCII_MAX_VALUE)
-	
+
+
 static func is_upper_case_letter(character: String) -> bool:
-	_char_assert(character, "upper case letter")
+	if not is_char(character):
+		return false
+		
 	var ascii: int = char_to_ASCII(character)
 	return is_between(ascii, Constants.UPPER_CASE_ASCII_MIN_VALUE, Constants.UPPER_CASE_ASCII_MAX_VALUE)
-		
+
+
 static func is_letter(character: String) -> bool:
 	return is_lower_case_letter(character) || is_upper_case_letter(character)
 
@@ -43,12 +54,17 @@ static func is_letter(character: String) -> bool:
 static func is_between(val, minimum, maximum) -> bool:
 	var is_int: bool = val is int && minimum is int && maximum is int
 	var is_float: bool = val is float && minimum is float && maximum is float
-	assert(is_float || is_int, "This operation works with numbers (for now at least)")
+	
+	if not (is_float || is_int):
+		Log.error("This operation works with numbers (for now at least). Returning false.")
+		return false
+	
 	return (val >= minimum && val <= maximum) || (val <= minimum && val >= maximum)
+
 
 ## Function used for conscious and safe integer division with ommiting floating part 
 static func safe_integer_division(a: int, b: int) -> int:
-	assert(b != 0, "Null division assertion spotted (a = %d, b = %d)" % [a, b])
+	Log.assertion(b != 0, "Null division assertion spotted (a = %d, b = %d)" % [a, b])
 	@warning_ignore("integer_division")
 	return a / b
 

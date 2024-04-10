@@ -39,9 +39,9 @@ func _on_tiny_stars_created():
 	_end()
 	
 func add(scene: Scene):
-	assert(SCENE_INDEX.has(scene), "Couldn't find scene (\"%s\") in scene index." % [Scene.keys()[scene]])
+	Log.assertion(SCENE_INDEX.has(scene), "Couldn't find scene (\"%s\") in scene index." % [Scene.keys()[scene]])
 	var instance = SCENE_INDEX[scene].instantiate()
-	assert(instance, "Couldn't instantiate a scene (\"%s\")" % Scene.keys()[scene])
+	Log.assertion(instance != null, "Couldn't instantiate a scene (\"%s\")" % Scene.keys()[scene])
 	scene_to_instance_index[scene] = instance
 	add_child(scene_to_instance_index[scene])
 	

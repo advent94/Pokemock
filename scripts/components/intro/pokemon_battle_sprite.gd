@@ -15,9 +15,9 @@ func _ready():
 	_load_texture()
 	
 func _load_texture():
-	assert(TEXTURE_FILE_PATHS.size() == Pokemon.size(), "Not every battle sprie has a texture.")
+	Log.assertion(TEXTURE_FILE_PATHS.size() == Pokemon.size(), "Not every battle sprie has a texture.")
 	texture = load(TEXTURE_FILE_PATHS[pokemon])
-	assert(texture, "Couldn't load texture (%s)" % TEXTURE_FILE_PATHS[pokemon])
+	Log.assertion(texture != null, "Couldn't load texture (%s)" % TEXTURE_FILE_PATHS[pokemon])
 
 enum FrameType { IDLE, ANTICIPATION, ATTACK }
 

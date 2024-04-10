@@ -20,19 +20,20 @@ func _initialize_panel_index():
 	panel_index[OptionPanel.CANCEL] = $Cancel
 
 func _invalid_panel_assertion(panel: OptionPanel):
-	assert(Functions.is_between(panel, Constants.FIRST_ELEMENT_IN_INDEX, OptionPanel.size() - Constants.ZERO_INDEXING_OFFSET), 
+	Log.assertion(Functions.is_between(panel, Constants.FIRST_ELEMENT_IN_INDEX, OptionPanel.size() - Constants.ZERO_INDEXING_OFFSET), 
 		"Invalid panel(%d)" % panel)
-		
+
+
 func _activate(panel: OptionPanel):
 	_invalid_panel_assertion(panel)
 	var active = panel_index[panel]
-	assert(active.has_method("activate"))
+	Log.assertion(active.has_method("activate"))
 	active.activate()
 
 func _deactivate(panel: OptionPanel):
 	_invalid_panel_assertion(panel)
 	var active = panel_index[panel]
-	assert(active.has_method("deactivate"))
+	Log.assertion(active.has_method("deactivate"))
 	active.deactivate()
 	
 func _load_options(_options: Options):

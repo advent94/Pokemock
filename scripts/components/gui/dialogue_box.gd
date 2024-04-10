@@ -23,8 +23,8 @@ const TEXT_SPEED_INDEX: Dictionary = {
 @onready var movement: Node2D = $Boundaries/Dialogue/Movement
 @onready var cursor: Label = $Boundaries/Cursor
 @onready var char_render_timer: Timer = $Boundaries/Dialogue/CharacterRenderTimer
-var wrapper: StringWrapper = StringWrapper.new(MAX_CHARACTERS_PER_LINE)
 
+var wrapper: StringWrapper = StringWrapper.new(MAX_CHARACTERS_PER_LINE)
 var current_line = 0
 var text_speed: int
 
@@ -55,15 +55,16 @@ func load_line(line: int):
 	_characters_to_read = get_char_count_to_read_from_line(current_line)
 	start_reading()
 
-const NO_LINES: int = 0
-const NO_CHARACTERS: int = 0
-
 func get_char_count_to_read_from_line(line: int) -> int:
+	const NO_LINES: int = 0
+	const NO_CHARACTERS: int = 0
+
 	if line == NO_LINES:
 		return NO_CHARACTERS
 	if line >= dialogue.text.count(Constants.EMPTY_LINE) + Constants.ONE_CHARACTER:
 		return dialogue.text.length()
 	return Functions.string_find_n_occurrence(dialogue.text, Constants.NEW_LINE, line)
+
 
 func start_reading():
 	cursor.deactivate()
@@ -92,15 +93,18 @@ func _show_next_character():
 func read_next_character():
 	if _is_reading:
 		dialogue.visible_characters += Constants.ONE_CHARACTER
+		
 		if dialogue.visible_characters >= _characters_to_read:
 			stopped.emit()
-			if dialogue.visible_characters >= dialogue.text.length():
-				finished.emit()
-				_is_finished = true
+		
+		if dialogue.visible_characters >= dialogue.text.length():
+			finished.emit()
+			_is_finished = true
 
 func _start_scrolling():
 	if not _is_reading && not _is_finished:
 		scroll()
+
 
 func scroll():
 	Audio.SFX.play(SFX_PRESS_BUTTON)
@@ -108,10 +112,13 @@ func scroll():
 		cursor.deactivate()
 		var new_pos: Vector2 = dialogue.position + LINE_SCROLL_OFFSET
 		movement.move(new_pos, Constants.ONE_SECOND * 0.1)
+		
 		await Functions.wait_if_blocked(dialogue)
+		
 		cursor.activate()
 		current_line += Constants.ONE_ELEMENT
 		load_line(current_line)
+
 
 func stop_reading():
 	cursor.activate()

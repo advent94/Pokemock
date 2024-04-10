@@ -2,9 +2,10 @@ extends Node
 
 enum Mode { RUNTIME, DEBUG, TESTABILITY }
 
-var _mode: Mode = Mode.RUNTIME
+var _mode: Mode = Mode.DEBUG
 var _warnings: PackedStringArray = []
 var _errors: PackedStringArray = []
+var _assertion: String
 
 func set_mode(mode : Mode):
 	_mode = mode
@@ -12,17 +13,27 @@ func set_mode(mode : Mode):
 func get_mode() -> Mode:
 	return _mode
 
-func warning(string : String):
-	if _mode == Mode.TESTABILITY:
-		_warnings.push_back(string)
+func assertion(condition: bool, string: String = ""):
+	if _mode == Mode.TESTABILITY && condition:
+		_assertion = string
 	else:
-		push_warning(string)
-
+		assert(condition, string)
+	
 func error(string : String):
 	if _mode == Mode.TESTABILITY:
 		_errors.push_back(string)
+	if _mode == Mode.DEBUG:
+		assert(false, string)
 	else:
 		push_error(string)
+
+func warning(string : String):
+	if _mode == Mode.TESTABILITY:
+		_warnings.push_back(string)
+	if _mode == Mode.DEBUG:
+		assert(false, string)
+	else:
+		push_warning(string)
 
 func info(msg : String):
 	if _mode == Mode.DEBUG:
@@ -37,3 +48,6 @@ func has_error(string : String) -> bool:
 
 func has_warning(string : String) -> bool:
 	return Functions.any_contains(_warnings, string, false)
+
+func has_assert(string: String) -> bool:
+	return _assertion == string

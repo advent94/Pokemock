@@ -14,7 +14,11 @@ var _current_value: int = 0
 ## NOTE: WRITE DOCUMENTATION!
 
 func _init(limit: int = Constants.MAX_INT):
-	assert(limit > 0, "Base counter limit must be higher than 0")
+	if (limit == 0):
+		# TODO: Add test for limit set == 0
+		Log.error("Tried to set limit equal to 0. Setting limit to one occurrence.")
+		limit = INCREMENT_VALUE
+	
 	_limit = limit
 
 func increment():

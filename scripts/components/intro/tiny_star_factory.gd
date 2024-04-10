@@ -30,7 +30,7 @@ func create_effect():
 	tiny_stars_created.emit()
 	
 func _validate_pair_pos_array_size():
-	assert(_PAIR_X_OFFSET_INDEX.size() == (_ROWS * _PAIRS_PER_ROW), 
+	Log.assertion(_PAIR_X_OFFSET_INDEX.size() == (_ROWS * _PAIRS_PER_ROW), 
 			"Star pairs pos array size is invalid (expected size = %d, current size = %d)"
 			% [(_ROWS * _PAIRS_PER_ROW), _PAIR_X_OFFSET_INDEX.size()])	
 
@@ -44,7 +44,7 @@ const _SECOND_STAR_OFFSET: Vector2 = Vector2(3, -3)
 const _NEXT_PAIR_X_OFFSET: int = 4
 
 func _get_star_positions(i: int, j: int) -> Array[Vector2]:
-	assert(i <= _ROWS && j <= _PAIRS_PER_ROW, "Array out of boundaries")
+	Log.assertion(i <= _ROWS && j <= _PAIRS_PER_ROW, "Array out of boundaries")
 	var first_star_in_pair_pos: Vector2 = _get_first_star_in_pair_pos(i, j)
 	var second_star_in_pair_pos: Vector2 = first_star_in_pair_pos + _SECOND_STAR_OFFSET
 	return [first_star_in_pair_pos, second_star_in_pair_pos]
@@ -64,7 +64,7 @@ const _SECOND_STAR_COLOR: Color = Color("#a8a8a8")
 const BLINKING: bool = true
 
 func _create_pair(current_pair_pos:Array[Vector2]):
-	assert(current_pair_pos.size() == _REQUIRED_PAIR_POS_ARRAY_SIZE, "Wrong array size")
+	Log.assertion(current_pair_pos.size() == _REQUIRED_PAIR_POS_ARRAY_SIZE, "Wrong array size")
 	_create_star(current_pair_pos[_FIRST_STAR_INDEX], _FIRST_STAR_COLOR, BLINKING)
 	_create_star(current_pair_pos[_SECOND_STAR_INDEX], _SECOND_STAR_COLOR, not BLINKING)
 
