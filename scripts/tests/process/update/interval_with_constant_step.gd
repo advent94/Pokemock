@@ -3,30 +3,35 @@ extends UpdateTest
 func should_save_expected_interval_for_duration_and_valid_steps():
 	var update: Update = Update.new([VALID_DURATION, VALID_UPDATE_COUNT])
 	
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update.get_value()[Update.INTERVAL_KEY], VALID_INTERVAL)
 
 
 func should_save_expected_steps_for_duration_and_valid_interval():
 	var update: Update = Update.new([VALID_DURATION, VALID_INTERVAL])
 	
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update.get_value()[Update.STEPS_KEY], VALID_UPDATE_COUNT)
 
 
 func should_save_expected_steps_for_implicit_array_with_valid_duration_and_interval():
 	var update: Update = Update.new(implicit_valid_duration_with_interval_descriptor)
 	
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update.get_value()[Update.STEPS_KEY], VALID_UPDATE_COUNT)
 
 
 func should_save_expected_interval_for_duration_and_invalid_steps():
 	var update: Update = Update.new([VALID_DURATION, INVALID_UPDATE_COUNT])
 	
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update.get_value()[Update.INTERVAL_KEY], VALID_INTERVAL)
 
 
 func should_save_expected_steps_for_duration_and_invalid_interval():
 	var update: Update = Update.new([VALID_DURATION, INVALID_INTERVAL])
 	
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update.get_value()[Update.STEPS_KEY], VALID_UPDATE_COUNT)
 
 

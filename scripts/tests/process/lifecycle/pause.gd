@@ -3,7 +3,6 @@ extends ProcessTest
 func should_execute_correctly():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
 	process.start()
 	process.paused.connect(CALL_STATUS_UPDATE(PAUSE))
 	process.pause()
@@ -13,7 +12,7 @@ func should_execute_correctly():
 
 
 func should_ignore_when_invalid():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
@@ -29,8 +28,6 @@ func should_ignore_when_invalid():
 func should_ignore_when_valid_not_active():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
-	
 	EXPECT_TRUE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
 
@@ -45,7 +42,6 @@ func should_ignore_when_valid_not_active():
 func should_ignore_when_already_paused():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
 	process.start()
 	process.pause()
 	
@@ -62,7 +58,6 @@ func should_pause_time_limit():
 	var process: Process = get_base_process()
 	var limiter: Limiter = Limiter.new(LimiterTest.VALID_TIME_LIMIT, process)
 		
-	process.setup(valid_callable)
 	process.set_limit(limiter)
 	process.start()
 	
@@ -81,9 +76,8 @@ func should_pause_time_limit():
 	
 
 func should_pause_pending_update():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal)
 	
-	process.setup(valid_callable, valid_signal)
 	process.start()
 	
 	process.update.timer = AdvancedTimer.new(VERY_LONG_TIME)

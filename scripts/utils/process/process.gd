@@ -19,7 +19,7 @@ extends Node
 ##[codeblock]func _init(update_args: Variant, args... , permanent: bool = false):
 ##    _type = Type.YOUR_TYPE
 ##    var callable: Callable = func(): your_init_method(args)
-##    setup(callable, update_args, permanent)
+##    super(callable, update_args, permanent)
 ##
 ## # This method doesn't have to be inside class, just pass it through callable, it can be init arg.
 ## # If initialization can fail, make it a bool and return result. On false, error will be handled.
@@ -64,7 +64,7 @@ extends Node
 ##[codeblock]func _init(update_args: Variant, color: Color = Color.WHITE, affects_transparency: bool = false, permanent: bool = false):
 ##    _type = Type.FADE
 ##    var callable: Callable = func(): initialize_shader(color, affects_transparency)
-##    setup(callable, update_args, permanent)
+##    super(callable, update_args, permanent)
 ##
 ##func initialize_shader(color: Color, affects_transparency: bool):	
 ##    owner.material.set_shader_parameter(FADE_COLOR, color)
@@ -114,8 +114,12 @@ enum Flags {
 	PAUSED = 4, 
 	## Process can be repeated. Necessary to support iterations.
 	REPEATABLE = 8, 
-	## Process should be kept alive even after it's finished.
-	KEEP_ALIVE = 16, 
+	## Process is kept alive after finish in final state.
+	KEEP_IN_FINAL_STATE = 16, 
+	## Process is finished but still alive.
+	FINISHED = 32,
+	## Process is being kept alive till killed/stopped manually.
+	PERMANENT = 64,
 }
 
 var _flags: int = Constants.NO_FLAGS:
@@ -135,14 +139,14 @@ var limiter: Limiter = null
 var _initialization: Callable
 
 #region Setup
-## Method necessary to be called in every concrete class to initialize and validate new process.[br]
-## It should be called only once during process lifetime but can be reused after stopping current process.
-func setup(init_method: Callable, update_args: Variant = null, permanent: bool = false):
+func _init(init_method: Callable, update_args: Variant = null, permanent: bool = false, keep_final: bool = false):
 	if not is_active():
-		if permanent:
-			_flags |= Flags.KEEP_ALIVE	
-		
 		set_initialization(init_method)
+		
+		if permanent:
+			_flags |= Flags.PERMANENT
+			if keep_final:
+				_flags |= Flags.KEEP_IN_FINAL_STATE
 		
 		if _initialization.is_valid():
 			_flags |= Flags.VALID
@@ -150,7 +154,7 @@ func setup(init_method: Callable, update_args: Variant = null, permanent: bool =
 		if update_args != null:
 			set_update(update_args)	
 	else:
-		Log.warning("Tried to call \"setup(callable, update = %s, permanent = %s)\" during active %s." % [str(update_args), permanent, get_identity()])
+		Log.warning("Tried to call \"init(callable, update = %s, permanent = %s)\" during active %s." % [str(update_args), str(permanent), get_identity()])
 
 ## Setter for initialization. If should_restart is set to true, it will stop process, set new initialization
 ## method and start process using new initialization.
@@ -183,7 +187,7 @@ func _handle_update_setup(args: Variant):
 		Update.Type.SIGNAL:
 			_handle_signal_update()
 		Update.Type.CALLABLE:
-			_flags &= ~Flags.KEEP_ALIVE
+			_flags &= ~Flags.PERMANENT
 		_:
 			_flags |= Flags.REPEATABLE
 
@@ -201,7 +205,7 @@ func _handle_signal_update():
 	else:
 		_handle_invalid_update()
 	
-	_flags &= ~Flags.KEEP_ALIVE
+	_flags &= ~Flags.PERMANENT
 #endregion
 #region Termination
 
@@ -228,6 +232,7 @@ func die():
 	if _should_terminate():
 		terminate()
 	else:
+		queue_free()
 		killed.emit()
 
 
@@ -420,12 +425,18 @@ func _update(_modifier: Modifier) -> bool:
 	return false
 
 # NOTE: Timer is not removed here unless we call finish before
+# TODO: Make rest of visual effects implement is_repeatable/change flag to var
 func _finish_iteration():
 	if not is_repeatable():
 		return _handle_error("FATAL ERROR! This %s cannot be repeated." % get_identity())
 	
-	if limiter != null && limiter.increment():
-		iterated.emit()
+	if limiter != null:
+		limiter.increment()
+	
+	iterated.emit()
+	
+	if is_permanent() && is_kept_in_final_state() && is_finished():
+		return
 	
 	return await _start_new_iteration()
 
@@ -577,6 +588,7 @@ func _finish():
 	
 	if is_valid():
 		finished.emit()
+		_flags |= Flags.FINISHED
 
 
 func _should_stop() -> bool:
@@ -584,8 +596,6 @@ func _should_stop() -> bool:
 
 ## [Limiter] setter that uses it's constructor to create limiter based supported variants.
 func set_limit(limit: Variant):
-	_flags &= ~Flags.KEEP_ALIVE
-	
 	if limiter != null:
 		limiter.remove_observer(_finish)
 	
@@ -617,7 +627,16 @@ func is_repeatable() -> bool:
 
 ## Check if process will be removed after it's finished.
 func is_permanent() -> bool:
-	return _flags & Flags.KEEP_ALIVE
+	return _flags & Flags.PERMANENT
+
+# NOTE/TODO: Added two new flags, should test them ;-;
+
+## Check if process will be kept alive after it's finished.
+func is_kept_in_final_state() -> bool:
+	return _flags & Flags.KEEP_IN_FINAL_STATE 
+
+func is_finished() -> bool:
+	return _flags & Flags.FINISHED
 
 ## Returns identity string, should be unique for each concrete class family.
 func get_identity() -> String:

@@ -36,13 +36,16 @@ const EXPECTED_RESTART_CALL_ORDER: Array[int] = [ STOP, CALL_BETWEEN, START, RES
 
 var valid_callable: Callable = func initialize() -> bool: return true
 
+@warning_ignore("unassigned_variable")
+var invalid_callable: Callable
 
 func setup_and_start_signal_modifier_test_process(process: Process):
 	Functions.disconnect_all(valid_signal_with_modifier)
 	
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
 	process.killed.connect(CALL_STATUS_UPDATE(KILL_COMMAND))
-	process.setup(valid_callable, valid_signal_with_modifier)
+	valid_signal_with_modifier.connect(process._signal_update)
+	
 	process.start()
 	
 	EXPECT_EQ(process.get_update(), Update.Type.SIGNAL)
@@ -93,7 +96,7 @@ class ProcessStub:
 	
 	
 	func _init(update_args: Variant):
-		setup(initialization, update_args)
+		super(initialization, update_args)
 	
 	func set_status_return(status: bool):
 		_status = status
@@ -148,8 +151,8 @@ class ProcessStub:
 		return Modifier.new()
 
 
-func get_base_process() -> Process:
-	return CAPTURED_NODE(Process.new())
+func get_base_process(init_method: Callable = valid_callable, update_args: Variant = null, permanent: bool = false, keep_final: bool = false) -> Process:
+	return CAPTURED_NODE(Process.new(init_method, update_args, permanent, keep_final))
 
 func get_stubbed_process(update_args: Variant) -> ProcessStub:
 	return CAPTURED_NODE(ProcessStub.new(update_args))

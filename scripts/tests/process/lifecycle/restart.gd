@@ -3,7 +3,6 @@ extends ProcessTest
 func should_execute_properly():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
 	process.start()
 	
 	EXPECT_TRUE(process.is_active())
@@ -22,7 +21,7 @@ func should_execute_properly():
 
 
 func should_ignore_when_invalid():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
@@ -40,7 +39,6 @@ func should_execute_with_call_between():
 	var report_call: Callable = func(order: int): call_order.push_back(order)
 	var call_between: Callable = func(): valid_signal.emit()
 	
-	process.setup(valid_callable)
 	process.start()
 	
 	process.stopped.connect(CALL_STATUS_UPDATE(STOP))
@@ -88,7 +86,6 @@ func should_restart_and_use_new_initialization():
 	var process: Process = get_base_process()
 	var initialization: Callable = func(): valid_signal.emit()
 	
-	process.setup(valid_callable)
 	process.start()
 	
 	EXPECT_TRUE(process.is_active())
@@ -104,9 +101,8 @@ func should_restart_and_use_new_initialization():
 
 
 func should_restart_and_use_new_update():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal)
 	
-	process.setup(valid_callable, valid_signal)
 	process.start()
 	
 	EXPECT_TRUE(process.is_active())

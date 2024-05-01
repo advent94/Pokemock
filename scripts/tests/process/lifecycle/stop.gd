@@ -3,7 +3,6 @@ extends ProcessTest
 func should_deactivate_running_process():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
 	process.start()
 	
 	EXPECT_TRUE(process.is_active())
@@ -16,7 +15,7 @@ func should_deactivate_running_process():
 
 
 func should_ignore_when_invalid():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_FALSE(process.is_active())
@@ -31,7 +30,6 @@ func should_ignore_when_invalid():
 func should_not_execute_on_inactive_process():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
 	process.start()
 	
 	process.stop()
@@ -49,7 +47,6 @@ func should_reset_counter_limit():
 	
 	EXPECT_EQ(limiter.left(), CounterTest.DEFAULT_INCREMENT_VALUE)
 	
-	process.setup(valid_callable)
 	process.set_limit(limiter)
 	process.start()
 	process.stop()
@@ -63,7 +60,6 @@ func should_reset_time_limit():
 	
 	EXPECT_FLOAT_EQ(limiter.left(), LimiterTest.VALID_TIME_LIMIT)
 	
-	process.setup(valid_callable)
 	process.set_limit(limiter)
 	process.start()
 	
@@ -79,9 +75,8 @@ func should_reset_time_limit():
 
 
 func should_remove_pending_update():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal)
 	
-	process.setup(valid_callable, valid_signal)
 	process.start()
 	
 	process.update.timer = AdvancedTimer.new(VERY_LONG_TIME)

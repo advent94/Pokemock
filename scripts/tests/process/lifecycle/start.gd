@@ -2,8 +2,7 @@ extends ProcessTest
 
 func should_properly_execute():
 	var process: Process = get_base_process()
-	
-	process.setup(valid_callable)
+
 	
 	EXPECT_FALSE(process.is_active())
 	
@@ -17,8 +16,6 @@ func should_properly_execute():
 func should_not_execute_again_when_called_active():
 	var process: Process = get_base_process()
 	
-	process.setup(valid_callable)
-	
 	process.start()
 	process.started.connect(CALL_STATUS_UPDATE(START))
 	
@@ -31,7 +28,7 @@ func should_not_execute_again_when_called_active():
 
 func should_throw_error_and_terminate_freeing_resources_for_orphan_invalid_process():
 	#NOTE: This is necessary to automatically free resources(parent == null)
-	var process: Process = Process.new()
+	var process: Process = Process.new(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_TRUE(process != null)
@@ -52,7 +49,7 @@ func should_throw_error_and_terminate_freeing_resources_for_orphan_invalid_proce
 
 
 func should_throw_error_and_terminate_freeing_resources_when_started_without_kill_observers():	
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_TRUE(process != null)
@@ -70,8 +67,8 @@ func should_throw_error_and_terminate_freeing_resources_when_started_without_kil
 	EXPECT_TRUE(process == null)
 
 
-func should_throw_error_and_die_without_freeing_resources_when_started():
-	var process: Process = get_base_process()
+func should_throw_error_and_die_freeing_resources_when_started():
+	var process: Process = get_base_process(invalid_callable)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_TRUE(process != null)
@@ -86,17 +83,15 @@ func should_throw_error_and_die_without_freeing_resources_when_started():
 	await Functions.wait(TIME_FOR_CLEAN_UP)
 	
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
-	EXPECT_FALSE(CALLED(FREE_RESOURCES))
+	EXPECT_TRUE(CALLED(FREE_RESOURCES))
 	EXPECT_FALSE(CALLED(START))
-	EXPECT_TRUE(process != null)
+	EXPECT_EQ(process, null)
 
 
 func should_restart_when_called_active_with_flag():
 	const FORCE_RESTART: bool = true
 	
 	var process: Process = get_base_process()
-	
-	process.setup(valid_callable)
 	
 	process.start()
 	process.started.connect(CALL_STATUS_UPDATE(START))
@@ -140,7 +135,6 @@ func should_start_timer_limiter():
 	var process: Process = get_base_process()
 	var limiter: Limiter = Limiter.new(Update.MIN_TIME_BETWEEN_UPDATES)
 	
-	process.setup(valid_callable)
 	process.set_limit(limiter)
 	
 	EXPECT_FALSE(limiter.is_active())

@@ -1,10 +1,9 @@
 extends ProcessTest
 
 func should_get_corrupted_interval_and_die():
-	var process: Process = get_base_process()
 	var update: Update = Update.new([VERY_LONG_TIME, SHORT_INTERVAL])
-	
-	process.setup(valid_callable, update)
+	var process: Process = get_base_process(valid_callable, update)
+
 	process.killed.connect(CALL_STATUS_UPDATE(KILL_COMMAND))
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
 	process.update._value.erase(Update.STEPS_KEY)
@@ -21,8 +20,7 @@ func should_get_corrupted_interval_and_die():
 
 func should_schedule_first_update():
 	var update: Update = Update.new([VERY_LONG_TIME, VERY_LONG_TIME])
-	var process: Process = get_base_process()
-	process.setup(valid_callable, update)
+	var process: Process = get_base_process(valid_callable, update)
 	
 	EXPECT_EQ(process.update.timer, null)
 	
@@ -37,8 +35,8 @@ func should_schedule_first_update():
 
 func should_die_after_schedule_due_to_update_corruption():
 	var update: Update = Update.new([VERY_LONG_TIME, LONGER_INTERVAL])
-	var process: Process = get_base_process()
-	process.setup(valid_callable, update)
+	var process: Process = get_base_process(valid_callable, update)
+	
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
 	process.killed.connect(CALL_STATUS_UPDATE(KILL_COMMAND))	
 	process.start()
@@ -56,8 +54,8 @@ func should_die_after_schedule_due_to_update_corruption():
 
 func should_die_after_being_unable_to_find_modifier_in_update():
 	var update: Update = Update.new([[LONGER_INTERVAL], [Modifier.new()]])
-	var process: Process = get_base_process()
-	process.setup(valid_callable, update)
+	var process: Process = get_base_process(valid_callable, update)
+	
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
 	process.killed.connect(CALL_STATUS_UPDATE(KILL_COMMAND))	
 	process.start()

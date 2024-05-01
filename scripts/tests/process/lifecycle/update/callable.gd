@@ -15,10 +15,9 @@ extends ProcessTest
 #                 o update fails - death
 
 func should_finish_after_receiving_null_data():
-	var process: Process = get_base_process()
 	var return_null: Callable = func(_step): return null
-	
-	process.setup(valid_callable, return_null)
+	var process: Process = get_base_process(valid_callable, return_null)
+
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
 	process.finished.connect(CALL_STATUS_UPDATE(FINISH))
 	process.start()
@@ -32,10 +31,8 @@ func should_finish_after_receiving_null_data():
 func should_die_after_receiving_different_data_type():
 	const UNSUPPORTED_DATA_TYPE: int = -1
 	
-	var process: Process = get_base_process()
 	var return_unsupported: Callable = func(_step): return UNSUPPORTED_DATA_TYPE
-	
-	process.setup(valid_callable, return_unsupported)
+	var process: Process = get_base_process(valid_callable, return_unsupported)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
 	
@@ -44,11 +41,8 @@ func should_die_after_receiving_different_data_type():
 
 func should_die_after_receiving_unsupported_data():
 	var unsupported_update: Update = Update.new(VALID_SHORT_INTERVAL_ARRAY) 
-	
-	var process: Process = get_base_process()
 	var return_unsupported: Callable = func(_step): return unsupported_update
-	
-	process.setup(valid_callable, return_unsupported)
+	var process: Process = get_base_process(valid_callable, return_unsupported)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
 
@@ -56,10 +50,9 @@ func should_die_after_receiving_unsupported_data():
 func should_die_after_receiving_corrupted_data_without_modifier():
 	var update_data_without_modifier: Update = Update.new([SHORT_INTERVAL, Modifier.new()]) 	
 	var return_data_without_modifier: Callable = func(_step) -> Update: return update_data_without_modifier
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, return_data_without_modifier)
 	
 	update_data_without_modifier._value.erase(Update.MODIFIER_KEY)
-	process.setup(valid_callable, return_data_without_modifier)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
 	
@@ -69,10 +62,9 @@ func should_die_after_receiving_corrupted_data_without_modifier():
 func should_die_after_receiving_corrupted_data_without_interval():
 	var update_data_without_interval: Update = Update.new([SHORT_INTERVAL, Modifier.new()]) 	
 	var return_data_without_interval: Callable = func(_step) -> Update: return update_data_without_interval
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, return_data_without_interval)
 	
 	update_data_without_interval._value.erase(Update.INTERVAL_KEY)
-	process.setup(valid_callable, return_data_without_interval)
 	
 	start_and_expect_dead_process_after_invalid_update(process)
 	
@@ -149,8 +141,7 @@ func should_die_after_first_interval_as_update_gets_corrupted():
 	await Functions.wait(SHORT_INTERVAL)
 	
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
-	EXPECT_FALSE(process.is_valid())
-	EXPECT_FALSE(process.is_active())
+	EXPECT_EQ(process, null)
 
 
 func should_update_second_time():

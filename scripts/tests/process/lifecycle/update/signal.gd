@@ -1,7 +1,7 @@
 extends ProcessTest
 
 func should_throw_error_and_die_when_signal_update_called():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(invalid_callable)
 	
 	process.killed.connect(CALL_STATUS_UPDATE(KILL_COMMAND))
 	process.updated.connect(CALL_STATUS_UPDATE(UPDATE))
@@ -15,11 +15,12 @@ func should_throw_error_and_die_when_signal_update_called():
 
 
 func should_fail_with_null_modifier():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal_with_modifier)
 	
 	setup_and_start_signal_modifier_test_process(process)
-	valid_signal_with_modifier.emit(null)
 	
+	valid_signal_with_modifier.emit(null)
+
 	EXPECT_FALSE(CALLED(UPDATE))
 	EXPECT_TRUE(CALLED(KILL_COMMAND))
 	EXPECT_FALSE(process.is_valid())
@@ -28,7 +29,7 @@ func should_fail_with_null_modifier():
 
 
 func should_fail_with_invalid_modifier_type():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal_with_modifier)
 	
 	setup_and_start_signal_modifier_test_process(process)
 	valid_signal_with_modifier.emit(FakeInvalidModifier.new())
@@ -41,7 +42,7 @@ func should_fail_with_invalid_modifier_type():
 
 
 func should_die_with_no_overloaded_inner_update():
-	var process: Process = get_base_process()
+	var process: Process = get_base_process(valid_callable, valid_signal_with_modifier)
 	
 	setup_and_start_signal_modifier_test_process(process)
 	valid_signal_with_modifier.emit(Modifier.new())
