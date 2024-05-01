@@ -1,5 +1,7 @@
 extends Node
 
+class_name TinyStarFactory
+
 signal tiny_stars_created
 
 # ROW IS USED AS NAME FOR STAR ROW, NOT FOR ARRAY INDEXING!
@@ -19,16 +21,18 @@ const _PAIR_X_OFFSET_INDEX: Array[int] = [
 const TIME_BETWEEN_CREATING_NEW_ROW: float = 0.5
 
 func _ready():
-	create_effect()
-	
+	name = "TinyStars"
+
 ## Creates falling stars effect for GameFreak logo intro
 func create_effect():
 	_validate_pair_pos_array_size()
 	for row_index in range(_ROWS):
 		_create_row(row_index)
 		await Functions.wait(TIME_BETWEEN_CREATING_NEW_ROW)
-	tiny_stars_created.emit()
 	
+	tiny_stars_created.emit()
+
+
 func _validate_pair_pos_array_size():
 	Log.assertion(_PAIR_X_OFFSET_INDEX.size() == (_ROWS * _PAIRS_PER_ROW), 
 			"Star pairs pos array size is invalid (expected size = %d, current size = %d)"
@@ -36,48 +40,48 @@ func _validate_pair_pos_array_size():
 
 func _create_row(row_index: int):
 	for pair in range(_PAIRS_PER_ROW):
-		var current_pair_pos: Array[Vector2] = _get_star_positions(row_index, pair)
-		_create_pair(current_pair_pos)
+		await _create_pair(_get_star_positions(row_index, pair))
 
-const _FIRST_STAR_POS: Vector2 = Vector2(42, 90)
-const _SECOND_STAR_OFFSET: Vector2 = Vector2(3, -3)
-const _NEXT_PAIR_X_OFFSET: int = 4
 
 func _get_star_positions(i: int, j: int) -> Array[Vector2]:
+	const SECOND_STAR_OFFSET: Vector2 = Vector2(3, -3)
+	
 	Log.assertion(i <= _ROWS && j <= _PAIRS_PER_ROW, "Array out of boundaries")
 	var first_star_in_pair_pos: Vector2 = _get_first_star_in_pair_pos(i, j)
-	var second_star_in_pair_pos: Vector2 = first_star_in_pair_pos + _SECOND_STAR_OFFSET
+	var second_star_in_pair_pos: Vector2 = first_star_in_pair_pos + SECOND_STAR_OFFSET
 	return [first_star_in_pair_pos, second_star_in_pair_pos]
 
+
 func _get_first_star_in_pair_pos(i: int, j: int) -> Vector2:
+	const FIRST_STAR_POS: Vector2 = Vector2(42, 90)
+	const NEXT_PAIR_X_OFFSET: int = 4
+	
 	var row: int = _PAIRS_PER_ROW * i
-	var first_star_in_pair_pos: Vector2 = _FIRST_STAR_POS
-	first_star_in_pair_pos.x += _PAIR_X_OFFSET_INDEX[row + j] * _NEXT_PAIR_X_OFFSET
+	var first_star_in_pair_pos: Vector2 = FIRST_STAR_POS
+	first_star_in_pair_pos.x += _PAIR_X_OFFSET_INDEX[row + j] * NEXT_PAIR_X_OFFSET
 	return first_star_in_pair_pos
 
-const _REQUIRED_PAIR_POS_ARRAY_SIZE: int = 2	
-const _FIRST_STAR_INDEX: int = 0
-const _SECOND_STAR_INDEX: int = 1
-const _FIRST_STAR_COLOR: Color = Color("#606060")
-const _SECOND_STAR_COLOR: Color = Color("#a8a8a8")
-
-const BLINKING: bool = true
 
 func _create_pair(current_pair_pos:Array[Vector2]):
-	Log.assertion(current_pair_pos.size() == _REQUIRED_PAIR_POS_ARRAY_SIZE, "Wrong array size")
-	_create_star(current_pair_pos[_FIRST_STAR_INDEX], _FIRST_STAR_COLOR, BLINKING)
-	_create_star(current_pair_pos[_SECOND_STAR_INDEX], _SECOND_STAR_COLOR, not BLINKING)
+	const REQUIRED_PAIR_POS_ARRAY_SIZE: int = 2	
+	const FIRST_STAR_INDEX: int = 0
+	const SECOND_STAR_INDEX: int = 1
+	const SECOND_STAR_COLOR: Color = Color("#a8a8a8")
 
-var _star_node : PackedScene = preload(FilePaths.TINY_STAR_COMPONENT_SCENE)	
-
-func _create_star(pos: Vector2, _color: Color, blinking: bool):
-	var star = _star_node.instantiate()
-	_set_new_star_parameters(star, pos, _color, blinking)
-	get_parent().add_child.call_deferred(star)
-	star.show()
+	Log.assertion(current_pair_pos.size() == REQUIRED_PAIR_POS_ARRAY_SIZE, "Wrong array size")
 	
-func _set_new_star_parameters(scene: Sprite2D, pos: Vector2, _color: Color, blinking: bool):
-	scene.material.set_shader_parameter("color", _color)
-	scene.position = pos
-	scene.blinking = blinking
-	scene.show()
+	await _create_star(current_pair_pos[FIRST_STAR_INDEX], null, true)
+	await _create_star(current_pair_pos[SECOND_STAR_INDEX], SECOND_STAR_COLOR, false)
+
+
+func _create_star(pos: Vector2, color = null, blinking: bool = false):
+	Log.assertion(color == null || color is Color)
+	
+	const STAR_PROTOTYPE : PackedScene = preload(FilePaths.TINY_STAR_COMPONENT_SCENE)
+	var star = STAR_PROTOTYPE.instantiate()
+	
+	star.initialize(color, pos, blinking)
+	star.name = Functions.get_unique_name(self, "TinyStar")
+	add_child.call_deferred(star)
+	await star.tree_entered
+	star.show()

@@ -9,7 +9,7 @@ const MAX_INT: int = 9223372036854775807
 const ONE_SECOND: float = 1.0
 ## Time for action without delay
 const NOW: float = 0.0
-const MIN_TIME_BETWEEN_UPDATES: float = 0.05
+const MIN_TIME_BETWEEN_UPDATES: float = 0.015
 
 # Common iterators
 const ONE_CHARACTER: int = 1

@@ -1,5 +1,8 @@
 class_name FilePaths
 
+# TODO: Remove duplicated enum and POKEMON_TO_NUM, replace it with function that returns string
+# based on enum with 00 padding.
+
 enum Pokemon { 
 	BULBASAUR = 1, CHARMANDER = 4, SQUIRTLE = 7,  RAICHU = 26, VULPIX = 37, GLOOM = 44, MANKEY = 56, POLIWAG = 60, 
 	DODUO = 84, GENGAR = 94, HITMONLEE = 106, CHANSEY = 113, JOLTEON = 135, PORYGON = 137, AERODACTYL = 142, 

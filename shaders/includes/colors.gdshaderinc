@@ -7,6 +7,7 @@
 #define RED vec4(1.0, 0.0, 0.0, 1.0)
 #define GREEN vec4(0.0, 1.0, 0.0, 1.0)
 #define BLUE vec4(0.0, 0.0, 1.0, 1.0)
+#define TRANSPARENCY vec4(1.0, 1.0, 1.0, 0.0)
 
 vec4 color_from_rgba(int r, int g, int b, int a) {
 	r = r >= 0 ? r % 256 : 0;

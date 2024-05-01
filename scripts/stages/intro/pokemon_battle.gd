@@ -5,6 +5,7 @@ signal pokemon_battle_ended
 const POKEMON_BATTLE_BGM = preload(FilePaths.POKEMON_BATTLE_BGM)
 
 func _ready():
+	material = ShaderMaterialFactory.create("sprite")
 	play()
 
 func play():
@@ -17,6 +18,7 @@ func play():
 	await $Jigglypuff.back_off()
 	await $Gengar.back_off()
 	await $Jigglypuff.retaliate()
+	$Input.deactivate()
 	await _do_whiteout()
 	pokemon_battle_ended.emit()
 	queue_free()
@@ -33,17 +35,17 @@ func _wait_if_blocked():
 	await Functions.wait_if_blocked($Gengar)
 	await Functions.wait_if_blocked($Jigglypuff)
 
-const TIME_BETWEEN_UPDATES: float = 0.25
+const TIME_BETWEEN_UPDATES: float = 0.20
 const TOTAL_EFFECT_TIME: float = 1.0
 const MOD_INCREMENT_VALUE: float = (TIME_BETWEEN_UPDATES / TOTAL_EFFECT_TIME) * 1.0
 const MAX_MOD_VALUE: float = 1.0
 
 func _do_whiteout():
-	var current_mod = 0.0	
-	while current_mod < MAX_MOD_VALUE:
-		current_mod += MOD_INCREMENT_VALUE
-		material.set_shader_parameter("modifier", current_mod)
-		await Functions.wait(TIME_BETWEEN_UPDATES)
+	# NOTE/TODO: either factory or inheritance for Whiteout
+	var effect =  ColorTransition.new(Update.new([TOTAL_EFFECT_TIME, TIME_BETWEEN_UPDATES]), Color.WHITE, false, true, true)
+	VisualEffects.add(effect, self)
+	await effect.finished
+	await Functions.wait(TIME_BETWEEN_UPDATES)
 
 func end():
 	$Input.deactivate()

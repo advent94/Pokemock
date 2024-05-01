@@ -67,7 +67,7 @@ class Flags:
 
 #TODO: Flagi, int czy klasa, jedno zastosowanie lol
 func _init(limit: int = Constants.MAX_INT, starting_value: int = 0, r_limit: int = starting_value, reps: int = 0, increment_value: int = INCREMENT_VALUE, flags: Flags = Flags.new()):
-	if limit != starting_value:
+	if limit == starting_value:
 		#TODO: Test error that was assertion
 		Log.error("Invalid parameters, limit shouldn't be equal to starting value(%d). Decrementing starting_value." % starting_value)
 		starting_value -= Constants.ONE_ELEMENT

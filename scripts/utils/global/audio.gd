@@ -78,10 +78,10 @@ class BGM:
 	## Switches looping.
 	static func loop(mode: bool):
 		if not mode && _loop:
-			_player.finished.disconnect(restart)
+			_player.finished.disconnect(BGM.restart)
 			_loop = false
 		elif mode && not _loop:
-			_player.finished.connect(restart)
+			_player.finished.connect(BGM.restart)
 			_loop = true
 
 

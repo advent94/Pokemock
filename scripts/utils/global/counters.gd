@@ -5,7 +5,7 @@ var _name_to_counter: Dictionary = {}
 func register(_name: String, counter: Counter = Counter.new()) -> Counter:
 	_name_to_counter[_name] = counter
 	if not counter is AdvancedCounter || not counter.restarts_on_limit():
-		_name_to_counter[_name].finished.connect(Functions.bound_callable(_remove, _name))
+		_name_to_counter[_name].finished.connect(func(): _remove(_name))
 	return _name_to_counter[_name]
 
 func get_instance(_name: String) -> Counter:
@@ -18,7 +18,7 @@ func exists(_name: String) -> bool:
 
 func bind_to_node(_name: String, node: Node):
 	if exists(_name):
-		Functions.call_on_node_exit(Functions.bound_callable(_remove, _name), node)
+		node.tree_exiting.connect(func():_remove(_name))
 
 func _remove(_name: String):
 	_name_to_counter.erase(_name)

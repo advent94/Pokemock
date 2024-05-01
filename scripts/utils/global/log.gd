@@ -22,7 +22,7 @@ func assertion(condition: bool, string: String = ""):
 func error(string : String):
 	if _mode == Mode.TESTABILITY:
 		_errors.push_back(string)
-	if _mode == Mode.DEBUG:
+	elif _mode == Mode.DEBUG:
 		assert(false, string)
 	else:
 		push_error(string)
@@ -30,7 +30,7 @@ func error(string : String):
 func warning(string : String):
 	if _mode == Mode.TESTABILITY:
 		_warnings.push_back(string)
-	if _mode == Mode.DEBUG:
+	elif _mode == Mode.DEBUG:
 		assert(false, string)
 	else:
 		push_warning(string)

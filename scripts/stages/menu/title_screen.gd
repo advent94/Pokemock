@@ -8,6 +8,7 @@ func _ready():
 	await $Title.bounce()
 	await $Version.slide_in()
 	Audio.BGM.play(TITLE_SCREEN_BGM)
+	Audio.BGM.loop(true)
 	started.emit()
 	_unlock_input()
 	$RandomizedPokemon/SwitchTimer.start()

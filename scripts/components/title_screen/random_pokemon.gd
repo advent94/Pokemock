@@ -11,12 +11,6 @@ enum Pokemon {
 	SNORLAX = 143,
 }
 
-const AVAILABLE_POKEMON: Array[Pokemon] = [
-	Pokemon.BULBASAUR, Pokemon.CHARMANDER, Pokemon.SQUIRTLE,  Pokemon.RAICHU, Pokemon.VULPIX, Pokemon.GLOOM, 
-	Pokemon.MANKEY, Pokemon.POLIWAG, Pokemon.DODUO, Pokemon.GENGAR, Pokemon.HITMONLEE, Pokemon.CHANSEY, 
-	Pokemon.JOLTEON, Pokemon.PORYGON, Pokemon.AERODACTYL, Pokemon.SNORLAX,	
-]
-
 const CRIES: Dictionary = {
 	Pokemon.BULBASAUR: preload(FilePaths.BULBASAUR_CRY),
 	Pokemon.CHARMANDER: preload(FilePaths.CHARMANDER_CRY),
@@ -41,6 +35,10 @@ const STARTERS: Array[Pokemon] = [
 ]
 
 var current_pokemon: Pokemon = Pokemon.SQUIRTLE
+
+const FINAL_RANDOM_POKEMON_POSITION: Vector2 = Vector2(69, 108)
+const TIME_TO_SWITCH_POKEMON: float = 4.0
+
 func switch():
 	switch_started.emit()
 	$SwitchTimer.stop()
@@ -57,9 +55,6 @@ func switch():
 	switch_finished.emit()
 	$SwitchTimer.start()
 
-const FINAL_RANDOM_POKEMON_POSITION: Vector2 = Vector2(69, 108)
-const TIME_TO_SWITCH_POKEMON: float = 4.0
-
 func _move_outside_left_border():
 	move(_get_outside_left_border_offset(), TIME_TO_SWITCH_POKEMON/8)
 	await Functions.wait_if_blocked(self)
@@ -74,21 +69,26 @@ func _is_starter() -> bool:
 func _roll_new():
 	current_pokemon = _randomize()
 	_change_sprite(current_pokemon)
-	
+
+
 func _randomize() -> Pokemon:
 	var pokemon: Pokemon = current_pokemon
+	
 	while pokemon == current_pokemon:
-		pokemon = AVAILABLE_POKEMON.pick_random()
+		pokemon = Pokemon[Pokemon.keys().pick_random()]
 	return pokemon
-		
+
+
 func _change_sprite(pokemon: Pokemon):
 	frame = pokemon - 1
 
 var selected: bool = false
 
+
 func _start():
 	if selected: 
 		return
+	
 	selected = true
 	await Audio.SFX.play(CRIES[current_pokemon]).finished
 	started.emit()

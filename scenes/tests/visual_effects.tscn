@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://l2hbton5w8e"]
+
+[ext_resource type="PackedScene" uid="uid://blkcbnlxb72o8" path="res://scripts/test_framework/templates/test.tscn" id="1_uvun7"]
+[ext_resource type="Script" path="res://scripts/tests/visual_effects/add.gd" id="2_ay87d"]
+[ext_resource type="Script" path="res://scripts/utils/global/visual_effects.gd" id="3_13unx"]
+[ext_resource type="Script" path="res://scripts/tests/visual_effects/remove.gd" id="3_q75f7"]
+
+[node name="VisualEffectsTest" instance=ExtResource("1_uvun7")]
+
+[node name="Add" type="Node" parent="TestCases" index="0"]
+script = ExtResource("2_ay87d")
+
+[node name="Remove" type="Node" parent="TestCases" index="1"]
+script = ExtResource("3_q75f7")
+
+[node name="VisualEffects" type="Node" parent="TestedEntity" index="0"]
+script = ExtResource("3_13unx")

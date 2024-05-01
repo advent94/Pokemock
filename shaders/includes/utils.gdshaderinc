@@ -52,6 +52,7 @@ int get_color_index(vec4 color, vec4 array[MAX_COLORS_COUNT]) {
 			return i;
 		}
 	}
+	
 	return FAILURE;
 }
 
@@ -66,17 +67,27 @@ vec4 get_color_with_adjusted_luminosity(vec4 color, float lum_mod) {
 
 vec4 get_swapped_color(vec4 color, vec4 array[MAX_COLORS_COUNT], float transform[MAX_COLORS_COUNT]) {
 	int index = get_color_index(color, color_array);
+	
 	if (index == FAILURE) {
 		return ERROR_COLOR;
 	}
+	
 	index = clamp(index += int(transform[index]), 0, color_array_size - ZERO_INDEXING_OFFSET);
 	return color_array[index];
 }
 
-vec4 get_color_between(vec4 from, vec4 to, float modifier, bool affect_transparent) {
+vec4 get_color_between(vec4 from, vec4 to, float modifier, bool affects_transparent) {
 	modifier = clamp(modifier, 0.0, 1.0);
 	vec4 transform = (to.rgba - from.rgba) * modifier;
-	return vec4((from.rgb + transform.rgb), from.a + (transform.a * float(affect_transparent)));
+	return vec4((from.rgb + transform.rgb), from.a + (transform.a * float(affects_transparent)));
+}
+
+vec4 get_new_color(vec4 old_color, vec4 new_color, bool affects_transparent) {
+	if (affects_transparent) {
+		return new_color;
+	} else {
+		return vec4((new_color.rgb), old_color.a);
+	}
 }
 
 #endif // UTILS

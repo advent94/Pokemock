@@ -9,4 +9,7 @@ const SHADER_MATERIAL_INDEX: Dictionary = {
 static func create(name: String) -> ShaderMaterial:
 	if SHADER_MATERIAL_INDEX.keys().has(name):
 		return SHADER_MATERIAL_INDEX[name].duplicate()
+	
+	Log.error("Couldn't find \"%s\". Creating empty default ShaderMaterial..." % name)
+	
 	return ShaderMaterial.new()

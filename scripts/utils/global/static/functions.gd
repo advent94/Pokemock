@@ -3,6 +3,7 @@ class_name Functions
 # TODO: Write documentation if necessary and definitely write tests
 # TODO/NOTE: It's interesting idea to create subclasses to differentiate which function is related
 # to which object type ex. Functions.String.is_char() etc.
+# TODO: Change wait to time, lol
 
 const FAIL: int = -1
 
@@ -104,13 +105,6 @@ static func string_find_n_occurrence(string: String, substr: String, occurrence:
 		counter += 1
 	return pos
 
-
-static func bound_callable(method: Callable, object) -> Callable:
-	return func(): method.call(object)
-
-static func call_on_node_exit(callable: Callable, node: Node):
-	node.tree_exiting.connect(callable)
-
 static func disconnect_last_callable(sig: Signal):
 	var connections = sig.get_connections()
 	if not connections.is_empty():
@@ -146,6 +140,7 @@ static func is_implicitly_typed_array(array: Variant, type: Variant.Type, obj_ty
 			Log.warning("Not implemented!")
 			return false
 
+
 static func _is_implicitly_typed_object_array(array: Array, obj_type: String) -> bool:
 	match(obj_type):
 		"Modifier":
@@ -153,6 +148,7 @@ static func _is_implicitly_typed_object_array(array: Array, obj_type: String) ->
 		_:
 			Log.warning("Not implemented!")
 			return false
+
 
 static func any_contains(array: Array[String], string: String, strict: bool = true) -> bool:
 	if strict:
@@ -166,3 +162,14 @@ static func any_contains(array: Array[String], string: String, strict: bool = tr
 				return true
 	
 	return false
+
+
+static func get_unique_name(parent: Node, _name: String) -> String:
+	var index: int = 0
+	var new_name: String = _name
+	
+	while parent.has_node(new_name):
+		index += 1
+		new_name = _name + str(index)
+	
+	return new_name

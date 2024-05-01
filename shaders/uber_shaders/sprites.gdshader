@@ -1,15 +1,27 @@
 shader_type canvas_item;
 
 #include "res://shaders/includes/utils.gdshaderinc"
-#include "res://shaders/includes/effects/fade.gdshaderinc"
+#include "res://shaders/includes/effects/blinking.gdshaderinc"
+#include "res://shaders/includes/effects/color_change.gdshaderinc"
+#include "res://shaders/includes/effects/color_transition.gdshaderinc"
 
 void vertex() {
 }
 
 void fragment() {
 	vec4 new_color = COLOR;
-	if (fade_active) {
-		new_color = get_color_between(new_color, fade_color, fade_modifier, fade_affects_transparency);
+	
+	if (blinking) {
+		new_color = TRANSPARENCY;
+	}
+	else 
+	{
+		if (change_active) {
+			new_color = get_new_color(new_color, change_color, change_affects_transparency);
+		}
+		if (transition_active) {
+			new_color = get_color_between(new_color, transition_color, transition_modifier, transition_affects_transparency);
+		}
 	}
 	COLOR = new_color;
 }

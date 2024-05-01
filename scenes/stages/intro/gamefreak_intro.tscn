@@ -57,6 +57,8 @@ autoplay = "default"
 script = ExtResource("2_ocyko")
 
 [node name="BlackBars" parent="." instance=ExtResource("3_3bnp8")]
+z_index = 1
+position = Vector2(-80, -72)
 
 [node name="Input" parent="." instance=ExtResource("4_nq5em")]
 register_pressed = Array[int]([0, 6])
