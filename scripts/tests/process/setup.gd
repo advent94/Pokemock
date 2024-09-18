@@ -69,7 +69,7 @@ func should_fail_to_setup_with_single_interval_and_modifier_update():
 	var update: Update = Update.new([UpdateTest.VALID_INTERVAL, modifier])
 	var process: Process = get_base_process(valid_callable, update)
 	
-	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_MODIFIER)
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_AND_MODIFIER)
 	
 	EXPECT_FALSE(process.is_valid())
 	EXPECT_ERROR("Invalid update data")
@@ -104,6 +104,3 @@ func should_fail_to_set_invalid_new_initialization():
 	process.set_initialization(invalid_callable)
 	
 	EXPECT_NEQ(invalid_callable, process._initialization)
-
-
-

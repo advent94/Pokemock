@@ -182,7 +182,7 @@ func _handle_update_setup(args: Variant):
 	update = Update.new(args)
 	
 	match(update.get_type()):
-		Update.Type.INVALID, Update.Type.INTERVAL_WITH_MODIFIER:
+		Update.Type.INVALID, Update.Type.INTERVAL_AND_MODIFIER:
 			_handle_invalid_update()
 		Update.Type.SIGNAL:
 			_handle_signal_update()
@@ -316,7 +316,8 @@ const CORRUPTED_INTERVAL: float = -2.137
 
 # NOTE: Options in future: implement different error handling mechanism. Differentiate execute_update
 # based on _type of update provided (implement separate function for each type of update or for each
-# different group of updates)
+# different group of updates). Basically refactor so instead of if's else, we will have different
+# method for each update type.
 
 # NOTE: Not every check seems to be necessary. It's over the top protection in case update gets
 # corrupted after being created. It's fine for now, if it will somehow negatively impact performance,
@@ -335,7 +336,7 @@ func _execute_update(step: int = INITIALIZATION):
 		if called_update == null:
 			return _finish()
 		
-		elif not (called_update is Update) || called_update is Update && called_update._type != Update.Type.INTERVAL_WITH_MODIFIER:
+		elif not (called_update is Update) || called_update is Update && called_update._type != Update.Type.INTERVAL_AND_MODIFIER:
 			return _handle_error("Invalid update data received from update call(id = %d). Killing %s \"%s\"." % [update_id, get_identity(), get_type_str()])
 		
 		else:
@@ -473,6 +474,9 @@ func _get_interval(step: int) -> float:
 
 
 func _schedule_update(next_step: int, interval: float):
+	if is_queued_for_deletion():
+		return
+	
 	const NEW_TIMER_NAME: String = "Update"
 	
 	if update.timer == null:

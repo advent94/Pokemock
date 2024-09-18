@@ -19,4 +19,3 @@ const IMPLICIT_INVALID_INTERVAL_ARRAY = [INVALID_INTERVAL]
 # NOTE: This array can't be constant because Godot converts implicit constant arrays of same
 # element type to typed arrays.
 var implicit_valid_duration_with_interval_descriptor: Array = [VALID_DURATION, VALID_INTERVAL]
-

@@ -34,7 +34,7 @@ enum Type {
 	## Dictionary with array of intervals(seconds in float format), number of steps per update is equal to it's size.
 	INTERVALS, 
 	## Information about modifier to apply and time between next call, used in Callable update.
-	INTERVAL_WITH_MODIFIER, 
+	INTERVAL_AND_MODIFIER, 
 	## Dictionary with intervals and modifiers, number of steps per update is equal to any array size. Sizes are equal. 
 	INTERVALS_AND_MODIFIERS, 
 	## Dictionary with constant update interval and total number of update steps that process update consists of.
@@ -51,13 +51,13 @@ const MIN_TIME_BETWEEN_UPDATES: float = Constants.MIN_TIME_BETWEEN_UPDATES
 ## Minimum steps update has to consist of.
 const MIN_UPDATE_STEPS: int = 1
 
-## Interval [Dictionary] key used in [enum INTERVAL_WITH_MODIFIER] and [enum INTERVAL_WITH_UPDATE_STEPS].
+## Interval [Dictionary] key used in [enum INTERVAL_AND_MODIFIER] and [enum INTERVAL_WITH_UPDATE_STEPS].
 const INTERVAL_KEY: String = "interval"
 
 ## Interval array [Dictionary] key used in [enum INTERVALS] and [enum INTERVALS_AND_MODIFIERS].
 const INTERVALS_KEY: String = "intervals"
 
-## Modifier [Dictionary] key used in [enum INTERVAL_WITH_MODIFIER].
+## Modifier [Dictionary] key used in [enum INTERVAL_AND_MODIFIER].
 const MODIFIER_KEY: String = "modifier"
 
 ## Modifier array [Dictionary] key used in [enum INTERVALS_AND_MODIFIERS].
@@ -101,7 +101,7 @@ func _init(variant: Variant, should_copy: bool = false):
 				Log.error("Invalid variant(%s).\nAccepted variants are: %s" % [type_string(typeof(variant)), str(VALID_CONTENT)])
 			Type.INTERVALS:
 				_initialize_intervals(variant, should_copy)
-			Type.INTERVAL_WITH_MODIFIER:
+			Type.INTERVAL_AND_MODIFIER:
 				_initialize_single_interval_with_modifier(variant)
 			Type.INTERVALS_AND_MODIFIERS:
 				_initialize_intervals_with_modifiers(variant, should_copy)
@@ -140,7 +140,7 @@ func _identify_type(variant: Variant) -> Type:
 			type = Type.INTERVAL_WITH_UPDATE_STEPS
 		
 		elif _has_single_interval_and_modifier(variant):
-			type = Type.INTERVAL_WITH_MODIFIER
+			type = Type.INTERVAL_AND_MODIFIER
 		
 		elif _has_intervals_and_modifiers(variant):
 			type = Type.INTERVALS_AND_MODIFIERS

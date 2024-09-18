@@ -25,7 +25,7 @@ func should_properly_validate_variants():
 	EXPECT_EQ(update._identify_type(implicit_valid_duration_with_interval_descriptor), Update.Type.INTERVAL_WITH_UPDATE_STEPS)
 	EXPECT_EQ(update._identify_type(implicit_valid_intervals_with_modifiers), Update.Type.INTERVALS_AND_MODIFIERS) 
 	EXPECT_EQ(update._identify_type(explicit_valid_intervals_with_modifiers), Update.Type.INTERVALS_AND_MODIFIERS)
-	EXPECT_EQ(update._identify_type(valid_interval_with_modifier), Update.Type.INTERVAL_WITH_MODIFIER)
+	EXPECT_EQ(update._identify_type(valid_interval_with_modifier), Update.Type.INTERVAL_AND_MODIFIER)
 	EXPECT_EQ(update._identify_type(callable), Update.Type.CALLABLE)
 	EXPECT_EQ(update._identify_type(valid_signal), Update.Type.SIGNAL)
 	

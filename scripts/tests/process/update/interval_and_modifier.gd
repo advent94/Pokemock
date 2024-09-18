@@ -9,7 +9,7 @@ func should_save_interval_and_modifier():
 	expected_result[Update.MODIFIER_KEY] = modifier
 	
 	EXPECT_EQ(update.get_value(), expected_result)
-	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_MODIFIER)
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_AND_MODIFIER)
 
 
 func should_save_corrected_interval_with_modifier():
@@ -21,4 +21,4 @@ func should_save_corrected_interval_with_modifier():
 	expected_result[Update.MODIFIER_KEY] = modifier
 	
 	EXPECT_EQ(update.get_value(), expected_result)
-	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_WITH_MODIFIER)
+	EXPECT_EQ(update.get_type(), Update.Type.INTERVAL_AND_MODIFIER)
