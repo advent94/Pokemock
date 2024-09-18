@@ -68,7 +68,7 @@ func handle_error(effect: VisualEffect, msg: String):
 
 func remove_effect(effect: VisualEffect):
 	if effect != null:
-		if effect.is_active():
+		if effect.is_active() && effect.owner != null && not effect.owner.is_queued_for_deletion():
 			effect.stop()
 		
 		remove_effect_from_index(effect)
@@ -82,7 +82,8 @@ func remove_effect_from_index(effect: VisualEffect):
 
 
 func remove_owner(_owner: CanvasItem):
-	for effect in _active_vfx_index[_owner]:
-		remove_effect(effect)
-	
-	_active_vfx_index.erase(_owner)
+	if _active_vfx_index.has(_owner):
+		for effect in _active_vfx_index[_owner]:
+			remove_effect(effect)
+		
+		_active_vfx_index.erase(_owner)
