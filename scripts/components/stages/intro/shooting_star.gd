@@ -13,19 +13,20 @@ func _ready():
 	$Movement.direction = BOTTOM_LEFT	
 	position = _get_initial_position()
 	show()
-	
+
 func _get_initial_position() -> Vector2:
 	var top_right_corner_pos = Vector2(get_viewport_rect().size.x, 0)
-	Log.assertion(texture != null, "%s needs to have texture initialized" % name)
 	var _offset: Vector2 = Vector2(0, -(texture.get_image().get_size().y))/2
 	return top_right_corner_pos + _offset
+
 
 var _center_pos_reached: bool = false
 
 func _physics_process(_delta):
 	if not _center_pos_reached:
 		_play_sound()
-	
+
+
 func _play_sound():
 	if _star_reached_screen_center():
 		Audio.SFX.play(SHOOTING_STAR_SFX)
