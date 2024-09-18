@@ -67,18 +67,7 @@ grow_vertical = 0
 theme = SubResource("Theme_hc6vs")
 theme_override_styles/panel = ExtResource("2_motaw")
 script = ExtResource("3_qxfo0")
-
-[node name="Boundaries" type="Control" parent="."]
-clip_contents = true
-layout_mode = 2
-
-[node name="Dialogue" type="Label" parent="Boundaries"]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 6.0
-offset_right = 137.0
-offset_bottom = 62.0
-text = "So close, no matter how far
+dialogue_text = "So close, no matter how far
 Couldn't be much more from the heart
 Forever trusting who we are
 And nothing else matters
@@ -117,6 +106,19 @@ So close, no matter how far
 Couldn't be much more from the heart
 Forever trusting who we are
 No, nothing else matters"
+
+[node name="Boundaries" type="Control" parent="."]
+use_parent_material = true
+clip_contents = true
+layout_mode = 2
+
+[node name="Dialogue" type="Label" parent="Boundaries"]
+use_parent_material = true
+layout_mode = 0
+offset_left = 1.0
+offset_top = 6.0
+offset_right = 137.0
+offset_bottom = 62.0
 autowrap_mode = 3
 
 [node name="Movement" parent="Boundaries/Dialogue" instance=ExtResource("4_snx3m")]
@@ -125,6 +127,7 @@ autowrap_mode = 3
 wait_time = 0.1
 
 [node name="Cursor" type="Label" parent="Boundaries"]
+use_parent_material = true
 layout_mode = 0
 offset_left = 137.0
 offset_top = 22.0

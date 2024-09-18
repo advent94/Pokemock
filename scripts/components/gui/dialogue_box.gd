@@ -41,6 +41,11 @@ func _ready():
 	else:
 		hide()
 		$Input.deactivate()
+
+func activate():
+	load_dialogue(dialogue_text)
+	$Input.activate()
+	show()
 	
 func load_dialogue(string: String):
 	_is_finished = false

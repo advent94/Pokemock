@@ -1,4 +1,3 @@
-extends RefCounted
 class_name Modifier
 
 var _type = Constants.NOT_FOUND:

@@ -128,4 +128,3 @@ func should_set_limiter_by_default():
 	visual_effects.add(dummy_effect, dummy_owner)
 	
 	EXPECT_EQ(dummy_effect.get_limit(), ONE_REPETITION)
-
