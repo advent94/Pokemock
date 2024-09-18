@@ -19,35 +19,37 @@ func play():
 	await $Gengar.back_off()
 	await $Jigglypuff.retaliate()
 	$Input.deactivate()
-	await _do_whiteout()
-	pokemon_battle_ended.emit()
-	queue_free()
+	_do_whiteout()
 
-const GENGAR_INTRO_MOVEMENT: Vector2 = -JIGGLYPUFF_INTRO_MOVEMENT
-const JIGGLYPUFF_INTRO_MOVEMENT: Vector2 = Vector2(78, 0)
-const TAKE_POSITION_TIME_IN_SEC: float = 1
+
+func _do_whiteout():
+	const TIME_BEFORE_END: float = 0.20
+	
+	var effect =  Whiteout.new()
+	
+	effect.finished.connect(
+		func(): 
+			await Functions.wait(TIME_BEFORE_END)
+			pokemon_battle_ended.emit()
+			queue_free()
+	)
+	
+	VisualEffects.add(effect, self)
+
 
 func _play_intro_sequence():
+	const JIGGLYPUFF_INTRO_MOVEMENT: Vector2 = Vector2(78, 0)
+	const GENGAR_INTRO_MOVEMENT: Vector2 = -JIGGLYPUFF_INTRO_MOVEMENT
+	const TAKE_POSITION_TIME_IN_SEC: float = 1
+
 	$Gengar.move(GENGAR_INTRO_MOVEMENT, TAKE_POSITION_TIME_IN_SEC)
 	$Jigglypuff.move(JIGGLYPUFF_INTRO_MOVEMENT, TAKE_POSITION_TIME_IN_SEC)
-		
+
+
 func _wait_if_blocked():
 	await Functions.wait_if_blocked($Gengar)
 	await Functions.wait_if_blocked($Jigglypuff)
 
-const TIME_BETWEEN_UPDATES: float = 0.20
-const TOTAL_EFFECT_TIME: float = 1.0
-const MOD_INCREMENT_VALUE: float = (TIME_BETWEEN_UPDATES / TOTAL_EFFECT_TIME) * 1.0
-const MAX_MOD_VALUE: float = 1.0
-
-func _do_whiteout():
-	# NOTE/TODO: either factory or inheritance for Whiteout
-	var effect =  ColorTransition.new(Update.new([TOTAL_EFFECT_TIME, TIME_BETWEEN_UPDATES]), Color.WHITE, false, true, true)
-	VisualEffects.add(effect, self)
-	await effect.finished
-	await Functions.wait(TIME_BETWEEN_UPDATES)
-
 func end():
 	$Input.deactivate()
-	await _do_whiteout()
-	queue_free()
+	_do_whiteout()

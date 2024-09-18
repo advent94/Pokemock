@@ -1,10 +1,11 @@
-extends Process
 class_name VisualEffect
+extends Process
 
 enum Type {
 	COLOR_CHANGE,
 	COLOR_TRANSITION,
 	BLINKING,
+	PALETTE_SWAP,
 }
 
 func _init(init_method: Callable, update_args: Variant = null, permanent: bool = false, keep_final: bool = false):

@@ -1,5 +1,4 @@
 class_name ColorTransition
-
 extends VisualEffect
 
 const COLOR_TRANSITION_ACTIVE: String = "transition_active"

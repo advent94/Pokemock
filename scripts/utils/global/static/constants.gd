@@ -4,6 +4,7 @@ class_name Constants
 
 const MIN_INT: int = -9223372036854775808
 const MAX_INT: int = 9223372036854775807
+const MAX_PALETTE_SIZE: int = 256
 
 # Time
 const ONE_SECOND: float = 1.0

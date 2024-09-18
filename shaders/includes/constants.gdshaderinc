@@ -5,4 +5,8 @@
 #define FAILURE -1
 #define EPSILON 0.001
 
+const vec3 LUMA_PAL_NTSC_TRANSFORM  = vec3(0.299, 0.587, 0.114);
+const vec3 LUMA_HDTV_TRANSFORM = vec3(0.2126, 0.7152, 0.0722);
+const vec3 LUMA_HDR_TRANSFORM = vec3(0.2627, 0.6780, 0.0593);
+
 #endif // CONSTANTS

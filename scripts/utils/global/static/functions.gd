@@ -3,7 +3,7 @@ class_name Functions
 # TODO: Write documentation if necessary and definitely write tests
 # TODO/NOTE: It's interesting idea to create subclasses to differentiate which function is related
 # to which object type ex. Functions.String.is_char() etc.
-# TODO: Change wait to time, lol
+# TODO: Change wait to time, lol (await time(time_in_sec))
 
 const FAIL: int = -1
 
@@ -114,7 +114,8 @@ static func disconnect_all(sig: Signal):
 	var connections = sig.get_connections()
 	for connection in connections:
 		sig.disconnect(connection["callable"])
-		
+
+
 static func enum_to_str(enum_value: int, enums: Dictionary) -> String:
 	if not enums.values().has(enum_value):
 		Log.warning("Dictionary (%s) has no key_id = %s" % [str(enums), str(enum_value)])
@@ -128,12 +129,17 @@ static func enum_to_str(enum_value: int, enums: Dictionary) -> String:
 	
 	return str(value)
 
+
 static func is_implicitly_typed_array(array: Variant, type: Variant.Type, obj_type: String = "") -> bool:
 	if not (array is Array):
 		return false
 	match(type):
 		Variant.Type.TYPE_FLOAT:
 			return array.all(func(variant) -> bool: return (variant is float))
+		Variant.Type.TYPE_INT:
+			return array.all(func(variant) -> bool: return (variant is int))
+		Variant.Type.TYPE_COLOR:
+			return array.all(func(variant) -> bool: return (variant is Color))
 		Variant.Type.TYPE_OBJECT:
 			return _is_implicitly_typed_object_array(array, obj_type)
 		_:

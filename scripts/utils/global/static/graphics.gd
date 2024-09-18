@@ -14,20 +14,33 @@ static func get_pixel_array(img: Image) -> Array[Color]:
 	
 	return pixels
 
-const OPAQUE: float = 1.0
 
-
-static func get_unique_colors(color_array: Array[Color], remove_transparent: bool = true) -> Array[Color]:
-	var unique_colors: Array[Color] = []
+static func get_color_palette(img: Image, unique: bool = true, add_transparent: bool = false) -> Array[Color]:
+	var palette: Array[Color] = []
+	var x: int = 0
+	var y: int = 0
+	var color: Color
+	var img_width: int = img.get_width()
+	var img_height: int = img.get_height()
 	
-	for color in color_array:
-		if remove_transparent && not is_equal_approx(color.a, OPAQUE):
-			continue
+	for i in range(0, img_width * img_height):
+		x = i - ((Functions.safe_integer_division(i, img_width)) * img_width)
+		y = Functions.safe_integer_division(i, img_width)
+		color = img.get_pixel(x, y)
 		
-		if not unique_colors.has(color):
-			unique_colors.push_back(color)
+		if (unique and palette.has(color)) or not add_transparent && is_transparent(color):
+			pass
+		else:
+			palette.push_back(img.get_pixel(x, y))
 	
-	return unique_colors
+	return palette
+
+static func is_transparent(color: Color) -> bool:
+	return not is_opaque(color)
+
+static func is_opaque(color: Color) -> bool:
+	const OPAQUE: float = 1.0
+	return is_equal_approx(color.a, OPAQUE)
 
 
 enum Sort { ASCENDING, DESCENDING }
@@ -38,29 +51,37 @@ const COLOR_SORT_INDEX: Dictionary = {
 }
 
 static func _sort_ascending_by_luminance(a: Color, b: Color) -> bool:
-	return a.get_luminance() < b.get_luminance()
+	if a.get_luminance() != b.get_luminance():
+		return a.get_luminance() < b.get_luminance()
+	else:
+		return _sort_by_color(a, b)
+
 
 static func _sort_descending_by_luminance(a: Color, b: Color) -> bool:
-	return a.get_luminance() > b.get_luminance()
+	if a.get_luminance() != b.get_luminance():
+		return a.get_luminance() > b.get_luminance()
+	else:
+		return _sort_by_color(a, b)
+
+
+static func _sort_by_color(a: Color, b: Color) -> bool:
+	if a.r != b.r:
+		return a.r > b.r
+		
+	if a.g != b.g:
+		return a.g > b.g
+		
+	if a.b != b.b:
+		return a.b > b.b
+		
+	return a.a > b.a
+
 
 static func sort_colors(color_array: Array[Color], sort: Sort) -> Array[Color]:
 	color_array.sort_custom(Callable(Graphics, COLOR_SORT_INDEX[sort]))
 	return color_array
 
 const MAX_LUMINANCE: float = 1.0
-
-## Finds corresponding color to it's own luminance
-static func get_color_by_luminance(color: Color, colors_sorted_by_luminance: Array[Color], sort: Sort = Sort.ASCENDING) -> Color:
-	if colors_sorted_by_luminance.is_empty():
-		return color
-	
-	var mod: float = color.get_luminance()
-
-	if sort == Sort.DESCENDING:
-		mod = MAX_LUMINANCE - color.get_luminance()
-	
-	return colors_sorted_by_luminance[(colors_sorted_by_luminance.size() - 1) * mod]
-
 
 ## Limits color count based on existing array of colors and number you want to limit it by
 ## Color limit consists of the brightest color, darkest and [count - 2] colors between

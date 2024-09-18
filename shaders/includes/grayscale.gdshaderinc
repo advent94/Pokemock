@@ -17,10 +17,6 @@ vec4 avg_grayscale(vec4 color) {
 	return vec4(vec3((color.r + color.g + color.b)/3.0), color.a);
 }
 
-const vec3 LUMA_PAL_NTSC_TRANSFORM  = vec3(0.299, 0.587, 0.114);
-const vec3 LUMA_HDTV_TRANSFORM = vec3(0.2126, 0.7152, 0.0722);
-const vec3 LUMA_HDR_TRANSFORM = vec3(0.2627, 0.6780, 0.0593);
-
 vec4 luma_grayscale(vec4 color, uint type) {
 	vec3 transform;
 	switch (type) {

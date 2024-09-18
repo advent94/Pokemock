@@ -4,6 +4,7 @@ shader_type canvas_item;
 #include "res://shaders/includes/effects/blinking.gdshaderinc"
 #include "res://shaders/includes/effects/color_change.gdshaderinc"
 #include "res://shaders/includes/effects/color_transition.gdshaderinc"
+#include "res://shaders/includes/effects/palette_swap.gdshaderinc"
 
 void vertex() {
 }
@@ -16,6 +17,15 @@ void fragment() {
 	}
 	else 
 	{
+		if (palette_swap_affects_transparent || (!palette_swap_affects_transparent && (floats_eq(1.0, new_color.a)))) {
+			if (palette_swap_use_colors) {
+				new_color = get_swapped_color(new_color);
+			} 
+			else if (palette_swap_use_index) {
+				new_color = get_swapped_color_by_index(new_color);
+			}
+		}
+		
 		if (change_active) {
 			new_color = get_new_color(new_color, change_color, change_affects_transparency);
 		}

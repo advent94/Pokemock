@@ -1,5 +1,5 @@
-extends Modifier
 class_name ColorTransitionModifier
+extends Modifier
 
 const MIN_COLOR_VALUE: float = 0.0
 const MAX_COLOR_VALUE: float = 1.0
