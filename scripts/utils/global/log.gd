@@ -13,12 +13,15 @@ func set_mode(mode : Mode):
 func get_mode() -> Mode:
 	return _mode
 
+func default_assertion(string: String = ""):
+	return assertion(false, string)
+
 func assertion(condition: bool, string: String = ""):
 	if _mode == Mode.TESTABILITY && condition:
 		_assertion = string
 	else:
 		assert(condition, string)
-	
+
 func error(string : String):
 	if _mode == Mode.TESTABILITY:
 		_errors.push_back(string)
