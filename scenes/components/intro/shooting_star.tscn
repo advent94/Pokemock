@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b8466dn7mr3mx"]
 
 [ext_resource type="Texture2D" uid="uid://bfyg2pttb3ova" path="res://assets/textures/intro/shooting_star.png" id="1_rpohg"]
-[ext_resource type="Script" path="res://scripts/components/intro/shooting_star.gd" id="2_5nj3v"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/shooting_star.gd" id="2_5nj3v"]
 [ext_resource type="Script" path="res://scripts/utils/movement.gd" id="4_rlym3"]
 
 [node name="ShootingStar" type="Sprite2D"]

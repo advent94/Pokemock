@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/stages/intro/gamefreak_intro.gd" id="2_ocyko"]
 [ext_resource type="PackedScene" uid="uid://cxdt1as2pg3df" path="res://scenes/components/intro/black_bars.tscn" id="3_3bnp8"]
 [ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="4_nq5em"]
-[ext_resource type="Script" path="res://scripts/components/intro/input_relay.gd" id="5_ygrgb"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/input_relay.gd" id="5_ygrgb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_croki"]
 atlas = ExtResource("1_yep33")

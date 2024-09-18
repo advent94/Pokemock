@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6oke2sjj6m4u"]
 
 [ext_resource type="Texture2D" uid="uid://bn7e5cchiyii2" path="res://assets/textures/intro/tiny_star.png" id="1_xd0bc"]
-[ext_resource type="Script" path="res://scripts/components/intro/tiny_star.gd" id="3_hqolq"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/tiny_star.gd" id="3_hqolq"]
 [ext_resource type="Script" path="res://scripts/utils/movement.gd" id="4_j5aes"]
 
 [node name="TinyStar" type="Sprite2D"]

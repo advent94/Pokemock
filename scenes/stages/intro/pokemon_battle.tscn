@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://scripts/stages/intro/pokemon_battle.gd" id="2_ikl03"]
 [ext_resource type="PackedScene" uid="uid://x2na1fh46fbg" path="res://scenes/components/intro/pokemon_battle_sprite.tscn" id="3_y6rr6"]
-[ext_resource type="Script" path="res://scripts/components/intro/gengar_battle_sprite.gd" id="4_knvfc"]
-[ext_resource type="Script" path="res://scripts/components/intro/jigglypuff_battle_sprite.gd" id="5_i4ey2"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/gengar_battle_sprite.gd" id="4_knvfc"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/jigglypuff_battle_sprite.gd" id="5_i4ey2"]
 [ext_resource type="PackedScene" uid="uid://cxdt1as2pg3df" path="res://scenes/components/intro/black_bars.tscn" id="7_c4nmw"]
 [ext_resource type="PackedScene" uid="uid://guia7s102eye" path="res://scenes/components/input/input.tscn" id="8_6swrv"]
-[ext_resource type="Script" path="res://scripts/components/intro/input_relay.gd" id="9_2vdyb"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/input_relay.gd" id="9_2vdyb"]
 
 [node name="PokemonBattle" type="Node2D"]
 script = ExtResource("2_ikl03")

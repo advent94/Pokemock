@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://x2na1fh46fbg"]
 
-[ext_resource type="Script" path="res://scripts/components/intro/pokemon_battle_sprite.gd" id="1_oxu24"]
+[ext_resource type="Script" path="res://scripts/components/stages/intro/pokemon_battle_sprite.gd" id="1_oxu24"]
 [ext_resource type="Script" path="res://scripts/utils/movement.gd" id="2_yfs5t"]
 
 [node name="PokemonBattleSprite" type="Sprite2D"]
